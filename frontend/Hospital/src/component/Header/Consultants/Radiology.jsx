@@ -1,0 +1,138 @@
+import React from 'react';
+import { FaXRay, FaUserMd, FaBrain, FaLaptopMedical, FaCheckCircle, FaHeartbeat } from 'react-icons/fa';
+
+const Radiology = () => {
+  return (
+    <div className="bg-gray-50">
+
+      {/* Hero Section */}
+      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop')" }}>
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="text-center text-white p-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Meet Our Radiologists</h1>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto">
+              Experts in medical imaging, providing the clarity needed for accurate diagnosis and treatment.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+        {/* Introduction Section */}
+        <section className="text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Clarity in Every Image</h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Our Department of Radiology is a cornerstone of modern healthcare, providing essential diagnostic services that guide patient care. 
+            Our board-certified radiologists are experts in interpreting a wide range of medical images, working closely with your physician to deliver precise and timely results.
+          </p>
+        </section>
+
+        {/* Our Approach to Care - Side-by-Side */}
+        <section className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
+          <div className="md:w-1/2">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Advanced Technology, Expert Interpretation</h2>
+            <p className="text-gray-600 mb-4">
+              We combine the latest imaging technology with the specialized skill of our radiologists to provide the highest quality diagnostic information.
+            </p>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start"><FaXRay className="text-blue-500 mr-2 mt-1 flex-shrink-0" /> <span><strong>State-of-the-Art Equipment:</strong> We offer a full spectrum of imaging modalities, including MRI, CT, Ultrasound, and Digital X-ray.</span></li>
+              <li className="flex items-start"><FaLaptopMedical className="text-blue-500 mr-2 mt-1 flex-shrink-0" /> <span><strong>Subspecialized Expertise:</strong> Our radiologists have fellowship training in specific areas like neuroradiology and musculoskeletal imaging.</span></li>
+              <li className="flex items-start"><FaUserMd className="text-blue-500 mr-2 mt-1 flex-shrink-0" /> <span><strong>Collaborative Care:</strong> We work hand-in-hand with your referring doctors to ensure they have the detailed information needed for your care.</span></li>
+            </ul>
+          </div>
+          <div className="md:w-1/2">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" alt="Radiologist analyzing scans on a monitor" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+          </div>
+        </section>
+
+        {/* Radiology Subspecialties - Alternating Layout */}
+        <section className="space-y-16">
+          <h2 className="text-3xl font-bold text-center text-gray-800">Our Imaging Specialties</h2>
+          
+          {/* Expertise 1 */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2 flex items-center"><FaBrain className="text-purple-500 mr-3" />Neuroradiology</h3>
+              <p className="text-gray-600">
+                Our experts specialize in imaging the brain, spine, and nervous system, playing a critical role in diagnosing strokes, tumors, and other complex neurological conditions.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?q=80&w=2070&auto=format&fit=crop" alt="3D rendering of a brain from an MRI" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+          {/* Expertise 2 - Alternated */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2 flex items-center"><FaHeartbeat className="text-red-500 mr-3" />Body & Musculoskeletal Imaging</h3>
+              <p className="text-gray-600">
+                We provide detailed imaging of the chest, abdomen, and extremities to diagnose a wide range of conditions, from fractures and sports injuries to heart and lung disease.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop" alt="CT scan of a human chest" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+          {/* Expertise 3 */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2 flex items-center"><FaXRay className="text-cyan-500 mr-3" />Women's & Pediatric Imaging</h3>
+              <p className="text-gray-600">
+                We offer specialized imaging services for women's health, including mammography, as well as gentle, child-friendly procedures for our pediatric patients.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop" alt="Ultrasound being performed" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+        </section>
+
+        {/* Meet Our Radiologists Section - The Main Focus */}
+        <section>
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Expert Radiologists</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1887&auto=format&fit=crop" alt="Dr. Alan Grant" className="w-full h-48 object-cover" />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-800">Dr. Alan Grant</h3>
+                <p className="text-blue-600 mb-3">MD, FACR - Chief of Radiology</p>
+                <p className="text-gray-600 text-sm">A fellowship-trained neuroradiologist with extensive experience in advanced brain and spine imaging, dedicated to diagnostic excellence.</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1780&auto=format&fit=crop" alt="Dr. Ilsa Nesser" className="w-full h-48 object-cover" />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-800">Dr. Ilsa Nesser</h3>
+                <p className="text-blue-600 mb-3">MD, FACR - Body Imaging Specialist</p>
+                <p className="text-gray-600 text-sm">An expert in CT and MRI cross-sectional imaging, Dr. Nesser is passionate about providing clear and accurate diagnoses.</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ce2?q=80&w=1887&auto=format&fit=crop" alt="Dr. John Hammond" className="w-full h-48 object-cover" />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-800">Dr. John Hammond</h3>
+                <p className="text-blue-600 mb-3">MD, FACR - Women's & Pediatric Radiologist</p>
+                <p className="text-gray-600 text-sm">Specializing in mammography and pediatric imaging, Dr. Hammond provides compassionate and expert care for patients of all ages.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action Section */}
+        <section className="bg-blue-600 rounded-lg p-8 md:p-12 text-center text-white">
+          <h2 className="text-3xl font-bold mb-4">Your Path to a Clear Diagnosis</h2>
+          <p className="text-lg mb-6">Trust our expert team to provide the detailed imaging your doctor needs. Schedule your scan today.</p>
+          <button className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
+            Schedule an Imaging Appointment
+          </button>
+        </section>
+
+      </div>
+    </div>
+  );
+};
+
+export default Radiology;
