@@ -20,23 +20,16 @@ class AppointmentSerializer(serializers.ModelSerializer):
         doctor = data['doctor']
         weekday = data['date'].strftime('%A')
         available = [d.strip() for d in doctor.available_days.split(',')]
-        
-        active = data.get('active', True)
-        start_time = data.get('start_time')
-        end_time = data.get('end_time')
 
-        if active and (not start_time or not end_time):
-            raise serializers.ValidationError("Start time and end time are required for active doctors.")
-
-
-
-
-        # Only log warnings instead of raising errors
         if weekday not in available:
-            print(f"⚠️ Warning: Booking on {weekday} which is not in doctor availability: {available}")
+            raise serializers.ValidationError("Doctor not available on selected day.")
 
-        if not doctor.start_time <= data['time'] <= doctor.end_time:
-            print(f"⚠️ Warning: Time {data['time']} not within {doctor.start_time} - {doctor.end_time}")
+        # ✅ Check time only if start and end time exist
+        if doctor.start_time and doctor.end_time and data.get('time'):
+            if not doctor.start_time <= data['time'] <= doctor.end_time:
+                raise serializers.ValidationError("Doctor not available at this time.")
+        elif doctor.active and (not doctor.start_time or not doctor.end_time):
+            raise serializers.ValidationError("Start time and end time are required for active doctors.")
 
         if data['department'] != doctor.department:
             raise serializers.ValidationError("Doctor and department mismatch.")
