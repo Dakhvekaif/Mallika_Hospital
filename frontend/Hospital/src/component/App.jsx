@@ -48,6 +48,9 @@ import CashlessTpa from "./Cashless&TPA/CashlessTPA";
 // GovtSchemes
 import GovtSchemes from "./GovtSch/GovtSchemes";
 
+// ContactUs
+import ContactUs from "./ContactUS/ContactUs";
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -105,6 +108,8 @@ function App() {
           {/* Govt Schemes */}
           <Route path='/govt.sch' element={<GovtSchemes />} />
 
+          {/* ContactUs */}
+          <Route path='/contact' element={<ContactUs />} />
         </Routes>
       </div>
 
