@@ -51,6 +51,11 @@ import GovtSchemes from "./GovtSch/GovtSchemes";
 // ContactUs
 import ContactUs from "./ContactUS/ContactUs";
 
+// Meida
+import Floor1 from "./Media/floor1";
+import Floor2 from "./Media/floor2";
+import Floor3 from "./Media/floor3";
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -110,6 +115,12 @@ function App() {
 
           {/* ContactUs */}
           <Route path='/contact' element={<ContactUs />} />
+
+          {/* Media */}
+          <Route path='media/floor1' element={<Floor1 />} />
+          <Route path='media/floor2' element={<Floor2 />} />
+          <Route path='media/floor3' element={<Floor3 />} />
+
         </Routes>
       </div>
 
