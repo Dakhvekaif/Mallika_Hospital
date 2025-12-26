@@ -262,31 +262,11 @@ const ManageDoctor = ({ onBack }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
-                    </div>
-                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                       <input
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
-                      <input
-                        type="text"
-                        value={formData.specialization}
-                        onChange={(e) => setFormData({...formData, specialization: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                         required
                       />
@@ -305,16 +285,6 @@ const ManageDoctor = ({ onBack }) => {
                         <option value="Pediatrics">Pediatrics</option>
                         <option value="Cardiology">Cardiology</option>
                       </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Experience</label>
-                      <input
-                        type="text"
-                        value={formData.experience}
-                        onChange={(e) => setFormData({...formData, experience: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        placeholder="e.g., 5 years"
-                      />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
@@ -388,31 +358,11 @@ const ManageDoctor = ({ onBack }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
-                    </div>
-                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                       <input
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
-                      <input
-                        type="text"
-                        value={formData.specialization}
-                        onChange={(e) => setFormData({...formData, specialization: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                         required
                       />
@@ -431,16 +381,6 @@ const ManageDoctor = ({ onBack }) => {
                         <option value="Pediatrics">Pediatrics</option>
                         <option value="Cardiology">Cardiology</option>
                       </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Experience</label>
-                      <input
-                        type="text"
-                        value={formData.experience}
-                        onChange={(e) => setFormData({...formData, experience: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        placeholder="e.g., 5 years"
-                      />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
