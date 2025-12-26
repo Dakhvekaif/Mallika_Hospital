@@ -32,7 +32,8 @@ const ManageDoctor = ({ onBack }) => {
       email: 'sarah.j@hospital.com',
       phone: '+91 98765 43215',
       status: 'Active',
-      schedule: 'Mon-Fri: 9AM-5PM'
+      schedule: '09:00 - 17:00'
+
     },
     {
       id: 2,
@@ -43,7 +44,7 @@ const ManageDoctor = ({ onBack }) => {
       email: 'michael.c@hospital.com',
       phone: '+91 98765 43216',
       status: 'Active',
-      schedule: 'Mon-Sat: 8AM-6PM'
+      schedule: '09:00 - 17:00'
     },
     {
       id: 3,
@@ -54,25 +55,29 @@ const ManageDoctor = ({ onBack }) => {
       email: 'emily.d@hospital.com',
       phone: '+91 98765 43217',
       status: 'On Leave',
-      schedule: 'Mon-Fri: 10AM-4PM'
+      schedule: '09:00 - 17:00'
     }
   ]);
 
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     phone: '',
-    specialization: '',
     department: '',
-    experience: '',
     education: '',
+    schedule: '',
+    endTime: '',
     schedule: '',
     status: 'Active'
   });
 
   const handleEdit = (doctor) => {
+    const [startTime, endTime] = doctor.schedule.split(' - ');
     setSelectedDoctor(doctor);
-    setFormData(doctor);
+    setFormData({
+    ...doctor,
+    startTime,
+    endTime
+    });
     setShowEditModal(true);
   };
 
@@ -85,13 +90,12 @@ const ManageDoctor = ({ onBack }) => {
     // Reset form for new doctor
     setFormData({
       name: '',
-      email: '',
       phone: '',
-      specialization: '',
       department: '',
-      experience: '',
       education: '',
       schedule: '',
+      startTime: '',
+      endTime: '',
       status: 'Active'
     });
     setShowAddModal(true);
@@ -105,7 +109,12 @@ const ManageDoctor = ({ onBack }) => {
 
   const handleUpdate = () => {
     setDoctors(doctors.map(d => 
-      d.id === selectedDoctor.id ? formData : d
+      d.id === selectedDoctor.id 
+      ?  {
+          ...formData,
+          schedule: `${formData.startTime} - ${formData.endTime}`
+        } 
+      : d
     ));
     setShowEditModal(false);
     setSelectedDoctor(null);
@@ -115,6 +124,7 @@ const ManageDoctor = ({ onBack }) => {
     // In a real app, you would call an API to add the doctor
     const newDoctor = {
       ...formData,
+      schedule: `${formData.startTime} - ${formData.endTime}`,
       id: doctors.length + 1
     };
     setDoctors([...doctors, newDoctor]);
@@ -297,14 +307,42 @@ const ManageDoctor = ({ onBack }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
-                      <input
-                        type="text"
-                        value={formData.schedule}
-                        onChange={(e) => setFormData({...formData, schedule: e.target.value})}
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Schedule
+                    </label>
+                      <div className="flex gap-3">
+                        <input
+                          type="time"
+                          value={formData.startTime}
+                          onChange={(e) =>
+                            setFormData({ ...formData, startTime: e.target.value })
+                          }
+                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                          required
+                        />
+                        <span className="self-center text-gray-500">to</span>
+                          <input
+                            type="time"
+                            value={formData.endTime}
+                            onChange={(e) =>
+                              setFormData({ ...formData, endTime: e.target.value })
+                            }
+                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                      <select
+                        value={formData.status}
+                        onChange={(e) => setFormData({...formData, status: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        placeholder="e.g., Mon-Fri: 9AM-5PM"
-                      />
+                      >
+                        <option value="Active">Active</option>
+                        <option value="On Leave">On Leave</option>
+                        <option value="Inactive">Inactive</option>
+                      </select>
                     </div>
                   </div>
                   
@@ -393,14 +431,33 @@ const ManageDoctor = ({ onBack }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
-                      <input
-                        type="text"
-                        value={formData.schedule}
-                        onChange={(e) => setFormData({...formData, schedule: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        placeholder="e.g., Mon-Fri: 9AM-5PM"
-                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Schedule
+                      </label>
+
+                      <div className="flex gap-3">
+                        <input
+                          type="time"
+                          value={formData.startTime}
+                          onChange={(e) =>
+                            setFormData({ ...formData, startTime: e.target.value })
+                          }
+                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                          required
+                        />
+
+                        <span className="self-center text-gray-500">to</span>
+                        
+                        <input
+                          type="time"
+                          value={formData.endTime}
+                          onChange={(e) =>
+                            setFormData({ ...formData, endTime: e.target.value })
+                          }
+                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                          required
+                        />
+                      </div>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
