@@ -56,6 +56,8 @@ import Floor1 from "./Media/floor1";
 import Floor2 from "./Media/floor2";
 import Floor3 from "./Media/floor3";
 
+import Dashboard from "./DashBoard/Dashboard";
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -73,7 +75,7 @@ function App() {
 
           {/* About Us */}
           <Route path='/about-us' element={<AboutUs />} />
-
+          <Route path='/dashboard' element={<Dashboard />} />
           {/* Service Pages */}
           <Route path="/services/cathlab" element={<CathLab />} />
           <Route path="/services/icu" element={<ICU />} />
