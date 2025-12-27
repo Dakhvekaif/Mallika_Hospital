@@ -56,7 +56,7 @@ import Floor1 from "./Media/floor1";
 import Floor2 from "./Media/floor2";
 import Floor3 from "./Media/floor3";
 
-import Dashboard from "./DashBoard/Dashboard.jsx";
+import Dashboard from './DashBoard/Dashboard.jsx';
 
 function App() {
   return (
