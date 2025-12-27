@@ -16,7 +16,7 @@ import {
 // Import components
 import ManageSpecialist from './managespecialist';
 import ManageDoctor from './managedoctor';
-import ManageAppointment from './manageappointment';
+import ManageAppointment from './manageappointment.jsx';
 
 const API = import.meta.env.VITE_BACKEND_URL; // Or your deployed backend URL
 
