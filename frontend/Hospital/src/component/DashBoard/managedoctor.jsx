@@ -66,7 +66,6 @@ const ManageDoctor = ({ onBack }) => {
     education: '',
     schedule: '',
     endTime: '',
-    schedule: '',
     status: 'Active'
   });
 
