@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { 
   FaUserMd, 
   FaStethoscope, 
@@ -18,13 +18,38 @@ import ManageSpecialist from './managespecialist';
 import ManageDoctor from './managedoctor';
 import ManageAppointment from './manageappointment';
 
+const API = import.meta.env.VITE_BACKEND_URL; // Or your deployed backend URL
+
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [expandedSection, setExpandedSection] = useState('specialist');
 
-  const totalSpecialists = 24;
-  const totalDoctors = 18;
-  const totalAppointments = 156;
+const [totalSpecialists, setTotalSpecialists] = useState(0);
+const [totalDoctors, setTotalDoctors] = useState(0);
+const [totalAppointments, setTotalAppointments] = useState(0);
+
+useEffect(() => {
+  // Fetch departments (specialists)
+  fetch(`${API}/api/departments/`)
+    .then(res => res.json())
+    .then(data => setTotalSpecialists(data.length))
+    .catch(err => console.error("Failed to fetch departments", err));
+
+  // Fetch doctors
+  fetch(`${API}/api/doctors/`)
+    .then(res => res.json())
+    .then(data => setTotalDoctors(data.length))
+    .catch(err => console.error("Failed to fetch doctors", err));
+
+  // Fetch appointments
+  fetch(`${API}/api/total-appointments/`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTotalAppointments(data.total_appointments);
+      })
+      .catch((err) => console.error("Error fetching total appointments:", err));
+}, []);
+
 
   const renderContent = () => {
     switch(activeSection) {
