@@ -9,8 +9,8 @@ import Dashboard from './component/DashBoard/dashboard';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      {/* <App /> */}
-      <Dashboard />
+      <App />
+      {/* <Dashboard /> */}
     </BrowserRouter>
   </StrictMode>,
 )
