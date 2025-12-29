@@ -1,6 +1,6 @@
 import Hero from './Hero/hero';
 import Navbar from './Navbar/navbar';
-import heropagephoto from '../../assets/heropagephoto.png';
+import heropagephoto from '../../assets/HeroPage/heropagephoto.png';
 // import { BrowserRouter } from "react-router-dom";
 
 

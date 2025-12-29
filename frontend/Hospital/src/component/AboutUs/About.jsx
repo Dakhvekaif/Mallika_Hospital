@@ -1,3 +1,11 @@
+import img1 from '../../assets/AboutUs/aboutus.png';
+import img2 from '../../assets/AboutUs/whoarewe.png';
+import img3 from '../../assets/AboutUs/Latest-Research.png';
+import img4 from '../../assets/AboutUs/Lab.png';
+import img5 from '../../assets/AboutUs/Expertise.png';
+import img6 from '../../assets/AboutUs/Result.png';
+import img7 from '../../assets/AboutUs/Staff.png';
+
 const AboutUs = () => {
   return (
     <div className="w-full min-h-screen bg-white pt-20">
@@ -5,7 +13,7 @@ const AboutUs = () => {
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
         <img 
-          src="https://picsum.photos/seed/hospital-exterior/1920/600.jpg" 
+          src={img1} 
           alt="Mallika Super-Speciality Hospital" 
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -33,7 +41,7 @@ const AboutUs = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-xl">
               <img 
-                src="https://picsum.photos/seed/hospital-interior/600/400.jpg" 
+                src={img2} 
                 alt="Hospital Interior" 
                 className="w-full h-full object-cover"
               />
@@ -47,7 +55,7 @@ const AboutUs = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-xl order-2 lg:order-1">
               <img 
-                src="https://picsum.photos/seed/medical-technology/600/400.jpg" 
+                src={img3} 
                 alt="Medical Technology" 
                 className="w-full h-full object-cover"
               />
@@ -78,7 +86,7 @@ const AboutUs = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-lab/400/300.jpg" 
+                  src={img4} 
                   alt="High Quality Lab" 
                   className="w-full h-full object-cover"
                 />
@@ -93,7 +101,7 @@ const AboutUs = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-experts/400/300.jpg" 
+                  src={img5} 
                   alt="Medical Experts" 
                   className="w-full h-full object-cover"
                 />
@@ -108,7 +116,7 @@ const AboutUs = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-results/400/300.jpg" 
+                  src={img6} 
                   alt="Medical Results" 
                   className="w-full h-full object-cover"
                 />
@@ -123,7 +131,7 @@ const AboutUs = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-staff/400/300.jpg" 
+                  src={img7} 
                   alt="Medical Staff" 
                   className="w-full h-full object-cover"
                 />

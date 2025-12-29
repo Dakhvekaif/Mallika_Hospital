@@ -131,10 +131,10 @@ const CardSwap = ({
         },
         'return'
       );
-
+      
+      onActiveCardChange?.(rest[0]);
       tl.call(() => {
         order.current = [...rest, front];
-        onActiveCardChange?.(rest[0]);
       });
     };
 

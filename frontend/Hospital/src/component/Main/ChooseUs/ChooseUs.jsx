@@ -1,3 +1,8 @@
+import img1 from '../../../assets/WhyChooseUs/Lab.png';
+import img2 from '../../../assets/WhyChooseUs/Expertise.png';
+import img3 from '../../../assets/WhyChooseUs/Result.png';
+import img4 from '../../../assets/WhyChooseUs/Staff.png';
+
 export default function Chooseus() {
     return(
         <div className="mb-20">
@@ -11,7 +16,7 @@ export default function Chooseus() {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-lab/400/300.jpg" 
+                  src={img1} 
                   alt="High Quality Lab" 
                   className="w-full h-full object-cover"
                 />
@@ -26,7 +31,7 @@ export default function Chooseus() {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-experts/400/300.jpg" 
+                  src={img2} 
                   alt="Medical Experts" 
                   className="w-full h-full object-cover"
                 />
@@ -41,7 +46,7 @@ export default function Chooseus() {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-results/400/300.jpg" 
+                  src={img3} 
                   alt="Medical Results" 
                   className="w-full h-full object-cover"
                 />
@@ -56,7 +61,7 @@ export default function Chooseus() {
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
               <div className="w-full h-48 mb-6 overflow-hidden rounded-lg">
                 <img 
-                  src="https://picsum.photos/seed/medical-staff/400/300.jpg" 
+                  src={img4} 
                   alt="Medical Staff" 
                   className="w-full h-full object-cover"
                 />

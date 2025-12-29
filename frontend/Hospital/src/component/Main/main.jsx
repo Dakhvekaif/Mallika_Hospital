@@ -13,7 +13,7 @@ export default function Main () {
             <Achievements/>
             <Authorities/>
             <Chooseus/>
-            <AppointmentForm/>
+            {/* <AppointmentForm/> */}
         </div>
     );
 }

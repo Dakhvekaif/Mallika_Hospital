@@ -8,14 +8,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 py-12">
           {/* Column 1: Hospital Info */}
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-bold mb-4">Malika Hospital</h2>
+            <h2 className="text-2xl font-bold mb-4">Malika Super-Specialist Hospital</h2>
             <p className="text-gray-400 mb-4 max-w-md">
               Committed to providing our community with high-quality, compassionate healthcare. Your health is our priority.
             </p>
             <div className="space-y-2 text-gray-400">
               <p>
                 <span className="font-semibold text-white">Location:</span>{' '}
-                Mallika Hospital, Sharma Estate , next to Dewan shopping centre, S.V road Jogeshwari 
+                Mallika Hospital, Sharma Estate , Next To Dewan Shopping Centre, S.V Road Jogeshwari 
                 West Mumbai - 400102.
               </p>
               <p>

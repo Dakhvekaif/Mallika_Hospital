@@ -1,5 +1,6 @@
 import CardSwap, { Card } from './Specialitiesrightcompo';
-import img1 from '../../../../../assets/heropagephoto.png';
+import img1 from '../../../../../assets/Specialist/Nephrology.png';
+import img2 from '../../../../../assets/Specialist/Medicines.png';
 
 export default function Speacialitiesright ({ onActiveCardChange }) {
   return (
@@ -11,7 +12,7 @@ export default function Speacialitiesright ({ onActiveCardChange }) {
         onActiveCardChange={onActiveCardChange}
         cardDistance={40}
         verticalDistance={60}
-        delay={6000}
+        delay={5000}
         pauseOnHover={true}
       >
         <Card 
@@ -26,7 +27,7 @@ export default function Speacialitiesright ({ onActiveCardChange }) {
         </Card>
 
         <Card 
-          style={{ backgroundImage: `url(${img1})` }}
+          style={{ backgroundImage: `url(${img2})` }}
           customClass="bg-cover bg-center bg-no-repeat rounded-xl overflow-hidden"
         >
           <div className="relative z-10 p-6 text-white">
