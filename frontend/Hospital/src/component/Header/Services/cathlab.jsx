@@ -1,7 +1,7 @@
 import img1 from '../../../assets/Services/Cathlab/cath-lab.png';
-import img2 from '../../../assets/Services/Cathlab/labimg1.png';
-import img3 from '../../../assets/Services/Cathlab/labimg2.png';
-import img4 from '../../../assets/Services/Cathlab/labimg3.png';
+import img2 from '../../../assets/Services/Cathlab/cathimg1.png';
+import img3 from '../../../assets/Services/Cathlab/cathimg2.png';
+import img4 from '../../../assets/Services/Cathlab/cathimg3.png';
 import { FaHeartbeat, FaMicroscope, FaUserMd, FaProcedures, FaLaptopMedical, FaClock } from 'react-icons/fa'; // Example icons
 
 const CathLab = () => {

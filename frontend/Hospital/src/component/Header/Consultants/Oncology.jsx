@@ -1,21 +1,33 @@
-import React from 'react';
+import img1 from '../../../assets/Consultant/Onco/onco.png';
+import img2 from '../../../assets/Consultant/Onco/oncoimg1.png';
+import img3 from '../../../assets/Consultant/Onco/oncoimg2.png';
+import img4 from '../../../assets/Consultant/Onco/oncoimg3.png';
+import img5 from '../../../assets/Consultant/Onco/oncoimg4.png';
+import doc1 from '../../../assets/Consultant/Onco/doc1.png';
+import doc2 from '../../../assets/Consultant/Onco/doc2.png';
 import { FaUserMd, FaRadiation, FaFlask, FaShieldAlt, FaUsers, FaHandHoldingMedical } from 'react-icons/fa';
 
 const Oncology = () => {
   return (
-    <div className="bg-gray-50">
-
+    <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Meet Our Oncologists</h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
+      <div className="relative h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <img 
+          src={img1} 
+          alt="Otolaryngology (ENT)" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Oncology</h1>
+            <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-xl max-w-3xl mx-auto">
               Providing advanced, compassionate, and comprehensive medical care for patients on their cancer journey.
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -42,7 +54,9 @@ const Oncology = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop" alt="Oncologist consulting with a patient" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img2} 
+            alt="Oncologist consulting with a patient" 
+            className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
         </section>
 
@@ -59,7 +73,9 @@ const Oncology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=2070&auto=format&fit=crop" alt="Pharmacist preparing chemotherapy" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img3} 
+              alt="Pharmacist preparing chemotherapy" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -72,7 +88,9 @@ const Oncology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" alt="Linear accelerator for radiation therapy" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img4} 
+              alt="Linear accelerator for radiation therapy" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -85,51 +103,25 @@ const Oncology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop" alt="Support group or counseling session" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img5} 
+              alt="Support group or counseling session" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
 
-        {/* Meet Our Oncologists Section - The Main Focus */}
+        {/* Meet Our Lead Surgeons Section */}
         <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Expert Oncologists</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1887&auto=format&fit=crop" alt="Dr. Marcus Thorne" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Marcus Thorne</h3>
-                <p className="text-blue-600 mb-3">MD, PhD - Chief of Oncology</p>
-                <p className="text-gray-600 text-sm">A renowned expert in hematology and medical oncology, Dr. Thorne is dedicated to pioneering new treatments for leukemia and lymphoma.</p>
-              </div>
+              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1780&auto=format&fit=crop" alt="Dr. Elena Petrova" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Elena Petrova</h3>
-                <p className="text-blue-600 mb-3">MD - Medical Oncologist</p>
-                <p className="text-gray-600 text-sm">Specializing in breast and gastrointestinal cancers, Dr. Petrova is passionate about using targeted therapy and immunotherapy to provide personalized care.</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ce2?q=80&w=1887&auto=format&fit=crop" alt="Dr. Ben Carter" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Ben Carter</h3>
-                <p className="text-blue-600 mb-3">MD, FASTRO - Radiation Oncologist</p>
-                <p className="text-gray-600 text-sm">An expert in the latest radiation techniques, including SBRT and IMRT, Dr. Carter is focused on delivering highly precise and effective treatments.</p>
-              </div>
+              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
           </div>
         </section>
-
-        {/* Call to Action Section */}
-        <section className="bg-gradient-to-r from-purple-600 to-teal-600 rounded-lg p-8 md:p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Find Hope and Expert Care</h2>
-          <p className="text-lg mb-6">You are not alone in this fight. Our dedicated team is here to support you every step of the way.</p>
-          <button className="bg-white text-purple-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
-            Request an Oncology Consultation
-          </button>
-        </section>
-
       </div>
     </div>
   );

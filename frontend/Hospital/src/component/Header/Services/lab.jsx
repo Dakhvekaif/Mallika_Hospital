@@ -1,21 +1,29 @@
-import React from 'react';
+import img1 from '../../../assets/Services/Lab/lab.png';
+import img2 from '../../../assets/Services/Lab/labimg1.png';
+import img3 from '../../../assets/Services/Lab/labimg2.png';
+import img4 from '../../../assets/Services/Lab/labimg3.png';
 import { FaVial, FaMicroscope, FaDna, FaShieldAlt, FaLaptopMedical, FaFileMedical, FaUserNurse, FaFileAlt } from 'react-icons/fa';
-
 const Laboratory = () => {
   return (
-    <div className="bg-gray-50">
-
+    <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
+      <div className="relative h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <img 
+          src={img1} 
+          alt="Clinical Laboratory" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+          <div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Clinical Laboratory</h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
+            <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-xl max-w-3xl mx-auto">
               Delivering precise, reliable, and timely diagnostic results to guide your healthcare.
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -113,13 +121,11 @@ const Laboratory = () => {
           </div>
         </section>
 
-        {/* Call to Action Section */}
-        <section className="bg-blue-600 rounded-lg p-8 md:p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Need a Lab Test?</h2>
-          <p className="text-lg mb-6">Schedule an appointment for sample collection or find a location near you.</p>
-          <button className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
-            Book an Appointment
-          </button>
+        {/* Image section */}
+        <section className="bg-gray-300 rounded-lg p-8 md:p-12 flex flex-wrap gap-10 justify-center">
+          <img src={img2} alt="Lab-image" className='w-90' />
+          <img src={img3} alt="Lab-image" className='w-90' />
+          <img src={img4} alt="Lab-image" className='w-90' />
         </section>
 
       </div>

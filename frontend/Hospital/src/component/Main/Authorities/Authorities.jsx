@@ -8,37 +8,37 @@ const leadershipData = {
     id: 1,
     name: "Dr. Keshnath Chauhan",
     title: "Chief Executive Officer & Medical Director",
-    description: "With over 25 years of experience in healthcare administration, Dr. Reed leads our institution with a vision for compassionate, patient-centered care.",
+    description: "With over 25 years of experience in healthcare administration, Dr. Keshnath Chauhan leads our institution with a vision for compassionate, patient-centered care.",
     image: authority1 // Placeholder image
   },
   {
     id: 2,
     name: "Dr. Roshan Jha",
-    title: "Chief of Surgery",
-    description: "A renowned surgeon specializing in minimally invasive procedures, Dr. Carter oversees all surgical departments.",
+    title: "M.D in Medicine",
+    description: "A renowned surgeon specializing in minimally invasive procedures, Dr. Roshan Jha oversees all surgical departments.",
     image: authority2 // Placeholder image
     },
   ],
   leadership: [
     {
       id: 3,
-      name: "Dr. Umandra",
-      title: "Chief of Medicine",
-      description: "Dr. Khan is an expert in internal medicine and leads our team of physicians in providing comprehensive medical care.",
+      name: "Dr. Umendra",
+      title: "Title",
+      description: "Description.",
       image: authority3 // Placeholder image
     },
     {
       id: 4,
       name: "Dr. Name",
-      title: "Chief Nursing Officer",
-      description: "With a passion for nursing excellence, Maria ensures the highest standards of patient care and nursing practices.",
+      title: "Title",
+      description: "Description.",
       image: "https://i.ibb.co/3Tj1f5H/img4.jpg" // Placeholder image
     },
     {
       id: 5,
       name: "Dr. Name",
-      title: "Chief Nursing Officer",
-      description: "With a passion for nursing excellence, Maria ensures the highest standards of patient care and nursing practices.",
+      title: "Title",
+      description: "Description.",
       image: "https://i.ibb.co/3Tj1f5H/img4.jpg" // Placeholder image
     }
   ]

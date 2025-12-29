@@ -39,6 +39,10 @@ import Oncology from "./Header/Consultants/Oncology";
 import Gastroenterology from "./Header/Consultants/Gastroenterology";
 import Pediatrician from "./Header/Consultants/Pediatrician";
 import Dermatology from "./Header/Consultants/Dermatology";
+// import Urology from "./Header/Consultants/Urology";
+// import Radiology from "./Header/Consultants/Radiology";
+
+// Cashless & TPA
 import CashlessTpa from "./Cashless&TPA/CashlessTPA";
 
 // GovtSchemes
@@ -51,9 +55,6 @@ import ContactUs from "./ContactUS/ContactUs";
 import Floor1 from "./Media/floor1";
 import Floor2 from "./Media/floor2";
 import Floor3 from "./Media/floor3";
-import Dashboard from './dashboard/Dashboard.jsx';
-import AppointmentForm from "./AppoinmentFrom/appointmentform.jsx"
-
 
 function App() {
   return (
@@ -71,9 +72,8 @@ function App() {
           } />  
 
           {/* About Us */}
-          <Route path='/booking-form' element={<AppointmentForm />} />
           <Route path='/about-us' element={<AboutUs />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+
           {/* Service Pages */}
           <Route path="/services/cathlab" element={<CathLab />} />
           <Route path="/services/icu" element={<ICU />} />

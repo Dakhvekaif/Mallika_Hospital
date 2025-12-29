@@ -1,21 +1,32 @@
-import React from 'react';
+import img1 from '../../../assets/Consultant/Derma/derma.png';
+import img2 from '../../../assets/Consultant/Derma/dermaimg1.png';
+import img3 from '../../../assets/Consultant/Derma/dermaimg2.png';
+import img4 from '../../../assets/Consultant/Derma/dermaimg3.png';
+import img5 from '../../../assets/Consultant/Derma/dermaimg4.png';
+import doc1 from '../../../assets/Consultant/Derma/doc1.png';
 import { FaUserMd, FaHandHoldingMedical, FaSearch, FaHeart, FaShieldAlt, FaCheckCircle } from 'react-icons/fa';
 
 const Dermatology = () => {
   return (
-    <div className="bg-gray-50">
-
-      {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1570172619697-f3e534f40f5f?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Meet Our Dermatologists</h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
-              Experts in medical, surgical, and cosmetic care for your skin, hair, and nails.
-            </p>
+      <div className="w-full min-h-screen bg-white pt-20">
+        {/* Hero Section */}
+        <div className="relative h-96 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+          <img 
+            src={img1} 
+            alt="Otolaryngology (ENT)" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Dermatology</h1>
+              <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+              <p className="text-xl max-w-3xl mx-auto">
+                Experts in medical, surgical, and cosmetic care for your skin, hair, and nails.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -42,7 +53,9 @@ const Dermatology = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" alt="Dermologist examining a patient's skin" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img2} 
+            alt="Dermologist examining a patient's skin" 
+            className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
         </section>
 
@@ -59,7 +72,9 @@ const Dermatology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?q=80&w=2070&auto=format&fit=crop" alt="Close up of a dermatoscope on skin" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img3} 
+              alt="Close up of a dermatoscope on skin" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -72,7 +87,9 @@ const Dermatology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop" alt="Cosmetic dermatology treatment" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img4} 
+              alt="Cosmetic dermatology treatment" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -85,51 +102,22 @@ const Dermatology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=2070&auto=format&fit=crop" alt="Doctor analyzing a mole" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img5} 
+              alt="Doctor analyzing a mole" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
 
-        {/* Meet Our Dermatologists Section - The Main Focus */}
-        <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Expert Dermatologists</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1887&auto=format&fit=crop" alt="Dr. Isabella Rossi" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Isabella Rossi</h3>
-                <p className="text-blue-600 mb-3">MD, FAAD - Chief of Dermatology</p>
-                <p className="text-gray-600 text-sm">A board-certified dermatologist with a special interest in cosmetic dermatology and laser surgery, dedicated to helping patients look and feel their best.</p>
+        {/* Meet Our Lead Surgeons Section */}
+          <section>
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+                <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1780&auto=format&fit=crop" alt="Dr. Julian Vance" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Julian Vance</h3>
-                <p className="text-blue-600 mb-3">MD, FAAD - Mohs Surgeon</p>
-                <p className="text-gray-600 text-sm">A fellowship-trained expert in Mohs micrographic surgery for skin cancer, ensuring the highest cure rates and best cosmetic outcomes.</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ce2?q=80&w=1887&auto=format&fit=crop" alt="Dr. Aisha Khan" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Aisha Khan</h3>
-                <p className="text-blue-600 mb-3">MD, FAAD - Medical Dermatologist</p>
-                <p className="text-gray-600 text-sm">Specializing in complex medical conditions like psoriasis and autoimmune diseases, Dr. Khan provides compassionate and effective care.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action Section */}
-        <section className="bg-teal-500 rounded-lg p-8 md:p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Love the Skin You're In</h2>
-          <p className="text-lg mb-6">Whether you have a medical concern or a cosmetic goal, our expert dermatologists are here to help.</p>
-          <button className="bg-white text-teal-500 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
-            Book a Dermatology Consultation
-          </button>
-        </section>
-
+          </section>
       </div>
     </div>
   );

@@ -64,8 +64,8 @@ const ManageDoctor = ({ onBack }) => {
     phone: '',
     department: '',
     education: '',
-    schedule: '',
     endTime: '',
+    schedule: '',
     status: 'Active'
   });
 

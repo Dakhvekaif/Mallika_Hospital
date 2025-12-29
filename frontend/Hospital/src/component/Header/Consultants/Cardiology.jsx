@@ -1,21 +1,35 @@
-import React from 'react';
+import img1 from '../../../assets/Consultant/Cardio/cardio.png';
+import img2 from '../../../assets/Consultant/Cardio/cardioimg1.png';
+import img3 from '../../../assets/Consultant/Cardio/cardioimg2.png';
+import img4 from '../../../assets/Consultant/Cardio/cardioimg3.png';
+import img5 from '../../../assets/Consultant/Cardio/cardioimg4.png';
+import doc1 from '../../../assets/Consultant/Cardio/doc1.png';
+import doc2 from '../../../assets/Consultant/Cardio/doc2.png';
+import doc3 from '../../../assets/Consultant/Cardio/doc3.png';
+import doc4 from '../../../assets/Consultant/Cardio/doc4.png';
 import { FaHeartbeat, FaUserMd, FaStethoscope, FaProcedures, FaLaptopMedical, FaClock } from 'react-icons/fa';
 
 const Cardiology = () => {
   return (
-    <div className="bg-gray-50">
-
+    <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1530026405186-ed1f139313f8?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Meet Our Cardiologists</h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
+      <div className="relative h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <img 
+          src={img1} 
+          alt="Otolaryngology (ENT)" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Cardiology</h1>
+            <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-xl max-w-3xl mx-auto">
               Leaders in heart health, dedicated to providing you with expert, personalized, and compassionate cardiac care.
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -42,7 +56,9 @@ const Cardiology = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop" alt="Cardiologist consulting with a patient" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img2} 
+            alt="Cardiologist consulting with a patient" 
+            className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
         </section>
 
@@ -59,7 +75,9 @@ const Cardiology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" alt="Cardiac catheterization procedure" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img3} 
+              alt="Cardiac catheterization procedure" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -72,7 +90,9 @@ const Cardiology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop" alt="Doctor listening to a patient's heart" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img4} 
+              alt="Doctor listening to a patient's heart" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -85,51 +105,31 @@ const Cardiology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?q=80&w=2070&auto=format&fit=crop" alt="Electrophysiology lab" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img5} 
+              alt="Electrophysiology lab" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
 
-        {/* Meet Our Cardiologists Section - The Main Focus */}
+        {/* Meet Our Lead Surgeons Section */}
         <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Expert Cardiologists</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1887&auto=format&fit=crop" alt="Dr. Evelyn Reed" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Evelyn Reed</h3>
-                <p className="text-blue-600 mb-3">MD, FACC - Chief of Cardiology</p>
-                <p className="text-gray-600 text-sm">A leading interventional cardiologist with over 20 years of experience in complex coronary interventions and structural heart disease.</p>
-              </div>
+              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1780&auto=format&fit=crop" alt="Dr. Ben Carter" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Ben Carter</h3>
-                <p className="text-blue-600 mb-3">MD, FACC - Clinical Cardiologist</p>
-                <p className="text-gray-600 text-sm">Specializing in heart failure and preventative cardiology, Dr. Carter is dedicated to helping patients manage chronic conditions and lead healthier lives.</p>
-              </div>
+              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ce2?q=80&w=1887&auto=format&fit=crop" alt="Dr. Aisha Khan" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Aisha Khan</h3>
-                <p className="text-blue-600 mb-3">MD, FHRS - Electrophysiologist</p>
-                <p className="text-gray-600 text-sm">An expert in the management of complex arrhythmias, Dr. Khan is skilled in the latest ablation techniques and device implantation.</p>
-              </div>
+              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src={doc4} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
           </div>
         </section>
-
-        {/* Call to Action Section */}
-        <section className="bg-red-600 rounded-lg p-8 md:p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Your Heart Health is Our Priority</h2>
-          <p className="text-lg mb-6">Take the first step towards a healthier heart. Schedule a consultation with one of our expert cardiologists today.</p>
-          <button className="bg-white text-red-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
-            Book a Cardiology Consultation
-          </button>
-        </section>
-
       </div>
     </div>
   );

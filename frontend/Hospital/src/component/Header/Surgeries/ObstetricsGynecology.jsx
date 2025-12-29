@@ -1,20 +1,31 @@
+import img1 from '../../../assets/Surgery/Gyeno/gyeno.png';
+import img2 from '../../../assets/Surgery/Gyeno/gyenoimg1.png';
+import img3 from '../../../assets/Surgery/Gyeno/gyenoimg2.png';
+import doc1 from '../../../assets/Surgery/Gyeno/doc1.png';
+import doc2 from '../../../assets/Surgery/Gyeno/doc2.png';
 import { FaBaby, FaHeartbeat, FaUserMd, FaFemale, FaShieldAlt, FaCheckCircle, FaComments } from 'react-icons/fa';
 
 const ObstetricsGynecology = () => {
   return (
-    <div className="bg-gray-50">
-
-      {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Obstetrics & Gynecology</h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
-              Providing compassionate and comprehensive care for women through every stage of life.
-            </p>
+      <div className="w-full min-h-screen bg-white pt-20">
+        {/* Hero Section */}
+        <div className="relative h-96 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+          <img 
+            src={img1} 
+            alt="Obstetrics & Gynecology" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Obstetrics & Gynecology</h1>
+              <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+              <p className="text-xl max-w-3xl mx-auto">
+                Providing compassionate and comprehensive care for women through every stage of life.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -80,7 +91,9 @@ const ObstetricsGynecology = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop" alt="Doctor consulting with a patient" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img2}
+              alt="Doctor consulting with a patient"
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -98,51 +111,35 @@ const ObstetricsGynecology = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop" alt="Advanced surgical technology" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img3} 
+              alt="Advanced surgical technology" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
 
-        {/* Meet Our Specialists Section */}
+        {/* Meet Our Lead Surgeons Section */}
         <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our OB/GYN Team</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ce2?q=80&w=1887&auto=format&fit=crop" alt="Dr. Elena Vance" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Elena Vance</h3>
-                <p className="text-blue-600 mb-3">MD, FACOG - Chief of OB/GYN</p>
-                <p className="text-gray-600 text-sm">A specialist in high-risk obstetrics and minimally invasive gynecologic surgery, dedicated to providing compassionate and comprehensive care.</p>
-              </div>
+              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1780&auto=format&fit=crop" alt="Dr. Maya Patel" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Maya Patel</h3>
-                <p className="text-blue-600 mb-3">MD - OB/GYN</p>
-                <p className="text-gray-600 text-sm">Passionate about women's wellness, Dr. Patel provides expert care in family planning, adolescent gynecology, and menopause management.</p>
-              </div>
+              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1594824475063-1b1b8d3d3eeb?q=80&w=1887&auto=format&fit=crop" alt="Dr. Sarah Chen" className="w-full h-48 object-cover" />
+            {/* <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src="" alt="Dr. Name" className="w-full h-48 object-cover" />
               <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Sarah Chen</h3>
-                <p className="text-blue-600 mb-3">MD, FACOG - OB/GYN</p>
-                <p className="text-gray-600 text-sm">With a focus on fertility and reproductive endocrinology, Dr. Chen helps women on their journey to building a family.</p>
+                <h3 className="text-xl font-bold text-gray-800">Dr. Sara Davis</h3>
+                <p className="text-blue-600 mb-3">Ttitle</p>
+                <p className="text-gray-600 text-sm">
+                  Descrioption.
+                </p>
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
-
-        {/* Call to Action Section */}
-        <section className="bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg p-8 md:p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Partner with Us for Your Health</h2>
-          <p className="text-lg mb-6">Whether you're planning a family or need routine care, our team is here for you. Schedule your appointment today.</p>
-          <button className="bg-white text-purple-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
-            Schedule Your Appointment
-          </button>
-        </section>
-
       </div>
     </div>
   );

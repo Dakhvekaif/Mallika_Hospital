@@ -1,21 +1,35 @@
+import img1 from '../../../assets/Surgery/Ent/ent.png';
+import img2 from '../../../assets/Surgery/Ent/entimg1.png';
+import img3 from '../../../assets/Surgery/Ent/entimg2.png';
+import img4 from '../../../assets/Surgery/Ent/entimg3.png';
+import img5 from '../../../assets/Surgery/Ent/entimg4.png';
+import doc1 from '../../../assets/Surgery/Ent/doc1.png';
+import doc2 from '../../../assets/Surgery/Ent/doc2.png';
+import doc3 from '../../../assets/Surgery/Ent/doc3.png';
 import { FaEarListen, FaUserDoctor, FaWind, FaMicrophone, FaCircleCheck , FaHeadSideVirus } from 'react-icons/fa6'; // Using react-icons v6
 import { FaStethoscope, FaComments } from 'react-icons/fa'; // Using react-icons v5 for compatibility
 
 const Ent = () => {
   return (
-    <div className="bg-gray-50">
-
-      {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Otolaryngology (ENT)</h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
-              Expert care for your ears, nose, and throat, helping you breathe, hear, and feel better.
-            </p>
-          </div>
-        </div>
-      </section>
+      <div className="w-full min-h-screen bg-white pt-20">
+              {/* Hero Section */}
+              <div className="relative h-96 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+                <img 
+                  src={img1} 
+                  alt="Otolaryngology (ENT)" 
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+                  <div>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">Otolaryngology (ENT)</h1>
+                    <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+                    <p className="text-xl max-w-3xl mx-auto">
+                      Expert care for your ears, nose, and throat, helping you breathe, hear, and feel better.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -42,7 +56,9 @@ const Ent = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src="https://images.unsplash.com/photo-1584467735871-8ec4bb12fb12?q=80&w=2070&auto=format&fit=crop" alt="Doctor using an endoscope" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img2} 
+            alt="Doctor using an endoscope" 
+            className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
         </section>
 
@@ -64,7 +80,9 @@ const Ent = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" alt="Hearing test being performed" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img3} 
+              alt="Hearing test being performed" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -82,7 +100,9 @@ const Ent = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?q=80&w=2070&auto=format&fit=crop" alt="Doctor examining a sinus CT scan" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img4} 
+              alt="Doctor examining a sinus CT scan" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -100,51 +120,28 @@ const Ent = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=2070&auto=format&fit=crop" alt="Doctor using a laryngoscope" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img5} 
+              alt="Doctor using a laryngoscope" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
 
-        {/* Meet Our ENT Specialists Section */}
+        {/* Meet Our Lead Surgeons Section */}
         <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our ENT Specialists</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1887&auto=format&fit=crop" alt="Dr. Emily Carter" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Emily Carter</h3>
-                <p className="text-blue-600 mb-3">MD, FACS - Chief of Otolaryngology</p>
-                <p className="text-gray-600 text-sm">With extensive experience in sinus surgery and allergy management, Dr. Carter is dedicated to providing relief for chronic sinus sufferers.</p>
-              </div>
+              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1780&auto=format&fit=crop" alt="Dr. Ben Reed" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Ben Reed</h3>
-                <p className="text-blue-600 mb-3">MD - Otology/Neurotology Specialist</p>
-                <p className="text-gray-600 text-sm">A specialist in ear disorders, Dr. Reed focuses on hearing loss, cochlear implants, and complex ear surgery to restore hearing and balance.</p>
-              </div>
+              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ce2?q=80&w=1887&auto=format&fit=crop" alt="Dr. Sophia Lin" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Sophia Lin</h3>
-                <p className="text-blue-600 mb-3">MD - Head & Neck Surgeon</p>
-                <p className="text-gray-600 text-sm">Expert in treating voice and swallowing disorders, as well as tumors of the head and neck, with a focus on preserving function.</p>
-              </div>
+              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
           </div>
         </section>
-
-        {/* Call to Action Section */}
-        <section className="bg-blue-600 rounded-lg p-8 md:p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Breathe, Hear, and Feel Better</h2>
-          <p className="text-lg mb-6">Don't let ENT issues affect your daily life. Schedule a consultation with our experts today.</p>
-          <button className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
-            Schedule an ENT Appointment
-          </button>
-        </section>
-
       </div>
     </div>
   );

@@ -1,21 +1,33 @@
-import React from 'react';
+import img1 from '../../../assets/Consultant/Nepro/nepro.png';
+import img2 from '../../../assets/Consultant/Nepro/neproimg1.png';
+import img3 from '../../../assets/Consultant/Nepro/neproimg2.png';
+import img4 from '../../../assets/Consultant/Nepro/neproimg3.png';
+import img5 from '../../../assets/Consultant/Nepro/neproimg4.png';
+import doc1 from '../../../assets/Consultant/Nepro/doc1.png';
 import { FaUserMd, FaStethoscope, FaShieldAlt, FaTint, FaCheckCircle, FaHeartbeat } from 'react-icons/fa';
 
 const Nephrology = () => {
   return (
-    <div className="bg-gray-50">
-
+    <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Meet Our Nephrologists</h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto">
+      <div className="relative h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <img 
+          src={img1} 
+          alt="Otolaryngology (ENT)" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Nephrology</h1>
+            <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-xl max-w-3xl mx-auto">
               Leaders in kidney health, dedicated to managing chronic kidney disease and hypertension.
             </p>
           </div>
         </div>
-      </section>
+      </div>
+    
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -42,7 +54,9 @@ const Nephrology = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop" alt="Nephrologist consulting with a patient" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            <img src={img2} 
+            alt="Nephrologist consulting with a patient" 
+            className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
         </section>
 
@@ -59,7 +73,9 @@ const Nephrology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1581094732438-4d0112b2d9a0?q=80&w=2070&auto=format&fit=crop" alt="Abstract visualization of water and filtration" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img3}
+              alt="Abstract visualization of water and filtration" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -72,7 +88,9 @@ const Nephrology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop" alt="Dialysis machine and patient" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img4} 
+              alt="Dialysis machine and patient" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -85,51 +103,22 @@ const Nephrology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?q=80&w=2070&auto=format&fit=crop" alt="Doctor analyzing a medical report" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img5} 
+              alt="Doctor analyzing a medical report" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
 
-        {/* Meet Our Nephrologists Section - The Main Focus */}
+        {/* Meet Our Lead Surgeons Section */}
         <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Expert Nephrologists</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1887&auto=format&fit=crop" alt="Dr. Julian Vance" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Julian Vance</h3>
-                <p className="text-blue-600 mb-3">MD, FASN - Chief of Nephrology</p>
-                <p className="text-gray-600 text-sm">A leading expert in chronic kidney disease and hypertension, Dr. Vance is dedicated to providing innovative and compassionate care for his patients.</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1780&auto=format&fit=crop" alt="Dr. Lena Petrova" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Lena Petrova</h3>
-                <p className="text-blue-600 mb-3">MD - Transplant Nephrologist</p>
-                <p className="text-gray-600 text-sm">Specializing in the care of kidney transplant patients, Dr. Petrova works to ensure the best possible outcomes before and after surgery.</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ce2?q=80&w=1887&auto=format&fit=crop" alt="Dr. Ben Carter" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Ben Carter</h3>
-                <p className="text-blue-600 mb-3">MD, FASN - Dialysis Specialist</p>
-                <p className="text-gray-600 text-sm">An expert in managing all types of dialysis, Dr. Carter is committed to optimizing treatment plans to improve patients' quality of life.</p>
-              </div>
+              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
           </div>
         </section>
-
-        {/* Call to Action Section */}
-        <section className="bg-cyan-600 rounded-lg p-8 md:p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Your Kidney Health is Our Priority</h2>
-          <p className="text-lg mb-6">If you have been diagnosed with a kidney condition or have risk factors, our expert team is here to help.</p>
-          <button className="bg-white text-cyan-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
-            Schedule a Nephrology Consultation
-          </button>
-        </section>
-
       </div>
     </div>
   );
