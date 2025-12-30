@@ -1,3 +1,4 @@
+import AppointmentForm from '../AppoinmentFrom/appointmentform';
 import React, { useState } from 'react';
 import { 
   FaPhoneAlt, 
@@ -103,7 +104,7 @@ const ContactUs = () => {
           </p>
         </div>
       </div>
-
+      <AppointmentForm />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Contact Information Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">

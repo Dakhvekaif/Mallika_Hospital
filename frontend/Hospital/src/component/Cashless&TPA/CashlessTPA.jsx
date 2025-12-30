@@ -132,7 +132,7 @@ const CashlessTpa = () => {
       </div>
 
       {/* GIPSA Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center mb-6">
           <div className="bg-teal-100 p-3 rounded-full mr-3">
             <FaShieldAlt className="text-teal-600 text-2xl" />
@@ -140,11 +140,11 @@ const CashlessTpa = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">GIPSA</h2>
         </div>
         <p className="text-center text-gray-600 mb-6">General Insurance (Public Sector Association)</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="md:grid-col">
           {gipsaCompanies.map((company) => (
             <div
               key={company.name}
-              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer"
+              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer my-5"
               onClick={() => toggleCompany(company.name)}
             >
               <div className="flex items-center justify-between p-4">

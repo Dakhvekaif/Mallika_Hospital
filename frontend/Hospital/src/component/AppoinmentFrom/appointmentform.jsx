@@ -1,5 +1,3 @@
-// src/components/AppointmentForm.jsx
-
 import React, { useState } from 'react';
 
 // Mock data for departments and doctors

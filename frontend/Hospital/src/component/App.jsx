@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
 // Components
@@ -56,7 +58,21 @@ import Floor1 from "./Media/floor1";
 import Floor2 from "./Media/floor2";
 import Floor3 from "./Media/floor3";
 
+// Find Doctor
+import DoctorsList from "./Doctor/doctor";
+
 function App() {
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant" // or "smooth"
+    });
+  }, [pathname]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar /> 
@@ -68,8 +84,7 @@ function App() {
             <>
               <Header/>
               <Main/>
-            </>
-          } />  
+            </>          } />  
 
           {/* About Us */}
           <Route path='/about-us' element={<AboutUs />} />
@@ -120,6 +135,9 @@ function App() {
           <Route path='media/floor1' element={<Floor1 />} />
           <Route path='media/floor2' element={<Floor2 />} />
           <Route path='media/floor3' element={<Floor3 />} />
+
+          {/* Find Doctor */}
+          <Route path="find-doctor" element={<DoctorsList />} />
 
         </Routes>
       </div>
