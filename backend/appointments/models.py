@@ -26,3 +26,4 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT)
     date = models.DateField()
     time = models.TimeField()
+    reason = models.TextField(blank=True)
