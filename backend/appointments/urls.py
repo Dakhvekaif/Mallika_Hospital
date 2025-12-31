@@ -4,8 +4,8 @@ from .views import (
     DepartmentDetailView, 
     DoctorListCreateView, # <-- ADD THIS (For List & Create)
     DoctorDetailView,     # <-- ADD THIS (For Update & Delete)
-    AppointmentCreateView, 
-    AppointmentListView
+    AppointmentListCreateView, # <-- Update this
+    AppointmentDetailView      # <-- Update this
 )
 from . import views
 
@@ -22,9 +22,12 @@ urlpatterns = [
     # The <int:pk> is required to find the specific ID
     path('doctors/<int:pk>/', DoctorDetailView.as_view(), name='doctor-detail'),
 
-    # --- Appointment URLs ---
-    path('appointments/', AppointmentCreateView.as_view()),
-    path('appointments-list/', AppointmentListView.as_view(), name='appointment-list'),
+    # --- APPOINTMENTS (UPDATED) ---
+    # 1. List & Create
+    path('appointments/', AppointmentListCreateView.as_view(), name='appointment-list'),
+    
+    # 2. Detail, Update, Delete (Allows deleting by ID)
+    path('appointments/<int:pk>/', AppointmentDetailView.as_view(), name='appointment-detail'),
     
     # --- Stats URLs ---
     path('department-count/', views.department_count, name='department-count'),

@@ -49,10 +49,14 @@ class DoctorDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
-# --- Appointment Views (Keep these) ---
-class AppointmentCreateView(generics.CreateAPIView):
-    serializer_class = AppointmentSerializer  
+# --- APPOINTMENT VIEWS (UPDATED) ---
 
-class AppointmentListView(generics.ListAPIView):
+# 1. List all and Create new (GET, POST)
+class AppointmentListCreateView(generics.ListCreateAPIView):
     queryset = Appointment.objects.all().order_by('-date', '-time')
+    serializer_class = AppointmentSerializer
+
+# 2. Retrieve, Update, Delete specific ID (GET, PUT, DELETE)
+class AppointmentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer

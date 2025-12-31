@@ -93,3 +93,39 @@ export const deleteDoctor = async (id) => {
   });
   return handleResponse(response);
 };
+
+// --- APPOINTMENT API (ADD THIS) ---
+
+// GET all appointments
+export const getAppointments = async () => {
+  const response = await fetch(`${BASE_URL}/appointments/`);
+  return handleResponse(response);
+};
+
+// ADD an appointment
+export const addAppointment = async (data) => {
+  const response = await fetch(`${BASE_URL}/appointments/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  return handleResponse(response);
+};
+
+// UPDATE an appointment
+export const updateAppointment = async (id, data) => {
+  const response = await fetch(`${BASE_URL}/appointments/${id}/`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  return handleResponse(response);
+};
+
+// DELETE an appointment
+export const deleteAppointment = async (id) => {
+  const response = await fetch(`${BASE_URL}/appointments/${id}/`, {
+    method: "DELETE"
+  });
+  return handleResponse(response);
+};

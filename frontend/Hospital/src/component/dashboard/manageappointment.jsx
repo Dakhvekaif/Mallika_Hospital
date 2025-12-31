@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  FaCalendarAlt, 
-  FaEdit, 
-  FaTrash, 
-  FaSearch, 
-  FaPlus, 
-  FaEye,
-  FaTimes,
-  FaFilter,
-  FaUserMd,
-  FaHospital,
-  FaCalendarPlus
+  FaCalendarAlt, FaEdit, FaTrash, FaSearch, FaTimes, 
+  FaFilter, FaUserMd, FaHospital, FaEye 
 } from 'react-icons/fa';
+
+// 1. IMPORT API FUNCTIONS
+import { 
+  getAppointments, 
+  updateAppointment, 
+  deleteAppointment,
+  getDoctors,      // Needed for dropdowns
+  getDepartments   // Needed for dropdowns
+} from "./api";
 
 const ManageAppointment = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,68 +19,57 @@ const ManageAppointment = ({ onBack }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [appointments] = useState([
-    {
-      id: 1,
-      patientName: 'John Doe',
-      doctorName: 'Dr. Sarah Johnson',
-      date: '2024-01-15',
-      time: '10:00 AM',
-      status: 'Confirmed',
-      department: 'General Medicine',
-      type: 'Regular Checkup',
-      patientId: 'P1001',
-      doctorId: 'D2001'
-    },
-    {
-      id: 2,
-      patientName: 'Jane Smith',
-      doctorName: 'Dr. Michael Chen',
-      date: '2024-01-15',
-      time: '2:00 PM',
-      status: 'Pending',
-      department: 'Surgery',
-      type: 'Consultation',
-      patientId: 'P1002',
-      doctorId: 'D2002'
-    },
-    {
-      id: 3,
-      patientName: 'Robert Johnson',
-      doctorName: 'Dr. Emily Davis',
-      date: '2024-01-16',
-      time: '11:30 AM',
-      status: 'Completed',
-      department: 'Pediatrics',
-      type: 'Follow-up',
-      patientId: 'P1003',
-      doctorId: 'D2003'
-    },
-    {
-      id: 4,
-      patientName: 'Mary Williams',
-      doctorName: 'Dr. Sarah Johnson',
-      date: '2024-01-16',
-      time: '3:00 PM',
-      status: 'Cancelled',
-      department: 'General Medicine',
-      type: 'Emergency',
-      patientId: 'P1004',
-      doctorId: 'D2001'
-    }
-  ]);
+  
+  // 2. REAL STATE
+  const [appointments, setAppointments] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Form State
   const [formData, setFormData] = useState({
-    patientName: '',
-    doctorName: '',
+    patient_name: '', // Assuming django uses snake_case or standard fields
+    doctor: '',       // Stores Doctor ID
+    department: '',   // Stores Department ID
     date: '',
     time: '',
     status: 'Pending',
-    department: '',
-    type: '',
-    patientId: '',
-    doctorId: ''
+    type: ''          // e.g. Checkup
   });
+
+  // 3. FETCH DATA ON LOAD
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      // Fetch everything we need in parallel
+      const [aptData, docData, deptData] = await Promise.all([
+        getAppointments(),
+        getDoctors(),
+        getDepartments()
+      ]);
+      setAppointments(aptData);
+      setDoctors(docData);
+      setDepartments(deptData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  // Helper to find Name from ID (since API might return ID)
+  const getDoctorName = (id) => {
+    const doc = doctors.find(d => d.id === id);
+    return doc ? doc.name : 'Unknown Doctor';
+  };
+
+  const getDepartmentName = (id) => {
+    const dept = departments.find(d => d.id === id);
+    return dept ? dept.name : 'Unknown Dept';
+  };
 
   const getStatusColor = (status) => {
     switch(status) {
@@ -94,7 +83,17 @@ const ManageAppointment = ({ onBack }) => {
 
   const handleEdit = (appointment) => {
     setSelectedAppointment(appointment);
-    setFormData(appointment);
+    // Fill form with existing data
+    // Note: Ensure your Django serializer returns fields that match these keys
+    setFormData({
+      patient_name: appointment.patient_name || appointment.patientName || '',
+      doctor: appointment.doctor, // Should be ID
+      department: appointment.department, // Should be ID
+      date: appointment.date,
+      time: appointment.time,
+      status: appointment.status,
+      type: appointment.type || ''
+    });
     setShowEditModal(true);
   };
 
@@ -103,25 +102,53 @@ const ManageAppointment = ({ onBack }) => {
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
-    // In a real app, you would update the state or call an API
-    setShowDeleteModal(false);
-    setSelectedAppointment(null);
+  // --- API ACTIONS ---
+
+  const confirmDelete = async () => {
+    try {
+      await deleteAppointment(selectedAppointment.id);
+      setAppointments(appointments.filter(a => a.id !== selectedAppointment.id));
+      setShowDeleteModal(false);
+      setSelectedAppointment(null);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete appointment");
+    }
   };
 
-  const handleUpdate = () => {
-    // In a real app, you would update the state or call an API
-    setShowEditModal(false);
-    setSelectedAppointment(null);
+  const handleUpdate = async () => {
+    try {
+      const updatedApt = await updateAppointment(selectedAppointment.id, formData);
+      
+      // Update the UI
+      setAppointments(appointments.map(a => 
+        a.id === selectedAppointment.id ? updatedApt : a
+      ));
+      
+      setShowEditModal(false);
+      setSelectedAppointment(null);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update appointment");
+    }
   };
 
+  // Filter Logic
   const filteredAppointments = appointments.filter(apt => {
-    const matchesSearch = apt.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          apt.doctorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          apt.department.toLowerCase().includes(searchTerm.toLowerCase());
+    const pName = apt.patient_name || apt.patientName || "";
+    // Resolving names for search
+    const docName = getDoctorName(apt.doctor); 
+    const deptName = getDepartmentName(apt.department);
+
+    const matchesSearch = pName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          docName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          deptName.toLowerCase().includes(searchTerm.toLowerCase());
+    
     const matchesFilter = filterStatus === 'all' || apt.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
+
+  if (loading) return <div className="p-10">Loading Appointments...</div>;
 
   return (
     <div className="p-4 lg:p-8">
@@ -143,7 +170,7 @@ const ManageAppointment = ({ onBack }) => {
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search appointments by patient, doctor, or department..."
+                placeholder="Search by patient, doctor, or department..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -174,7 +201,8 @@ const ManageAppointment = ({ onBack }) => {
             <div key={appointment.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="font-semibold text-gray-900">{appointment.patientName}</h3>
+                  {/* Handle both field naming conventions just in case */}
+                  <h3 className="font-semibold text-gray-900">{appointment.patient_name || appointment.patientName}</h3>
                   <p className="text-sm text-gray-600">{appointment.type}</p>
                 </div>
                 <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(appointment.status)}`}>
@@ -185,7 +213,8 @@ const ManageAppointment = ({ onBack }) => {
               <div className="space-y-2 text-sm">
                 <div className="flex items-center text-gray-600">
                   <FaUserMd className="mr-2 text-gray-400" />
-                  {appointment.doctorName}
+                  {/* Display Doctor Name found from ID */}
+                  {getDoctorName(appointment.doctor)}
                 </div>
                 <div className="flex items-center text-gray-600">
                   <FaCalendarAlt className="mr-2 text-gray-400" />
@@ -193,7 +222,8 @@ const ManageAppointment = ({ onBack }) => {
                 </div>
                 <div className="flex items-center text-gray-600">
                   <FaHospital className="mr-2 text-gray-400" />
-                  {appointment.department}
+                  {/* Display Dept Name found from ID */}
+                  {getDepartmentName(appointment.department)}
                 </div>
               </div>
               
@@ -210,11 +240,6 @@ const ManageAppointment = ({ onBack }) => {
                 >
                   <FaTrash className="inline mr-1" /> Delete
                 </button>
-                {appointment.status !== 'Completed' && appointment.status !== 'Cancelled' && (
-                  <button className="flex-1 bg-green-50 text-green-600 py-2 px-3 rounded hover:bg-green-100 transition-colors text-sm">
-                    <FaEye className="inline mr-1" /> View
-                  </button>
-                )}
               </div>
             </div>
           ))}
@@ -227,10 +252,7 @@ const ManageAppointment = ({ onBack }) => {
               <div className="p-6 border-b">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-bold text-gray-900">Edit Appointment</h2>
-                  <button
-                    onClick={() => setShowEditModal(false)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
+                  <button onClick={() => setShowEditModal(false)} className="text-gray-400 hover:text-gray-600">
                     <FaTimes />
                   </button>
                 </div>
@@ -242,22 +264,29 @@ const ManageAppointment = ({ onBack }) => {
                       <label className="block text-sm font-medium text-gray-700 mb-2">Patient Name</label>
                       <input
                         type="text"
-                        value={formData.patientName}
-                        onChange={(e) => setFormData({...formData, patientName: e.target.value})}
+                        value={formData.patient_name}
+                        onChange={(e) => setFormData({...formData, patient_name: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                         required
                       />
                     </div>
+                    
+                    {/* SELECT DOCTOR FROM LIST */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Doctor Name</label>
-                      <input
-                        type="text"
-                        value={formData.doctorName}
-                        onChange={(e) => setFormData({...formData, doctorName: e.target.value})}
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Doctor</label>
+                      <select
+                        value={formData.doctor}
+                        onChange={(e) => setFormData({...formData, doctor: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                         required
-                      />
+                      >
+                        <option value="">Select Doctor</option>
+                        {doctors.map(doc => (
+                          <option key={doc.id} value={doc.id}>{doc.name}</option>
+                        ))}
+                      </select>
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
                       <input
@@ -271,14 +300,15 @@ const ManageAppointment = ({ onBack }) => {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Time</label>
                       <input
-                        type="text"
+                        type="time" // Changed to time input for better UX
                         value={formData.time}
                         onChange={(e) => setFormData({...formData, time: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        placeholder="e.g., 10:00 AM"
                         required
                       />
                     </div>
+
+                    {/* SELECT DEPARTMENT FROM LIST */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
                       <select
@@ -288,21 +318,20 @@ const ManageAppointment = ({ onBack }) => {
                         required
                       >
                         <option value="">Select Department</option>
-                        <option value="General Medicine">General Medicine</option>
-                        <option value="Surgery">Surgery</option>
-                        <option value="Pediatrics">Pediatrics</option>
-                        <option value="Cardiology">Cardiology</option>
+                        {departments.map(dept => (
+                           <option key={dept.id} value={dept.id}>{dept.name}</option>
+                        ))}
                       </select>
                     </div>
+
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Appointment Type</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
                       <input
                         type="text"
                         value={formData.type}
                         onChange={(e) => setFormData({...formData, type: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        placeholder="e.g., Regular Checkup"
-                        required
+                        placeholder="e.g., Checkup"
                       />
                     </div>
                     <div>
@@ -355,8 +384,8 @@ const ManageAppointment = ({ onBack }) => {
                 </div>
               </div>
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                <p className="font-medium text-gray-900">{selectedAppointment?.patientName}</p>
-                <p className="text-sm text-gray-600">{selectedAppointment?.doctorName} - {selectedAppointment?.date} at {selectedAppointment?.time}</p>
+                <p className="font-medium text-gray-900">{selectedAppointment?.patient_name || selectedAppointment?.patientName}</p>
+                <p className="text-sm text-gray-600">Date: {selectedAppointment?.date}</p>
               </div>
               <div className="flex justify-end space-x-3">
                 <button
