@@ -1,9 +1,9 @@
 from django.urls import path
-# Import the NEW view classes we created
 from .views import (
     DepartmentListCreateView, 
     DepartmentDetailView, 
-    DoctorListView, 
+    DoctorListCreateView, # <-- ADD THIS (For List & Create)
+    DoctorDetailView,     # <-- ADD THIS (For Update & Delete)
     AppointmentCreateView, 
     AppointmentListView
 )
@@ -11,21 +11,23 @@ from . import views
 
 urlpatterns = [
     # --- Department URLs ---
-    # 1. For GET (List) and POST (Add)
     path('departments/', DepartmentListCreateView.as_view(), name='department-list'),
-    
-    # 2. For PUT (Update) and DELETE (Remove) - THIS FIXES THE 405 ERROR
-    # The <int:pk> allows the frontend to target a specific ID (e.g., /departments/5/)
     path('departments/<int:pk>/', DepartmentDetailView.as_view(), name='department-detail'),
 
-    # --- Doctor & Appointment URLs ---
-    path('doctors/', DoctorListView.as_view()),
+    # --- Doctor URLs (UPDATED) ---
+    # 1. List all doctors OR Add a new doctor (GET, POST)
+    path('doctors/', DoctorListCreateView.as_view(), name='doctor-list'),
+    
+    # 2. Edit or Delete a specific doctor (PUT, DELETE)
+    # The <int:pk> is required to find the specific ID
+    path('doctors/<int:pk>/', DoctorDetailView.as_view(), name='doctor-detail'),
+
+    # --- Appointment URLs ---
     path('appointments/', AppointmentCreateView.as_view()),
+    path('appointments-list/', AppointmentListView.as_view(), name='appointment-list'),
     
     # --- Stats URLs ---
     path('department-count/', views.department_count, name='department-count'),
     path('total-doctors/', views.total_doctors, name='total-doctors'),
     path('total-appointments/', views.total_appointments, name='total-appointments'),
-    
-    path('appointments-list/', AppointmentListView.as_view(), name='appointment-list'),
 ]

@@ -20,28 +20,34 @@ def total_appointments(request):
     count = Appointment.objects.count()
     return Response({'total_appointments': count})
 
-# --- Department Views (UPDATED) ---
-
-# 1. List and Create (Handles GET for all and POST for new)
+# --- Department Views (Keep these) ---
 class DepartmentListCreateView(generics.ListCreateAPIView):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
-# 2. Detail, Update, and Delete (Handles PUT and DELETE for specific ID)
 class DepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
-# --- Doctor Views (Keep these) ---
-class DoctorListView(generics.ListAPIView):
+# --- Doctor Views (UPDATED) ---
+
+# 1. List and Create (Handles GET for list, POST for adding)
+class DoctorListCreateView(generics.ListCreateAPIView):
+    queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
+    # Optional: Keep your filter logic if you want to filter by department in the URL
     def get_queryset(self):
+        queryset = Doctor.objects.all()
         dept_id = self.request.query_params.get('department')
-        queryset = Doctor.objects.filter(active=True)
         if dept_id:
             queryset = queryset.filter(department_id=dept_id)
         return queryset
+
+# 2. Detail, Update, Delete (Handles PUT and DELETE for specific ID)
+class DoctorDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
 
 # --- Appointment Views (Keep these) ---
 class AppointmentCreateView(generics.CreateAPIView):

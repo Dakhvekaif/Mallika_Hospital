@@ -3,7 +3,6 @@ const BASE_URL = "https://mallika-hospital.onrender.com/api";
 // Helper function to handle errors
 const handleResponse = async (response) => {
   if (!response.ok) {
-    // If the server says 404, 405, 500, etc., we throw an error here.
     const errorText = await response.text();
     throw new Error(`API Request Failed: ${response.status} ${response.statusText}`);
   }
@@ -14,6 +13,8 @@ const handleResponse = async (response) => {
   // Otherwise return JSON
   return response.json();
 };
+
+// --- DEPARTMENT API ---
 
 // GET all departments
 export const getDepartments = async () => {
@@ -48,6 +49,46 @@ export const updateDepartment = async (id, data) => {
 // DELETE a department
 export const deleteDepartment = async (id) => {
   const response = await fetch(`${BASE_URL}/departments/${id}/`, {
+    method: "DELETE"
+  });
+  return handleResponse(response);
+};
+
+// --- DOCTOR API (ADD THIS SECTION) ---
+
+// GET all doctors
+export const getDoctors = async () => {
+  const response = await fetch(`${BASE_URL}/doctors/`);
+  return handleResponse(response);
+};
+
+// ADD a doctor
+export const addDoctor = async (data) => {
+  const response = await fetch(`${BASE_URL}/doctors/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+  return handleResponse(response);
+};
+
+// UPDATE a doctor
+export const updateDoctor = async (id, data) => {
+  const response = await fetch(`${BASE_URL}/doctors/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+  return handleResponse(response);
+};
+
+// DELETE a doctor
+export const deleteDoctor = async (id) => {
+  const response = await fetch(`${BASE_URL}/doctors/${id}/`, {
     method: "DELETE"
   });
   return handleResponse(response);

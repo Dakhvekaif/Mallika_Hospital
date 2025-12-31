@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  FaStethoscope, 
-  FaEdit, 
-  FaTrash, 
-  FaSearch, 
-  FaPlus, 
-  FaEye,
-  FaTimes,
-  FaPhone,
-  FaEnvelope,
-  FaClock,
-  FaUserPlus,
-  FaSave,
-  FaList,
-  FaUserMd
+  FaStethoscope, FaEdit, FaTrash, FaSearch, FaUserPlus, FaTimes, 
+  FaPhone, FaEnvelope, FaClock, FaSave
 } from 'react-icons/fa';
+
+// 1. IMPORT API FUNCTIONS
+import { 
+  getDoctors, 
+  addDoctor, 
+  updateDoctor, 
+  deleteDoctor,
+  getDepartments 
+} from "./api";
 
 const ManageDoctor = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,60 +19,60 @@ const ManageDoctor = ({ onBack }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [doctors, setDoctors] = useState([
-    {
-      id: 1,
-      name: 'Dr. Sarah Johnson',
-      specialization: 'General Physician',
-      department: 'General Medicine',
-      experience: '10 years',
-      email: 'sarah.j@hospital.com',
-      phone: '+91 98765 43215',
-      status: 'Active',
-      schedule: '09:00 - 17:00'
+  
+  // 2. STATE: Start empty, fetch real data
+  const [doctors, setDoctors] = useState([]);
+  const [departments, setDepartments] = useState([]); 
+  const [loading, setLoading] = useState(true);
 
-    },
-    {
-      id: 2,
-      name: 'Dr. Michael Chen',
-      specialization: 'Surgeon',
-      department: 'Surgery',
-      experience: '8 years',
-      email: 'michael.c@hospital.com',
-      phone: '+91 98765 43216',
-      status: 'Active',
-      schedule: '09:00 - 17:00'
-    },
-    {
-      id: 3,
-      name: 'Dr. Emily Davis',
-      specialization: 'Pediatrician',
-      department: 'Pediatrics',
-      experience: '6 years',
-      email: 'emily.d@hospital.com',
-      phone: '+91 98765 43217',
-      status: 'On Leave',
-      schedule: '09:00 - 17:00'
-    }
-  ]);
-
-  const [formData, setFormData] = useState({
+  const initialFormState = {
     name: '',
     phone: '',
-    department: '',
+    email: '',
+    department: '', 
+    specialization: '', 
     education: '',
+    startTime: '',
     endTime: '',
-    schedule: '',
     status: 'Active'
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormState);
+
+  // 3. USE EFFECT: Fetch Doctors and Departments on load
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const [doctorsData, deptData] = await Promise.all([
+        getDoctors(),
+        getDepartments()
+      ]);
+      setDoctors(doctorsData);
+      setDepartments(deptData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading data:", error);
+      setLoading(false);
+    }
+  };
 
   const handleEdit = (doctor) => {
-    const [startTime, endTime] = doctor.schedule.split(' - ');
+    // Parse schedule string back to time inputs if possible
+    let startTime = '';
+    let endTime = '';
+    if (doctor.schedule && doctor.schedule.includes(' - ')) {
+      [startTime, endTime] = doctor.schedule.split(' - ');
+    }
+
     setSelectedDoctor(doctor);
     setFormData({
-    ...doctor,
-    startTime,
-    endTime
+      ...doctor,
+      department: doctor.department || '', 
+      startTime,
+      endTime
     });
     setShowEditModal(true);
   };
@@ -86,48 +83,60 @@ const ManageDoctor = ({ onBack }) => {
   };
 
   const handleAdd = () => {
-    // Reset form for new doctor
-    setFormData({
-      name: '',
-      phone: '',
-      department: '',
-      education: '',
-      schedule: '',
-      startTime: '',
-      endTime: '',
-      status: 'Active'
-    });
+    setFormData(initialFormState);
     setShowAddModal(true);
   };
 
-  const confirmDelete = () => {
-    setDoctors(doctors.filter(d => d.id !== selectedDoctor.id));
-    setShowDeleteModal(false);
-    setSelectedDoctor(null);
+  // 4. ASYNC HANDLERS (Connect to API)
+
+  const confirmDelete = async () => {
+    try {
+      await deleteDoctor(selectedDoctor.id);
+      // Remove from UI only after success
+      setDoctors(doctors.filter(d => d.id !== selectedDoctor.id));
+      setShowDeleteModal(false);
+      setSelectedDoctor(null);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete doctor.");
+    }
   };
 
-  const handleUpdate = () => {
-    setDoctors(doctors.map(d => 
-      d.id === selectedDoctor.id 
-      ?  {
-          ...formData,
-          schedule: `${formData.startTime} - ${formData.endTime}`
-        } 
-      : d
-    ));
-    setShowEditModal(false);
-    setSelectedDoctor(null);
+  const handleUpdate = async () => {
+    try {
+      const payload = {
+        ...formData,
+        schedule: `${formData.startTime} - ${formData.endTime}`
+      };
+      
+      const updatedDoc = await updateDoctor(selectedDoctor.id, payload);
+      
+      // Update UI
+      setDoctors(doctors.map(d => d.id === selectedDoctor.id ? updatedDoc : d));
+      setShowEditModal(false);
+      setSelectedDoctor(null);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update doctor.");
+    }
   };
 
-  const handleAddDoctor = () => {
-    // In a real app, you would call an API to add the doctor
-    const newDoctor = {
-      ...formData,
-      schedule: `${formData.startTime} - ${formData.endTime}`,
-      id: doctors.length + 1
-    };
-    setDoctors([...doctors, newDoctor]);
-    setShowAddModal(false);
+  const handleAddDoctor = async () => {
+    try {
+      const payload = {
+        ...formData,
+        schedule: `${formData.startTime} - ${formData.endTime}`
+      };
+
+      const newDoc = await addDoctor(payload);
+      
+      // Add to UI
+      setDoctors([...doctors, newDoc]);
+      setShowAddModal(false);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to add doctor.");
+    }
   };
 
   const getStatusColor = (status) => {
@@ -138,6 +147,8 @@ const ManageDoctor = ({ onBack }) => {
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
+  if (loading) return <div className="p-8">Loading Doctors...</div>;
 
   return (
     <div className="p-4 lg:p-8">
@@ -158,43 +169,31 @@ const ManageDoctor = ({ onBack }) => {
           </div>
         </div>
 
-        {/* Search and Filter */}
+        {/* Search */}
         <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 mb-6">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1 relative">
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search doctors by name, specialization, or department..."
+                placeholder="Search doctors by name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               />
-            </div>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <select className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="">All Departments</option>
-                <option value="general">General Medicine</option>
-                <option value="surgery">Surgery</option>
-                <option value="pediatrics">Pediatrics</option>
-              </select>
-              <select className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="on-leave">On Leave</option>
-                <option value="inactive">Inactive</option>
-              </select>
             </div>
           </div>
         </div>
 
         {/* Doctors Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
-          {doctors.filter(d => 
-            d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            d.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            d.department.toLowerCase().includes(searchTerm.toLowerCase())
-          ).map((doctor) => (
+          {doctors
+            .filter(d => 
+               // 5. SAFETY CHECK: Prevent crash if name is null
+               (d.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+               (d.specialization || "").toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map((doctor) => (
             <div key={doctor.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center">
@@ -213,15 +212,15 @@ const ManageDoctor = ({ onBack }) => {
               <div className="space-y-2 text-sm">
                 <div className="flex items-center text-gray-600">
                   <FaEnvelope className="mr-2 text-gray-400" />
-                  {doctor.email}
+                  {doctor.email || "N/A"}
                 </div>
                 <div className="flex items-center text-gray-600">
                   <FaPhone className="mr-2 text-gray-400" />
-                  {doctor.phone}
+                  {doctor.phone || "N/A"}
                 </div>
                 <div className="flex items-center text-gray-600">
                   <FaClock className="mr-2 text-gray-400" />
-                  {doctor.schedule}
+                  {doctor.schedule || "N/A"}
                 </div>
               </div>
               <div className="mt-4 flex space-x-2">
@@ -249,12 +248,7 @@ const ManageDoctor = ({ onBack }) => {
               <div className="p-6 border-b">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-bold text-gray-900">Add New Doctor</h2>
-                  <button
-                    onClick={() => setShowAddModal(false)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <FaTimes />
-                  </button>
+                  <button onClick={() => setShowAddModal(false)} className="text-gray-400 hover:text-gray-600"><FaTimes /></button>
                 </div>
               </div>
               <div className="p-6">
@@ -262,82 +256,53 @@ const ManageDoctor = ({ onBack }) => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
+                      <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                      <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
+                      <input type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
                     </div>
                     <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <input type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+                    </div>
+                    
+                    {/* 6. DYNAMIC DEPARTMENT DROPDOWN */}
+                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
-                      <select
-                        value={formData.department}
-                        onChange={(e) => setFormData({...formData, department: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      <select 
+                        value={formData.department} 
+                        onChange={(e) => setFormData({...formData, department: e.target.value})} 
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
                         required
                       >
                         <option value="">Select Department</option>
-                        <option value="General Medicine">General Medicine</option>
-                        <option value="Surgery">Surgery</option>
-                        <option value="Pediatrics">Pediatrics</option>
-                        <option value="Cardiology">Cardiology</option>
+                        {departments.map(dept => (
+                           // Assumes your backend department object has 'id' and 'name'
+                           <option key={dept.id} value={dept.id}>{dept.name}</option>
+                        ))}
                       </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
+                      <input type="text" value={formData.specialization} onChange={(e) => setFormData({...formData, specialization: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
-                      <input
-                        type="text"
-                        value={formData.education}
-                        onChange={(e) => setFormData({...formData, education: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        placeholder="e.g., MBBS, MD"
-                      />
+                      <input type="text" value={formData.education} onChange={(e) => setFormData({...formData, education: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
                     </div>
                     <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Schedule
-                    </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
                       <div className="flex gap-3">
-                        <input
-                          type="time"
-                          value={formData.startTime}
-                          onChange={(e) =>
-                            setFormData({ ...formData, startTime: e.target.value })
-                          }
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                          required
-                        />
+                        <input type="time" value={formData.startTime} onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
                         <span className="self-center text-gray-500">to</span>
-                          <input
-                            type="time"
-                            value={formData.endTime}
-                            onChange={(e) =>
-                              setFormData({ ...formData, endTime: e.target.value })
-                            }
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                            required
-                          />
-                        </div>
+                        <input type="time" value={formData.endTime} onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
                       </div>
-                      <div>
+                    </div>
+                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                      <select
-                        value={formData.status}
-                        onChange={(e) => setFormData({...formData, status: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                      >
+                      <select value={formData.status} onChange={(e) => setFormData({...formData, status: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="Active">Active</option>
                         <option value="On Leave">On Leave</option>
                         <option value="Inactive">Inactive</option>
@@ -346,19 +311,8 @@ const ManageDoctor = ({ onBack }) => {
                   </div>
                   
                   <div className="flex justify-end space-x-3 pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setShowAddModal(false)}
-                      className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
-                    >
-                      <FaSave /> Add Doctor
-                    </button>
+                    <button type="button" onClick={() => setShowAddModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+                    <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"><FaSave /> Add Doctor</button>
                   </div>
                 </form>
               </div>
@@ -366,126 +320,69 @@ const ManageDoctor = ({ onBack }) => {
           </div>
         )}
 
-        {/* Edit Doctor Modal */}
+        {/* Edit Doctor Modal - SAME FORM, JUST CALLS handleUpdate */}
         {showEditModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               <div className="p-6 border-b">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-bold text-gray-900">Edit Doctor</h2>
-                  <button
-                    onClick={() => setShowEditModal(false)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <FaTimes />
-                  </button>
+                  <button onClick={() => setShowEditModal(false)} className="text-gray-400 hover:text-gray-600"><FaTimes /></button>
                 </div>
               </div>
               <div className="p-6">
                 <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="space-y-4">
+                  {/* Reuse inputs exactly like above */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
+                      <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                      <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      />
+                      <input type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <input type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
-                      <select
-                        value={formData.department}
-                        onChange={(e) => setFormData({...formData, department: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        required
-                      >
+                      <select value={formData.department} onChange={(e) => setFormData({...formData, department: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
                         <option value="">Select Department</option>
-                        <option value="General Medicine">General Medicine</option>
-                        <option value="Surgery">Surgery</option>
-                        <option value="Pediatrics">Pediatrics</option>
-                        <option value="Cardiology">Cardiology</option>
+                        {departments.map(dept => (
+                           <option key={dept.id} value={dept.id}>{dept.name}</option>
+                        ))}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
-                      <input
-                        type="text"
-                        value={formData.education}
-                        onChange={(e) => setFormData({...formData, education: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        placeholder="e.g., MBBS, MD"
-                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
+                      <input type="text" value={formData.specialization} onChange={(e) => setFormData({...formData, specialization: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Schedule
-                      </label>
-
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
+                      <input type="text" value={formData.education} onChange={(e) => setFormData({...formData, education: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
                       <div className="flex gap-3">
-                        <input
-                          type="time"
-                          value={formData.startTime}
-                          onChange={(e) =>
-                            setFormData({ ...formData, startTime: e.target.value })
-                          }
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                          required
-                        />
-
+                        <input type="time" value={formData.startTime} onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
                         <span className="self-center text-gray-500">to</span>
-                        
-                        <input
-                          type="time"
-                          value={formData.endTime}
-                          onChange={(e) =>
-                            setFormData({ ...formData, endTime: e.target.value })
-                          }
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                          required
-                        />
+                        <input type="time" value={formData.endTime} onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required />
                       </div>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                      <select
-                        value={formData.status}
-                        onChange={(e) => setFormData({...formData, status: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                      >
+                      <select value={formData.status} onChange={(e) => setFormData({...formData, status: e.target.value})} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="Active">Active</option>
                         <option value="On Leave">On Leave</option>
                         <option value="Inactive">Inactive</option>
                       </select>
                     </div>
                   </div>
-                  
                   <div className="flex justify-end space-x-3 pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setShowEditModal(false)}
-                      className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
-                    >
-                      <FaSave /> Update Doctor
-                    </button>
+                    <button type="button" onClick={() => setShowEditModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+                    <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"><FaSave /> Update Doctor</button>
                   </div>
                 </form>
               </div>
@@ -511,18 +408,8 @@ const ManageDoctor = ({ onBack }) => {
                 <p className="text-sm text-gray-600">{selectedDoctor?.specialization}</p>
               </div>
               <div className="flex justify-end space-x-3">
-                <button
-                  onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={confirmDelete}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                >
-                  Delete
-                </button>
+                <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+                <button onClick={confirmDelete} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
               </div>
             </div>
           </div>
