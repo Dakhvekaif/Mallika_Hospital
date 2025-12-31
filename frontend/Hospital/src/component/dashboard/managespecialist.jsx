@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
-import { 
-  FaUserMd, 
-  FaEdit, 
-  FaTrash, 
-  FaSearch, 
-  FaPlus, 
-  FaEye,
+import React, { useState, useEffect } from 'react';
+import {
+  FaEdit,
+  FaTrash,
   FaTimes,
-  FaCheck,
-  FaPhone,
-  FaEnvelope,
-  FaClock,
-  FaFilter,
   FaUserPlus,
   FaSave,
   FaGraduationCap
 } from 'react-icons/fa';
+
+import {
+  getDepartments,
+  addDepartment,
+  updateDepartment,
+  deleteDepartment
+} from "./api";
+
 
 const ManageSpecialist = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,68 +22,19 @@ const ManageSpecialist = ({ onBack }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedSpecialist, setSelectedSpecialist] = useState(null);
-  const [specialists, setSpecialists] = useState([
-    {
-      id: 1,
-      name: 'Dr. Rajesh Kumar',
-      specialization: 'Cardiologist',
-      experience: '15 years',
-      email: 'rajesh.kumar@hospital.com',
-      phone: '+91 98765 43210',
-      education: 'MD - Cardiology',
-      status: 'Active',
-      department: 'Cardiology',
-      joinedDate: '2015-03-15'
-    },
-    {
-      id: 2,
-      name: 'Dr. Priya Sharma',
-      specialization: 'Neurologist',
-      experience: '12 years',
-      email: 'priya.sharma@hospital.com',
-      phone: '+91 98765 43211',
-      education: 'DM - Neurology',
-      status: 'Active',
-      department: 'Neurology',
-      joinedDate: '2018-06-20'
-    },
-    {
-      id: 3,
-      name: 'Dr. Amit Patel',
-      specialization: 'Orthopedic Surgeon',
-      experience: '20 years',
-      email: 'amit.patel@hospital.com',
-      phone: '+91 98765 43212',
-      education: 'MS - Orthopedics',
-      status: 'Active',
-      department: 'Orthopedics',
-      joinedDate: '2010-01-10'
-    },
-    {
-      id: 4,
-      name: 'Dr. Sneha Reddy',
-      specialization: 'Pediatrician',
-      experience: '8 years',
-      email: 'sneha.reddy@hospital.com',
-      phone: '+91 98765 43213',
-      education: 'MD - Pediatrics',
-      status: 'On Leave',
-      department: 'Pediatrics',
-      joinedDate: '2020-09-05'
-    },
-    {
-      id: 5,
-      name: 'Dr. Vikram Singh',
-      specialization: 'Gastroenterologist',
-      experience: '18 years',
-      email: 'vikram.singh@hospital.com',
-      phone: '+91 98765 43214',
-      education: 'DM - Gastroenterology',
-      status: 'Active',
-      department: 'Gastroenterology',
-      joinedDate: '2012-11-25'
-    }
-  ]);
+  const [specialists, setSpecialists] = useState([]);
+
+  useEffect(() => {
+  getDepartments()
+    .then(data => {
+      const mapped = data.map(dep => ({
+        id: dep.id,
+        specialization: dep.name
+      }));
+      setSpecialists(mapped);
+    })
+    .catch(err => console.error(err));
+}, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -134,30 +84,65 @@ const ManageSpecialist = ({ onBack }) => {
     setShowAddModal(true);
   };
 
-  const confirmDelete = () => {
-    setSpecialists(specialists.filter(s => s.id !== selectedSpecialist.id));
+  const confirmDelete = async () => {
+  try {
+    await deleteDepartment(selectedSpecialist.id);
+
+    setSpecialists(
+      specialists.filter(s => s.id !== selectedSpecialist.id)
+    );
+
     setShowDeleteModal(false);
     setSelectedSpecialist(null);
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-  const handleUpdate = () => {
-    setSpecialists(specialists.map(s => 
-      s.id === selectedSpecialist.id ? formData : s
-    ));
+
+  const handleUpdate = async () => {
+  try {
+    const updated = await updateDepartment(
+      selectedSpecialist.id,
+      { name: formData.specialization }
+    );
+
+    setSpecialists(
+      specialists.map(s =>
+        s.id === selectedSpecialist.id
+          ? { ...s, specialization: updated.name }
+          : s
+      )
+    );
+
     setShowEditModal(false);
     setSelectedSpecialist(null);
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-  const handleAddSpecialist = () => {
-    // In a real app, you would call an API to add the specialist
-    const newSpecialist = {
-      ...formData,
-      id: specialists.length + 1,
-      joinedDate: new Date().toISOString().split('T')[0]
-    };
-    setSpecialists([...specialists, newSpecialist]);
+
+  const handleAddSpecialist = async () => {
+  try {
+    const newDep = await addDepartment({
+      name: formData.specialization
+    });
+
+    setSpecialists([
+      ...specialists,
+      {
+        id: newDep.id,
+        specialization: newDep.name
+      }
+    ]);
+
     setShowAddModal(false);
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   return (
     <div className="p-4 lg:p-8">
@@ -196,7 +181,7 @@ const ManageSpecialist = ({ onBack }) => {
               <tbody className="bg-white divide-y divide-gray-200">
               {specialists
                 .filter(specialist =>
-                  specialist.specialization.toLowerCase().includes(searchTerm.toLowerCase())
+                  (specialist.specialization || "").toLowerCase().includes(searchTerm.toLowerCase())
                 )
                 .map((specialist) => (
                   <tr key={specialist.id} className="hover:bg-gray-50">
@@ -235,11 +220,11 @@ const ManageSpecialist = ({ onBack }) => {
 
           {/* Mobile Card View */}
           <div className="lg:hidden p-4 space-y-4">
-            {specialists.filter(specialist =>
-              specialist.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              specialist.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              specialist.department.toLowerCase().includes(searchTerm.toLowerCase())
-            ).map((specialist) => (
+            {specialists
+            .filter(specialist =>
+              (specialist.specialization || "").toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map((specialist) => (
               <div key={specialist.id} className="bg-white border rounded-lg p-4 shadow-sm">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -392,7 +377,7 @@ const ManageSpecialist = ({ onBack }) => {
                 </div>
               </div>
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                <p className="font-medium text-gray-900">{selectedSpecialist?.name}</p>
+                <p className="font-medium text-gray-900">{selectedSpecialist?.specialization}</p>
                 <p className="text-sm text-gray-600">{selectedSpecialist?.specialization}</p>
               </div>
               <div className="flex justify-end space-x-3">
