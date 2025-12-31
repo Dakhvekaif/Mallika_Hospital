@@ -15,7 +15,6 @@ const DoctorsList = () => {
       department: "Cardiology",
       experience: "15 years",
       education: "MD - Cardiology, DM - Cardiology",
-      email: "rajesh.kumar@hospital.com",
       phone: "+91 98765 43210",
       availability: "Mon-Fri: 9AM-5PM",
       image: ""
@@ -27,7 +26,6 @@ const DoctorsList = () => {
       department: "Neurology",
       experience: "12 years",
       education: "MD - Medicine, DM - Neurology",
-      email: "priya.sharma@hospital.com",
       phone: "+91 98765 43211",
       availability: "Mon-Sat: 10AM-6PM",
       image: ""
@@ -39,7 +37,6 @@ const DoctorsList = () => {
       department: "Orthopedics",
       experience: "20 years",
       education: "MS - Orthopedics, MCh - Orthopedics",
-      email: "amit.patel@hospital.com",
       phone: "+91 98765 43212",
       availability: "Mon-Fri: 8AM-4PM",
       image: ""
@@ -51,7 +48,6 @@ const DoctorsList = () => {
       department: "Pediatrics",
       experience: "8 years",
       education: "MD - Pediatrics, DNB - Pediatrics",
-      email: "sneha.reddy@hospital.com",
       phone: "+91 98765 43213",
       availability: "Mon-Sat: 9AM-5PM",
       image: ""
@@ -63,7 +59,6 @@ const DoctorsList = () => {
       department: "Gastroenterology",
       experience: "18 years",
       education: "MD - Medicine, DM - Gastroenterology",
-      email: "vikram.singh@hospital.com",
       phone: "+91 98765 43214",
       availability: "Mon-Fri: 10AM-6PM",
       image: ""
@@ -75,7 +70,6 @@ const DoctorsList = () => {
       department: "Obstetrics & Gynecology",
       experience: "10 years",
       education: "MD - Obstetrics & Gynecology, DNB - OBG",
-      email: "anjali.gupta@hospital.com",
       phone: "+91 98765 43215",
       availability: "Mon-Sat: 9AM-7PM",
       image: ""
@@ -87,7 +81,6 @@ const DoctorsList = () => {
       department: "Pulmonology",
       experience: "14 years",
       education: "MD - Medicine, DM - Pulmonology",
-      email: "rohit.verma@hospital.com",
       phone: "+91 98765 43216",
       availability: "Mon-Fri: 8AM-5PM",
       image: ""
@@ -95,7 +88,10 @@ const DoctorsList = () => {
     {
       id: 8,
       name: "Dr. Kavita Nair",
+      specialization: "Dermatologist",
       department: "Dermatology",
+      experience: "9 years",
+      education: "MD - Dermatology, DVD - Dermatology",
       phone: "+91 98765 43217",
       availability: "Mon-Sat: 10AM-6PM",
       image: ""
@@ -172,12 +168,22 @@ const DoctorsList = () => {
                     e.target.src = 'https://picsum.photos/seed/default/300/300.jpg';
                   }}
                 />
+                <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
+                  {doctor.experience}
+                </div>
               </div>
 
               {/* Doctor Info */}
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">{doctor.name}</h3>
+                <p className="text-blue-600 font-medium mb-2">{doctor.specialization}</p>
                 <p className="text-gray-600 text-sm mb-3">{doctor.department}</p>
+
+                {/* Education */}
+                <div className="flex items-start mb-3">
+                  <FaGraduationCap className="text-gray-400 mr-2 mt-1 text-sm" />
+                  <p className="text-gray-600 text-xs">{doctor.education}</p>
+                </div>
 
                 {/* Contact Info */}
                 <div className="space-y-2 mb-3">
@@ -194,9 +200,9 @@ const DoctorsList = () => {
                 </div>
 
                 {/* Action Button */}
-                {/* <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm">
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm">
                   Book Appointment
-                </button> */}
+                </button>
               </div>
             </div>
           ))}
