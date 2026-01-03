@@ -138,7 +138,7 @@ function App() {
           <Route path='media/floor3' element={<Floor3 />} />
 
           {/* Find Doctor */}
-          <Route path="find-doctor" element={<DoctorsList />} />
+          <Route path="/find-doctor" element={<DoctorsList />} />
 
         </Routes>
       </div>

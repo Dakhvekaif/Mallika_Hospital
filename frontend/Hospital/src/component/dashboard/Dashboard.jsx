@@ -1,6 +1,11 @@
 import logo from '../../assets/MalikaHospital-logo.png';
 import React, { useState, useEffect } from 'react';
-import {FaUserMd, FaUsers, FaStethoscope, FaCalendarAlt, FaPlus, FaList, FaChevronDown, FaChevronRight, FaHospital, FaArrowLeft, FaUserCheck, FaCalendarCheck, FaUser, FaLock, FaTimes, FaEye, FaEyeSlash} from 'react-icons/fa';
+import {
+  FaUserMd, FaUsers, FaStethoscope, FaCalendarAlt, FaPlus, FaList, 
+  FaChevronDown, FaChevronRight, FaHospital, FaArrowLeft, FaUserCheck, 
+  FaCalendarCheck, FaUser, FaLock, FaTimes, FaEye, FaEyeSlash, FaSignOutAlt
+} from 'react-icons/fa';
+import { apiLogin, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated } from "../../utils/auth.js";
 
 // Import components
 import ManageSpecialist from './ManageSpecialist'; 
@@ -9,34 +14,49 @@ import ManageAppointment from './ManageAppointment';
 
 // Login Component
 const LoginModal = ({ onLogin, onClose }) => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Simple authentication - replace with your actual authentication logic
-    if (credentials.username === 'admin' && credentials.password === 'admin123') {
-      onLogin();
-    } else {
-      setError('Invalid username or password');
-      setTimeout(() => setError(''), 3000);
+    setError("");
+    setLoading(true);
+    try {
+      const data = await apiLogin(credentials.username, credentials.password);
+      // data should be { token: "..." }
+      if (data && data.token) {
+        onLogin(data.token); // pass token up to Dashboard
+      } else {
+        setError("Login failed: invalid response");
+      }
+    } catch (err) {
+      // err might be { non_field_errors: [...] } or other object
+      if (err && typeof err === "object") {
+        const msg =
+          (err.non_field_errors && err.non_field_errors.join(", ")) ||
+          (err.detail && err.detail) ||
+          "Invalid username or password";
+        setError(msg);
+      } else {
+        setError("Login failed. Try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-md w-full p-6 relative">
-        {/* Close button */}
-        <button
-          onClick={onClose}
+        <button 
+          onClick={onClose} 
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
         >
           <FaTimes />
         </button>
 
-        {/* Header */}
         <div className="text-center mb-6">
           <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <FaUser className="text-white text-2xl" />
@@ -45,7 +65,6 @@ const LoginModal = ({ onLogin, onClose }) => {
           <p className="text-gray-600 mt-2">Enter your credentials to access the dashboard</p>
         </div>
 
-        {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
@@ -60,7 +79,7 @@ const LoginModal = ({ onLogin, onClose }) => {
               <input
                 type="text"
                 value={credentials.username}
-                onChange={(e) => setCredentials({...credentials, username: e.target.value})}
+                onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter username"
                 required
@@ -75,13 +94,13 @@ const LoginModal = ({ onLogin, onClose }) => {
               <input
                 type={showPassword ? "text" : "password"}
                 value={credentials.password}
-                onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+                onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                 className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter password"
                 required
               />
-              <button
-                type="button"
+              <button 
+                type="button" 
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
               >
@@ -92,13 +111,13 @@ const LoginModal = ({ onLogin, onClose }) => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        {/* Demo Credentials */}
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <p className="text-sm text-gray-600 text-center">
             <strong>Demo Credentials:</strong><br />
@@ -113,36 +132,10 @@ const LoginModal = ({ onLogin, onClose }) => {
 
 // Main Dashboard Component
 const Dashboard = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-  // For local storage
-  // const [isLoggedIn, setIsLoggedIn] = useState(() => {
-  //   return localStorage.getItem('isLoggedIn') === 'true';
-  // });
-
-  const [showLoginModal, setShowLoginModal] = useState(true);
-
-  // For local storage
-  // const [showLoginModal, setShowLoginModal] = useState(() => {
-  //   return localStorage.getItem('isLoggedIn') !== 'true';
-  // });
-
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!getAuthToken());
+  const [showLoginModal, setShowLoginModal] = useState(() => !getAuthToken());
   const [activeSection, setActiveSection] = useState('dashboard');
   const [expandedSection, setExpandedSection] = useState('specialist');
-
-    const handleLogin = () => {
-    // localStorage.setItem('isLoggedIn', 'true');  //for local storage
-    setIsLoggedIn(true);
-    setShowLoginModal(false);
-  };
-
-  const handleLogout = () => {
-    // localStorage.removeItem('isLoggedIn'); //for local storage 
-    setIsLoggedIn(false);
-    setShowLoginModal(true);
-    setActiveSection('dashboard');
-  };
-
 
   const API = import.meta.env.VITE_BACKEND_URL;
   
@@ -150,27 +143,53 @@ const Dashboard = () => {
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalAppointments, setTotalAppointments] = useState(0);
 
+  const handleLogin = (token) => {
+    setAuthToken(token);       // store token
+    setIsLoggedIn(true);
+    setShowLoginModal(false);
+  };
+
+  const handleLogout = () => {
+    clearAuthToken();
+    setIsLoggedIn(false);
+    setShowLoginModal(true);
+    setActiveSection('dashboard');
+  };
+
+  // Verify token is still valid on mount
   useEffect(() => {
-  // Fetch departments (specialists)
-  fetch(`${API}/api/departments/`)
-    .then(res => res.json())
-    .then(data => setTotalSpecialists(data.length))
-    .catch(err => console.error("Failed to fetch departments", err));
+    const token = getAuthToken();
+    if (token) {
+      // Optionally validate the token with the backend
+      setIsLoggedIn(true);
+      setShowLoginModal(false);
+    } else {
+      setIsLoggedIn(false);
+      setShowLoginModal(true);
+    }
+  }, []);
 
-  // Fetch doctors
-  fetch(`${API}/api/doctors/`)
-    .then(res => res.json())
-    .then(data => setTotalDoctors(data.length))
-    .catch(err => console.error("Failed to fetch doctors", err));
+  useEffect(() => {
+    // Fetch departments (specialists)
+    fetch(`${API}/api/departments/`)
+      .then(res => res.json())
+      .then(data => setTotalSpecialists(data.length))
+      .catch(err => console.error("Failed to fetch departments", err));
 
-  // Fetch appointments
-  fetch(`${API}/api/total-appointments/`)
+    // Fetch doctors
+    fetch(`${API}/api/doctors/`)
+      .then(res => res.json())
+      .then(data => setTotalDoctors(data.length))
+      .catch(err => console.error("Failed to fetch doctors", err));
+
+    // Fetch appointments
+    fetch(`${API}/api/total-appointments/`)
       .then((res) => res.json())
       .then((data) => {
         setTotalAppointments(data.total_appointments);
       })
       .catch((err) => console.error("Error fetching total appointments:", err));
-}, []);
+  }, [API]);
 
   const renderContent = () => {
     switch(activeSection) {
@@ -272,7 +291,10 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-100 flex">
       {/* Login Modal */}
       {showLoginModal && !isLoggedIn && (
-        <LoginModal onLogin={handleLogin} onClose={() => setShowLoginModal(false)} />
+        <LoginModal 
+          onLogin={handleLogin} 
+          onClose={() => setShowLoginModal(false)} 
+        />
       )}
 
       {/* Main Dashboard (only shown after login) */}
@@ -387,6 +409,17 @@ const Dashboard = () => {
                   )}
                 </li>
               </ul>
+
+              {/* Logout Button in Sidebar */}
+              <div className="mt-8 pt-4 border-t">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center space-x-3 p-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <FaSignOutAlt />
+                  <span className="font-medium">Logout</span>
+                </button>
+              </div>
             </nav>            
           </div>
 
@@ -408,9 +441,10 @@ const Dashboard = () => {
 
                 <button
                   onClick={handleLogout}
-                  className="flex items-center text-red-600 hover:text-red-800"
+                  className="flex items-center text-red-600 hover:text-red-800 gap-1"
                 >
-                  Logout
+                  <FaSignOutAlt />
+                  <span className="hidden sm:inline">Logout</span>
                 </button>
               </div>
             </div>

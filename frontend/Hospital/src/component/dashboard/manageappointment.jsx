@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaCalendarAlt, FaEdit, FaTrash, FaSearch, FaTimes, 
-  FaFilter, FaUserMd, FaHospital, FaEye 
+  FaFilter, FaUserMd, FaHospital, FaExclamationTriangle
 } from 'react-icons/fa';
 
-// 1. IMPORT API FUNCTIONS
 import { 
   getAppointments, 
   updateAppointment, 
   deleteAppointment,
-  getDoctors,      // Needed for dropdowns
-  getDepartments   // Needed for dropdowns
-} from "./api";
+  getDoctors,
+  getDepartments
+} from "./api.js";
+
+import { isAuthenticated } from '../../utils/auth.js';
 
 const ManageAppointment = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,31 +21,31 @@ const ManageAppointment = ({ onBack }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   
-  // 2. REAL STATE
   const [appointments, setAppointments] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [actionError, setActionError] = useState('');
 
   // Form State
   const [formData, setFormData] = useState({
-    patient_name: '', // Assuming django uses snake_case or standard fields
-    doctor: '',       // Stores Doctor ID
-    department: '',   // Stores Department ID
+    patient_name: '',
+    doctor: '',
+    department: '',
     date: '',
     time: '',
     status: 'Pending',
-    type: ''          // e.g. Checkup
+    type: ''
   });
 
-  // 3. FETCH DATA ON LOAD
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      // Fetch everything we need in parallel
+      setLoading(true);
       const [aptData, docData, deptData] = await Promise.all([
         getAppointments(),
         getDoctors(),
@@ -53,14 +54,16 @@ const ManageAppointment = ({ onBack }) => {
       setAppointments(aptData);
       setDoctors(docData);
       setDepartments(deptData);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      setError('');
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setError('Failed to load appointments');
+    } finally {
       setLoading(false);
     }
   };
 
-  // Helper to find Name from ID (since API might return ID)
+  // Helper to find Name from ID
   const getDoctorName = (id) => {
     const doc = doctors.find(d => d.id === id);
     return doc ? doc.name : 'Unknown Doctor';
@@ -82,13 +85,16 @@ const ManageAppointment = ({ onBack }) => {
   };
 
   const handleEdit = (appointment) => {
+    if (!isAuthenticated()) {
+      setActionError('You must be logged in to edit appointments');
+      return;
+    }
+    setActionError('');
     setSelectedAppointment(appointment);
-    // Fill form with existing data
-    // Note: Ensure your Django serializer returns fields that match these keys
     setFormData({
       patient_name: appointment.patient_name || appointment.patientName || '',
-      doctor: appointment.doctor, // Should be ID
-      department: appointment.department, // Should be ID
+      doctor: appointment.doctor,
+      department: appointment.department,
       date: appointment.date,
       time: appointment.time,
       status: appointment.status,
@@ -98,11 +104,14 @@ const ManageAppointment = ({ onBack }) => {
   };
 
   const handleDelete = (appointment) => {
+    if (!isAuthenticated()) {
+      setActionError('You must be logged in to delete appointments');
+      return;
+    }
+    setActionError('');
     setSelectedAppointment(appointment);
     setShowDeleteModal(true);
   };
-
-  // --- API ACTIONS ---
 
   const confirmDelete = async () => {
     try {
@@ -110,9 +119,14 @@ const ManageAppointment = ({ onBack }) => {
       setAppointments(appointments.filter(a => a.id !== selectedAppointment.id));
       setShowDeleteModal(false);
       setSelectedAppointment(null);
-    } catch (error) {
-      console.error(error);
-      alert("Failed to delete appointment");
+      setActionError('');
+    } catch (err) {
+      console.error(err);
+      if (err.message.includes('401') || err.message.includes('403')) {
+        setActionError('Authentication failed. Please login again.');
+      } else {
+        setActionError('Failed to delete appointment. Please try again.');
+      }
     }
   };
 
@@ -120,23 +134,26 @@ const ManageAppointment = ({ onBack }) => {
     try {
       const updatedApt = await updateAppointment(selectedAppointment.id, formData);
       
-      // Update the UI
       setAppointments(appointments.map(a => 
         a.id === selectedAppointment.id ? updatedApt : a
       ));
       
       setShowEditModal(false);
       setSelectedAppointment(null);
-    } catch (error) {
-      console.error(error);
-      alert("Failed to update appointment");
+      setActionError('');
+    } catch (err) {
+      console.error(err);
+      if (err.message.includes('401') || err.message.includes('403')) {
+        setActionError('Authentication failed. Please login again.');
+      } else {
+        setActionError('Failed to update appointment. Please try again.');
+      }
     }
   };
 
   // Filter Logic
   const filteredAppointments = appointments.filter(apt => {
     const pName = apt.patient_name || apt.patientName || "";
-    // Resolving names for search
     const docName = getDoctorName(apt.doctor); 
     const deptName = getDepartmentName(apt.department);
 
@@ -148,11 +165,28 @@ const ManageAppointment = ({ onBack }) => {
     return matchesSearch && matchesFilter;
   });
 
-  if (loading) return <div className="p-10">Loading Appointments...</div>;
+  if (loading) {
+    return (
+      <div className="p-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading appointments...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
+        {/* Error Alert */}
+        {(error || actionError) && (
+          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center">
+            <FaExclamationTriangle className="mr-2" />
+            {error || actionError}
+          </div>
+        )}
+
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 mb-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -201,7 +235,6 @@ const ManageAppointment = ({ onBack }) => {
             <div key={appointment.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  {/* Handle both field naming conventions just in case */}
                   <h3 className="font-semibold text-gray-900">{appointment.patient_name || appointment.patientName}</h3>
                   <p className="text-sm text-gray-600">{appointment.type}</p>
                 </div>
@@ -213,7 +246,6 @@ const ManageAppointment = ({ onBack }) => {
               <div className="space-y-2 text-sm">
                 <div className="flex items-center text-gray-600">
                   <FaUserMd className="mr-2 text-gray-400" />
-                  {/* Display Doctor Name found from ID */}
                   {getDoctorName(appointment.doctor)}
                 </div>
                 <div className="flex items-center text-gray-600">
@@ -222,7 +254,6 @@ const ManageAppointment = ({ onBack }) => {
                 </div>
                 <div className="flex items-center text-gray-600">
                   <FaHospital className="mr-2 text-gray-400" />
-                  {/* Display Dept Name found from ID */}
                   {getDepartmentName(appointment.department)}
                 </div>
               </div>
@@ -245,6 +276,14 @@ const ManageAppointment = ({ onBack }) => {
           ))}
         </div>
 
+        {/* Empty State */}
+        {filteredAppointments.length === 0 && (
+          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+            <FaCalendarAlt className="mx-auto text-4xl text-gray-300 mb-4" />
+            <p>No appointments found</p>
+          </div>
+        )}
+
         {/* Edit Appointment Modal */}
         {showEditModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -258,6 +297,11 @@ const ManageAppointment = ({ onBack }) => {
                 </div>
               </div>
               <div className="p-6">
+                {actionError && (
+                  <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                    {actionError}
+                  </div>
+                )}
                 <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -271,7 +315,6 @@ const ManageAppointment = ({ onBack }) => {
                       />
                     </div>
                     
-                    {/* SELECT DOCTOR FROM LIST */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Doctor</label>
                       <select
@@ -300,7 +343,7 @@ const ManageAppointment = ({ onBack }) => {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Time</label>
                       <input
-                        type="time" // Changed to time input for better UX
+                        type="time"
                         value={formData.time}
                         onChange={(e) => setFormData({...formData, time: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -308,7 +351,6 @@ const ManageAppointment = ({ onBack }) => {
                       />
                     </div>
 
-                    {/* SELECT DEPARTMENT FROM LIST */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
                       <select
@@ -383,13 +425,21 @@ const ManageAppointment = ({ onBack }) => {
                   <p className="text-gray-600">Are you sure you want to delete this appointment?</p>
                 </div>
               </div>
+              {actionError && (
+                <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                  {actionError}
+                </div>
+              )}
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
                 <p className="font-medium text-gray-900">{selectedAppointment?.patient_name || selectedAppointment?.patientName}</p>
                 <p className="text-sm text-gray-600">Date: {selectedAppointment?.date}</p>
               </div>
               <div className="flex justify-end space-x-3">
                 <button
-                  onClick={() => setShowDeleteModal(false)}
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setActionError('');
+                  }}
                   className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                 >
                   Cancel
