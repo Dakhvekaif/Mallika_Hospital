@@ -26,7 +26,7 @@ export const isAuthenticated = () => {
 
 // Login API call
 export const apiLogin = async (username, password) => {
-  const response = await fetch(`${BASE_URL}/login/`, {
+  const response = await fetch(`${BASE_URL}/api/login/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
