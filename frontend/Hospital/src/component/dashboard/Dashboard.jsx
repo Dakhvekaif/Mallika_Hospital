@@ -5,12 +5,15 @@ import {
   FaChevronDown, FaChevronRight, FaHospital, FaArrowLeft, FaUserCheck, 
   FaCalendarCheck, FaUser, FaLock, FaTimes, FaEye, FaEyeSlash, FaSignOutAlt
 } from 'react-icons/fa';
-import { apiLogin, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated } from "../../utils/auth.js";
+import { apiLogin, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated, getAuthHeader } from "../../utils/auth";
 
 // Import components
 import ManageSpecialist from './ManageSpecialist'; 
 import ManageDoctor from './ManageDoctor';
 import ManageAppointment from './ManageAppointment';
+
+// API Base URL - use environment variable or fallback to production
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://mallika-hospital.onrender.com";
 
 // Login Component
 const LoginModal = ({ onLogin, onClose }) => {
@@ -136,12 +139,11 @@ const Dashboard = () => {
   const [showLoginModal, setShowLoginModal] = useState(() => !getAuthToken());
   const [activeSection, setActiveSection] = useState('dashboard');
   const [expandedSection, setExpandedSection] = useState('specialist');
-
-  const API = import.meta.env.VITE_BACKEND_URL;
   
   const [totalSpecialists, setTotalSpecialists] = useState(0);
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalAppointments, setTotalAppointments] = useState(0);
+  const [statsLoading, setStatsLoading] = useState(false);
 
   const handleLogin = (token) => {
     setAuthToken(token);       // store token
@@ -154,13 +156,16 @@ const Dashboard = () => {
     setIsLoggedIn(false);
     setShowLoginModal(true);
     setActiveSection('dashboard');
+    // Reset stats
+    setTotalSpecialists(0);
+    setTotalDoctors(0);
+    setTotalAppointments(0);
   };
 
   // Verify token is still valid on mount
   useEffect(() => {
     const token = getAuthToken();
     if (token) {
-      // Optionally validate the token with the backend
       setIsLoggedIn(true);
       setShowLoginModal(false);
     } else {
@@ -169,27 +174,54 @@ const Dashboard = () => {
     }
   }, []);
 
+  // Fetch stats ONLY after login
   useEffect(() => {
-    // Fetch departments (specialists)
-    fetch(`${API}/api/departments/`)
-      .then(res => res.json())
-      .then(data => setTotalSpecialists(data.length))
-      .catch(err => console.error("Failed to fetch departments", err));
+    if (!isLoggedIn) return;
+    
+    const fetchStats = async () => {
+      setStatsLoading(true);
+      const authHeaders = getAuthHeader();
+      
+      try {
+        // Fetch departments (specialists) - public endpoint
+        const deptRes = await fetch(`${API_BASE}/api/departments/`);
+        if (deptRes.ok) {
+          const deptData = await deptRes.json();
+          setTotalSpecialists(Array.isArray(deptData) ? deptData.length : 0);
+        }
+      } catch (err) {
+        console.error("Failed to fetch departments", err);
+      }
 
-    // Fetch doctors
-    fetch(`${API}/api/doctors/`)
-      .then(res => res.json())
-      .then(data => setTotalDoctors(data.length))
-      .catch(err => console.error("Failed to fetch doctors", err));
+      try {
+        // Fetch doctors - public endpoint
+        const docRes = await fetch(`${API_BASE}/api/doctors/`);
+        if (docRes.ok) {
+          const docData = await docRes.json();
+          setTotalDoctors(Array.isArray(docData) ? docData.length : 0);
+        }
+      } catch (err) {
+        console.error("Failed to fetch doctors", err);
+      }
 
-    // Fetch appointments
-    fetch(`${API}/api/total-appointments/`)
-      .then((res) => res.json())
-      .then((data) => {
-        setTotalAppointments(data.total_appointments);
-      })
-      .catch((err) => console.error("Error fetching total appointments:", err));
-  }, [API]);
+      try {
+        // Fetch total appointments - may need auth
+        const aptRes = await fetch(`${API_BASE}/api/total-appointments/`, {
+          headers: authHeaders
+        });
+        if (aptRes.ok) {
+          const aptData = await aptRes.json();
+          setTotalAppointments(aptData.total_appointments || 0);
+        }
+      } catch (err) {
+        console.error("Error fetching total appointments:", err);
+      }
+      
+      setStatsLoading(false);
+    };
+
+    fetchStats();
+  }, [isLoggedIn]);
 
   const renderContent = () => {
     switch(activeSection) {
