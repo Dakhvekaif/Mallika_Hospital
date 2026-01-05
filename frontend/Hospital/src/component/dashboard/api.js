@@ -2,7 +2,7 @@
 
 import { getAuthHeader } from '../../utils/auth.js';
 
-const BASE_URL = "https://mallika-hospital.onrender.com/api";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Helper function to handle errors
 const handleResponse = async (response) => {
@@ -23,13 +23,13 @@ const handleResponse = async (response) => {
 
 // GET all departments (Public)
 export const getDepartments = async () => {
-  const response = await fetch(`${BASE_URL}/departments/`);
+  const response = await fetch(`${BASE_URL}/api/departments/`);
   return handleResponse(response);
 };
 
 // ADD a department (Requires Auth)
 export const addDepartment = async (data) => {
-  const response = await fetch(`${BASE_URL}/departments/`, {
+  const response = await fetch(`${BASE_URL}/api/departments/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const addDepartment = async (data) => {
 
 // UPDATE a department (Requires Auth)
 export const updateDepartment = async (id, data) => {
-  const response = await fetch(`${BASE_URL}/departments/${id}/`, {
+  const response = await fetch(`${BASE_URL}/api/departments/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export const updateDepartment = async (id, data) => {
 
 // DELETE a department (Requires Auth)
 export const deleteDepartment = async (id) => {
-  const response = await fetch(`${BASE_URL}/departments/${id}/`, {
+  const response = await fetch(`${BASE_URL}/api/departments/${id}/`, {
     method: "DELETE",
     headers: {
       ...getAuthHeader(), // Include auth token
@@ -68,13 +68,13 @@ export const deleteDepartment = async (id) => {
 
 // GET all doctors (Public)
 export const getDoctors = async () => {
-  const response = await fetch(`${BASE_URL}/doctors/`);
+  const response = await fetch(`${BASE_URL}/api/doctors/`);
   return handleResponse(response);
 };
 
 // ADD a doctor (Requires Auth)
 export const addDoctor = async (data) => {
-  const response = await fetch(`${BASE_URL}/doctors/`, {
+  const response = await fetch(`${BASE_URL}/api/doctors/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export const addDoctor = async (data) => {
 
 // UPDATE a doctor (Requires Auth)
 export const updateDoctor = async (id, data) => {
-  const response = await fetch(`${BASE_URL}/doctors/${id}/`, {
+  const response = await fetch(`${BASE_URL}/api/doctors/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export const updateDoctor = async (id, data) => {
 
 // DELETE a doctor (Requires Auth)
 export const deleteDoctor = async (id) => {
-  const response = await fetch(`${BASE_URL}/doctors/${id}/`, {
+  const response = await fetch(`${BASE_URL}/api/doctors/${id}/`, {
     method: "DELETE",
     headers: {
       ...getAuthHeader(), // Include auth token
@@ -119,7 +119,7 @@ export const getAppointments = async () => {
 
 // ADD an appointment (Public - patients book appointments)
 export const addAppointment = async (data) => {
-  const response = await fetch(`${BASE_URL}/appointments/`, {
+  const response = await fetch(`${BASE_URL}/api/appointments/`, {
     method: "POST",
     headers: { 
       "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export const addAppointment = async (data) => {
 
 // UPDATE an appointment (Requires Auth)
 export const updateAppointment = async (id, data) => {
-  const response = await fetch(`${BASE_URL}/appointments/${id}/`, {
+  const response = await fetch(`${BASE_URL}/api/appointments/${id}/`, {
     method: "PUT",
     headers: { 
       "Content-Type": "application/json",
@@ -145,7 +145,7 @@ export const updateAppointment = async (id, data) => {
 
 // DELETE an appointment (Requires Auth)
 export const deleteAppointment = async (id) => {
-  const response = await fetch(`${BASE_URL}/appointments/${id}/`, {
+  const response = await fetch(`${BASE_URL}/api/appointments/${id}/`, {
     method: "DELETE",
     headers: {
       ...getAuthHeader(), // Include auth token
