@@ -8,9 +8,9 @@ import {
 import { apiLogin, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated, getAuthHeader } from "../../utils/auth";
 
 // Import components
-import ManageSpecialist from './managespecialist.jsx'; 
-import ManageDoctor from './managedoctor.jsx';
-import ManageAppointment from './ManageAppointment.jsx';
+import ManageSpecialist from './Managespecialist.jsx'; 
+import ManageDoctor from './Managedoctor.jsx';
+import ManageAppointment from './Manageappointment.jsx';
 
 // API Base URL - use environment variable or fallback to production
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://mallika-hospital.onrender.com";
