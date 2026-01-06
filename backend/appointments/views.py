@@ -83,10 +83,10 @@ class DoctorDetailView(generics.RetrieveUpdateDestroyAPIView):
 class AppointmentListCreateView(generics.ListCreateAPIView):
     queryset = Appointment.objects.all().order_by('-date', '-time')
     serializer_class = AppointmentSerializer
-    authentication_classes = [TokenAuthentication]
+    # authentication_classes = [TokenAuthentication]
 
     def get_permissions(self):
-        if self.request.method == "GET":
+        if self.request.method in ["GET", "POST"]:
             return [AllowAny()]  # Anyone can view appointments
         return [IsAuthenticated()]  # Auth required to create
 

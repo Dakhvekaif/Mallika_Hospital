@@ -113,7 +113,7 @@ export const deleteDoctor = async (id) => {
 
 // GET all appointments (Public)
 export const getAppointments = async () => {
-  const response = await fetch(`${BASE_URL}/appointments/`);
+  const response = await fetch(`${BASE_URL}/api/appointments/`);
   return handleResponse(response);
 };
 
