@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaYoutube, FaRegCopyright } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -113,24 +113,6 @@ const Footer = () => {
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Terms of Service</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">HIPAA Notice</a></li>
             </ul>
-
-            {/* <div>
-              <h3 className="text-lg font-semibold mb-4">Stay Connected</h3>
-              <p className="text-gray-400 mb-4">Subscribe for health tips and news.</p>
-              <form className="flex">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="w-full px-4 py-2 bg-slate-800 text-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md transition-colors duration-300"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div> */}
           </div>
         </div>
 
@@ -152,6 +134,10 @@ const Footer = () => {
             <a href="#" aria-label="YouTube" className="text-gray-400 hover:text-white transition-colors duration-300">
               <FaYoutube size={20} />
             </a>
+          </div>
+          <div className='flex gap-3 justify-center items-center h-full w-full'>
+            <FaRegCopyright  className='mb-3'/>
+            <p className="text-gray-400 mb-4">Created by Husnoor Infotech</p>
           </div>
         </div>
       </div>

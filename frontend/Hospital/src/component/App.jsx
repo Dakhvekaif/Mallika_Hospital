@@ -54,10 +54,11 @@ import GovtSchemes from "./GovtSch/GovtSchemes";
 import ContactUs from "./ContactUS/ContactUs";
 
 // Meida
-import Floor1 from "./Media/floor1";
-import Floor2 from "./Media/floor2";
-import Floor3 from "./Media/floor3";
-import Dashboard from "./dashboard/Dashboard.jsx"
+// import Floor1 from "./Media/floor1";
+// import Floor2 from "./Media/floor2";
+// import Floor3 from "./Media/floor3";
+// import Dashboard from "./dashboard/Dashboard.jsx"
+
 // Find Doctor
 import DoctorsList from "./Doctor/doctor";
 
@@ -87,7 +88,7 @@ function App() {
             </>          } />  
 
           {/* About Us */}
-          <Route path='/dashboard' element={<Dashboard />} />
+          {/* <Route path='/dashboard' element={<Dashboard />} /> */}
           <Route path='/about-us' element={<AboutUs />} />
 
           {/* Service Pages */}
@@ -133,9 +134,9 @@ function App() {
           <Route path='/contact' element={<ContactUs />} />
 
           {/* Media */}
-          <Route path='media/floor1' element={<Floor1 />} />
+          {/* <Route path='media/floor1' element={<Floor1 />} />
           <Route path='media/floor2' element={<Floor2 />} />
-          <Route path='media/floor3' element={<Floor3 />} />
+          <Route path='media/floor3' element={<Floor3 />} /> */}
 
           {/* Find Doctor */}
           <Route path="/find-doctor" element={<DoctorsList />} />

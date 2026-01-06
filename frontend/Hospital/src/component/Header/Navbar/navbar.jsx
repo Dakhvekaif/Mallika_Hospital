@@ -15,7 +15,7 @@ const Navbar = () => {
     { title: 'Cashless & TPA', dropdownItems: [] },
     { title: 'Govt.Sch', dropdownItems: [] },
     { title: 'Contact', dropdownItems: [] },
-    { title: 'Media', dropdownItems: ['Floor1', 'Floor2', 'Floor3'] },
+    // { title: 'Media', dropdownItems: ['Floor1', 'Floor2', 'Floor3'] },
   ];
 
   // Helper to generate URL paths based on Category and Item

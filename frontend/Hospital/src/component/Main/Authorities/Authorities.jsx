@@ -8,22 +8,22 @@ const leadershipData = {
     id: 1,
     name: "Dr. Keshnath Chauhan",
     title: "Chief Executive Officer & Medical Director",
-    description: "With over 25 years of experience in healthcare administration, Dr. Keshnath Chauhan leads our institution with a vision for compassionate, patient-centered care.",
+    description: "",
     image: authority1 // Placeholder image
   },
   {
     id: 2,
     name: "Dr. Roshan Jha",
     title: "M.D in Medicine",
-    description: "A renowned surgeon specializing in minimally invasive procedures, Dr. Roshan Jha oversees all surgical departments.",
+    description: "",
     image: authority2 // Placeholder image
     },
   ],
   leadership: [
     {
       id: 3,
-      name: "Dr. Umendra",
-      title: "Title",
+      name: "Dr. Umendra R. Varma",
+      title: "General Administration Head",
       description: "Description.",
       image: authority3 // Placeholder image
     },
