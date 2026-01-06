@@ -1,114 +1,93 @@
-import React, { useState } from 'react';
-import { FaUserMd, FaSearch, FaPhone, FaEnvelope, FaClock, FaMapMarkerAlt, FaGraduationCap } from 'react-icons/fa';
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  FaUserMd, FaSearch, FaPhone, FaClock, 
+  FaGraduationCap, FaFilter, FaCalendarAlt 
+} from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; 
+
+import { getDoctors, getDepartments } from '../dashboard/api.js';
+
 
 const DoctorsList = () => {
+  const navigate = useNavigate(); 
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('all');
+  const [doctors, setDoctors] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Doctor data - easy to update from backend
-  // Just replace this array with data from your API
-  const doctors = [
-    {
-      id: 1,
-      name: "Dr. Rajesh Kumar",
-      specialization: "Cardiologist",
-      department: "Cardiology",
-      experience: "15 years",
-      education: "MD - Cardiology, DM - Cardiology",
-      phone: "+91 98765 43210",
-      availability: "Mon-Fri: 9AM-5PM",
-      image: ""
-    },
-    {
-      id: 2,
-      name: "Dr. Priya Sharma",
-      specialization: "Neurologist",
-      department: "Neurology",
-      experience: "12 years",
-      education: "MD - Medicine, DM - Neurology",
-      phone: "+91 98765 43211",
-      availability: "Mon-Sat: 10AM-6PM",
-      image: ""
-    },
-    {
-      id: 3,
-      name: "Dr. Amit Patel",
-      specialization: "Orthopedic Surgeon",
-      department: "Orthopedics",
-      experience: "20 years",
-      education: "MS - Orthopedics, MCh - Orthopedics",
-      phone: "+91 98765 43212",
-      availability: "Mon-Fri: 8AM-4PM",
-      image: ""
-    },
-    {
-      id: 4,
-      name: "Dr. Sneha Reddy",
-      specialization: "Pediatrician",
-      department: "Pediatrics",
-      experience: "8 years",
-      education: "MD - Pediatrics, DNB - Pediatrics",
-      phone: "+91 98765 43213",
-      availability: "Mon-Sat: 9AM-5PM",
-      image: ""
-    },
-    {
-      id: 5,
-      name: "Dr. Vikram Singh",
-      specialization: "Gastroenterologist",
-      department: "Gastroenterology",
-      experience: "18 years",
-      education: "MD - Medicine, DM - Gastroenterology",
-      phone: "+91 98765 43214",
-      availability: "Mon-Fri: 10AM-6PM",
-      image: ""
-    },
-    {
-      id: 6,
-      name: "Dr. Anjali Gupta",
-      specialization: "Gynecologist",
-      department: "Obstetrics & Gynecology",
-      experience: "10 years",
-      education: "MD - Obstetrics & Gynecology, DNB - OBG",
-      phone: "+91 98765 43215",
-      availability: "Mon-Sat: 9AM-7PM",
-      image: ""
-    },
-    {
-      id: 7,
-      name: "Dr. Rohit Verma",
-      specialization: "Pulmonologist",
-      department: "Pulmonology",
-      experience: "14 years",
-      education: "MD - Medicine, DM - Pulmonology",
-      phone: "+91 98765 43216",
-      availability: "Mon-Fri: 8AM-5PM",
-      image: ""
-    },
-    {
-      id: 8,
-      name: "Dr. Kavita Nair",
-      specialization: "Dermatologist",
-      department: "Dermatology",
-      experience: "9 years",
-      education: "MD - Dermatology, DVD - Dermatology",
-      phone: "+91 98765 43217",
-      availability: "Mon-Sat: 10AM-6PM",
-      image: ""
-    }
-  ];
+  // PAGINATION STATE
+  const [visibleCount, setVisibleCount] = useState(8); // Show only 8 initially
 
-  // Get unique departments for filter
-  const departments = ['all', ...new Set(doctors.map(doctor => doctor.department))];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [doctorsData, departmentsData] = await Promise.all([
+          getDoctors(),
+          getDepartments()
+        ]);
+        setDoctors(doctorsData);
+        setDepartments(departmentsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-  // Filter doctors based on search and department
-  const filteredDoctors = doctors.filter(doctor => {
-    const matchesSearch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         doctor.department.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDepartment = selectedDepartment === 'all' || doctor.department === selectedDepartment;
-    return matchesSearch && matchesDepartment;
-  });
+  // Helper functions
+  const formatTime = (timeString) => {
+    if (!timeString) return "Not Available";
+    const [hours, minutes] = timeString.split(':');
+    const h = parseInt(hours, 10);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const formattedHour = h % 12 || 12;
+    return `${formattedHour}:${minutes} ${ampm}`;
+  };
+
+  const getDepartmentName = (id) => {
+    if (!id) return "General";
+    const dept = departments.find(d => d.id === parseInt(id));
+    return dept ? dept.name : 'General';
+  };
+
+  // OPTIMIZATION 1: useMemo for filtering
+  // This prevents the heavy filter logic from running on every single render
+  const filteredDoctors = useMemo(() => {
+    return doctors.filter(doctor => {
+      const deptName = getDepartmentName(doctor.department);
+      
+      const matchesSearch = (doctor.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            (doctor.qualifications || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            deptName.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesDepartment = selectedDepartment === 'all' || 
+                                doctor.department?.toString() === selectedDepartment;
+
+      return matchesSearch && matchesDepartment;
+    });
+  }, [doctors, searchTerm, selectedDepartment, departments]);
+
+  // Reset pagination when search/filter changes
+  useEffect(() => {
+    setVisibleCount(8);
+  }, [searchTerm, selectedDepartment]);
+
+  // Load More Handler
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + 8);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-xl text-blue-600 font-semibold animate-pulse">Loading Doctors...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
@@ -125,30 +104,35 @@ const DoctorsList = () => {
       </div>
 
       {/* Search and Filter */}
-      <div className="bg-white border-b">
+      <div className="bg-white border-b sticky top-0 z-10 shadow-sm"> 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search doctors by name, specialization, or department..."
+                placeholder="Search doctors by name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <select
-              value={selectedDepartment}
-              onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {departments.map(dept => (
-                <option key={dept} value={dept}>
-                  {dept === 'all' ? 'All Departments' : dept}
-                </option>
-              ))}
-            </select>
+            
+            <div className="relative">
+                <FaFilter className="absolute left-3 top-3 text-gray-400" />
+                <select
+                value={selectedDepartment}
+                onChange={(e) => setSelectedDepartment(e.target.value)}
+                className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white min-w-[200px]"
+                >
+                <option value="all">All Departments</option>
+                {departments.map(dept => (
+                    <option key={dept.id} value={dept.id}>
+                    {dept.name}
+                    </option>
+                ))}
+                </select>
+            </div>
           </div>
         </div>
       </div>
@@ -156,90 +140,111 @@ const DoctorsList = () => {
       {/* Doctors List */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredDoctors.map((doctor) => (
-            <div key={doctor.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          
+          {/* OPTIMIZATION 2: Only map the visible subset */}
+          {filteredDoctors.slice(0, visibleCount).map((doctor) => (
+            <div key={doctor.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+              
               {/* Doctor Image */}
-              <div className="relative">
-                <img 
-                  src={doctor.image} 
-                  alt={doctor.name}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                  onError={(e) => {
-                    e.target.src = 'https://picsum.photos/seed/default/300/300.jpg';
-                  }}
-                />
-                <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
-                  {doctor.experience}
+              <div className="relative h-64 bg-gray-200 rounded-t-lg overflow-hidden group">
+                {doctor.photo ? (
+                  // OPTIMIZATION 3: loading="lazy" for images
+                  <img 
+                    src={""} 
+                    alt={""}
+                    loading="lazy" 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                    <FaUserMd className="text-gray-400 text-5xl" />
+                  </div>
+                )}
+                
+                <div className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium border ${
+                  doctor.active 
+                  ? 'bg-green-100 text-green-800 border-green-200' 
+                  : 'bg-red-100 text-red-800 border-red-200'
+                }`}>
+                  {doctor.active ? 'Available' : 'Unavailable'}
                 </div>
               </div>
 
-              {/* Doctor Info */}
-              <div className="p-4">
+              {/* Info Section */}
+              <div className="p-4 flex-1 flex flex-col">
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">{doctor.name}</h3>
-                <p className="text-blue-600 font-medium mb-2">{doctor.specialization}</p>
-                <p className="text-gray-600 text-sm mb-3">{doctor.department}</p>
+                
+                <p className="text-blue-600 font-medium mb-2 text-sm uppercase tracking-wide">
+                  {getDepartmentName(doctor.department)}
+                </p>
 
-                {/* Education */}
-                <div className="flex items-start mb-3">
+                <div className="flex items-start mb-2">
                   <FaGraduationCap className="text-gray-400 mr-2 mt-1 text-sm" />
-                  <p className="text-gray-600 text-xs">{doctor.education}</p>
+                  <p className="text-gray-600 text-sm">{doctor.qualifications || "Not Specified"}</p>
                 </div>
 
-                {/* Contact Info */}
-                <div className="space-y-2 mb-3">
-                  <div className="flex items-center text-gray-600 text-sm">
-                    <FaPhone className="mr-2 text-gray-400" />
-                    {doctor.phone}
-                  </div>
+                <div className="flex items-start mb-2">
+                  <FaCalendarAlt className="text-gray-400 mr-2 mt-1 text-sm" />
+                  <p className="text-gray-600 text-xs line-clamp-2">
+                    {doctor.available_days || "Call for Schedule"}
+                  </p>
                 </div>
 
-                {/* Availability */}
-                <div className="flex items-center text-gray-600 text-sm mb-4">
+                <div className="flex items-center text-gray-600 text-sm mb-2">
                   <FaClock className="mr-2 text-gray-400" />
-                  {doctor.availability}
+                  {doctor.start_time && doctor.end_time ? (
+                    <span>{formatTime(doctor.start_time)} - {formatTime(doctor.end_time)}</span>
+                  ) : (
+                    <span>By Appointment</span>
+                  )}
+                </div>
+
+                <div className="flex items-center text-gray-600 text-sm mb-4 mt-auto">
+                  <FaPhone className="mr-2 text-gray-400" />
+                  {doctor.phone ? doctor.phone : "+91 98765 00000"} 
                 </div>
 
                 {/* Action Button */}
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm">
-                  Book Appointment
-                </button>
+                <button 
+                onClick={() => {
+                  // 1. Navigate to the Contact page
+                  // 2. Pass the selected doctor in 'state'
+                  navigate('/contact', { state: { selectedDoctor: doctor } });
+
+                  // Optional: Scroll to top of contact page
+                  window.scrollTo(0, 0); 
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm mt-2"
+              >
+                Book Appointment
+              </button>
+
               </div>
             </div>
           ))}
         </div>
 
-        {/* No Results Message */}
-        {filteredDoctors.length === 0 && (
-          <div className="text-center py-12">
-            <FaUserMd className="text-gray-300 text-5xl mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No doctors found</h3>
-            <p className="text-gray-600">Try adjusting your search or filter criteria</p>
+        {/* Load More Button */}
+        {visibleCount < filteredDoctors.length && (
+          <div className="text-center mt-8">
+            <button 
+              onClick={handleLoadMore}
+              className="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-50 shadow-sm transition-all"
+            >
+              Load More Doctors ({filteredDoctors.length - visibleCount} remaining)
+            </button>
           </div>
         )}
-      </div>
 
-      {/* Stats Section */}
-      <div className="bg-blue-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <div className="text-3xl font-bold text-blue-600">{doctors.length}</div>
-              <div className="text-gray-600">Total Doctors</div>
+        {filteredDoctors.length === 0 && (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaUserMd className="text-gray-400 text-3xl" />
             </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-600">{departments.length - 1}</div>
-              <div className="text-gray-600">Departments</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-600">24/7</div>
-              <div className="text-gray-600">Emergency Available</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-600">15+</div>
-              <div className="text-gray-600">Years Experience</div>
-            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No doctors found</h3>
+            <p className="text-gray-600">Try adjusting your search</p>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

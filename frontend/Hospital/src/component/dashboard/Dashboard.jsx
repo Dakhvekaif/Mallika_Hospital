@@ -10,7 +10,7 @@ import { apiLogin, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated, 
 // Import components
 import ManageSpecialist from './managespecialist.jsx'; 
 import ManageDoctor from './managedoctor.jsx';
-import ManageAppointment from './managespecialist.jsx';
+import ManageAppointment from './manageappointment.jsx';
 
 // API Base URL - use environment variable or fallback to production
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://mallika-hospital.onrender.com";
@@ -207,7 +207,7 @@ const Dashboard = () => {
       try {
         // Fetch total appointments - may need auth
         const aptRes = await fetch(`${API_BASE}/api/total-appointments/`, {
-          headers: authHeaders
+          // headers: authHeaders
         });
         if (aptRes.ok) {
           const aptData = await aptRes.json();

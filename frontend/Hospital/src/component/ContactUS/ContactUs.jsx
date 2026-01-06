@@ -123,26 +123,6 @@ const ContactUs = () => {
           ))}
         </div>
 
-        {/* Department Contacts */}
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Department Contacts</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {departments.map((dept, index) => (
-              <div key={index} className="border rounded-lg p-4 hover:border-blue-500 transition-colors">
-                <div className="flex items-center mb-2">
-                  <div className="text-blue-600 mr-3">
-                    {dept.icon}
-                  </div>
-                  <h3 className="font-semibold text-gray-900">{dept.name}</h3>
-                </div>
-                <a href={`tel:${dept.phone}`} className="text-blue-600 hover:text-blue-800 font-medium">
-                  {dept.phone}
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Contact Form and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Contact Form */}
