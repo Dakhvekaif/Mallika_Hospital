@@ -24,7 +24,7 @@ const leadershipData = {
       id: 3,
       name: "Dr. Umendra R. Varma",
       title: "General Administration Head",
-      description: "Description.",
+      description: "Business & Hospital Management, B.Com, MBA (Healthcare Management)",
       image: authority3 // Placeholder image
     }
   ]
@@ -45,12 +45,12 @@ const Authorities = () => {
         </div>
 
         {/* Leadership Tree Structure */}
-        <div className="flex flex-col items-center space-y-16 md:space-y-24">
+        <div className="flex flex-col items-center space-y-16 md:space-y-6">
         {/* Head of Hospital */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-20 md:gap-100">
           {leadershipData.head.map((person) => (
             <div key={person.id} className="text-center">
-              <div className="relative group flex justify-center">
+              <div className="relative group flex justify-center ">
                 <img
                   src={person.image}
                   alt={person.name}
@@ -72,7 +72,7 @@ const Authorities = () => {
         </div>
             {/* Direct Reports */}
             <div className="w-full ">
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center pl-8">
                 {leadershipData.leadership.map((person) => (
                   <div key={person.id} className="text-center group ">
                     <div className="flex justify-center ">
