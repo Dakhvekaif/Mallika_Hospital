@@ -66,7 +66,6 @@ const CashlessTpa = () => {
 
   const pvtInsuranceCompanies = [
     'BAJAJ ALLIANZ',
-    'NIVA BUPA (MAX BUPA)',
     'HDFC ERGO',
     'RELIANCE GENERAL INSURANCE',
     'ADITYA BIRLA',

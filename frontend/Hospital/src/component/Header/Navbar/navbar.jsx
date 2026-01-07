@@ -10,16 +10,14 @@ const Navbar = () => {
   const navItems = [
     { title: 'About Us', dropdownItems: [] },
     { title: 'Our Services', dropdownItems: ['CATHLAB', 'ICU', 'OT', 'WARD', 'DIALYSIS CENTER', 'PHARMACY', 'LAB'] },
-    { title: 'Surgeries', dropdownItems: ['General Surgery', 'Onco Surgery', 'Obstetrics & Gynecology', 'Orthopedic', 'Neuro Surgery', 'Ent', 'Opthalmology', 'Proctology'] }, //Other options that can be added "Vascular Surgery", "Plastic Surgery"
+    { title: 'Surgeries', dropdownItems: ['General Surgery', 'Onco Surgery', 'Obstetrics & Gynecology', 'Orthopedic', 'Neuro Surgery', 'Ent', 'Proctology'] }, //Other options that can be added "Vascular Surgery", "Plastic Surgery"
     { title: 'Consultants', dropdownItems: ['Physician & Diabetology', 'Neprology', 'Cardiology', 'Neurology', 'Oncology', 'Gastroenterology', 'Pediatrician', 'Dermatology'] }, //other option that can be added "Radiology", "Urology"
     { title: 'Cashless & TPA', dropdownItems: [] },
     { title: 'Govt.Sch', dropdownItems: [] },
-    { title: 'Contact', dropdownItems: [] },
-    // { title: 'Media', dropdownItems: ['Floor1', 'Floor2', 'Floor3'] },
+    { title: 'Testimonial', dropdownItems: [] },
   ];
 
   // Helper to generate URL paths based on Category and Item
-  // Example: Category "Our Services", Item "CATHLAB" => /services/cathlab
   const getPath = (category, item) => {
     // 1. Clean the category (e.g., "Our Services" -> "services")
     let catSlug = category.toLowerCase().replace("our ", "").replace(/\s+/g, '-');

@@ -10,7 +10,8 @@ const GovtSchemes = () => {
     'FCI': false,
     'MTNL': false,
     'MCGM': false,
-    'Mumbai Police': false
+    'Mumbai Police': false,
+    'ESIC': false
   });
 
   const toggleScheme = (schemeName) => {
@@ -55,6 +56,14 @@ const GovtSchemes = () => {
       name: 'Mumbai Police', 
       icon: <FaCheckCircle className="text-red-600" />,
       description: 'Mumbai Police Health Insurance Scheme provides comprehensive medical coverage to police personnel and their families. The scheme includes cashless hospitalization facilities at empaneled hospitals across Mumbai, with special provisions for treatment of injuries sustained in the line of duty, ensuring the well-being of those who protect the city.'
+    },
+    {
+      name: 'ESIC',
+      icon: <FaCheckCircle className="text-red-600" />,
+      description: `The Employees' State Insurance Corporation (ESIC) is a statutory body established under the Employees' State Insurance Act, 1948, operating under the Ministry of Labour and Employment, Government of India.
+ It administers the Employees' State Insurance (ESI) scheme, a self-financed social security program designed to provide medical care, cash benefits, and financial protection to employees in the organized sector who earn up to ₹21,000 per month (₹25,000 for persons with disabilities).
+ The scheme covers employees in establishments with 10 or more workers (20 or more in certain sectors), offering benefits such as medical care for the employee and their dependents, sickness benefit (70% of wages for up to 91 days), maternity benefit (full salary for 26 weeks), disablement benefit, dependent’s pension, and funeral expenses.
+ Contributions are made at a combined rate of 4% of the employee’s wages—3.25% by the employer and 0.75% by the employee—with the scheme managed through a network of regional and sub-regional offices across India.`
     }
   ];
 

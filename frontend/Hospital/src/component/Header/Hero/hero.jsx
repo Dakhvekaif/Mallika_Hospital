@@ -11,7 +11,7 @@ export default function Hero () {
       <div className="relative z-10 flex flex-col items-center justify-center">
         <h1 className="text-5xl md:text-7xl font-extrabold text-center mb-10 text-white">
           WELCOME TO <br />
-          MALLIKA SUPER-SPECIALIST HOSPITAL
+          MALLIKA SUPER-SPECIALITY HOSPITAL
         </h1>
 
         <div className="flex justify-center items-center gap-10 md:gap-20">

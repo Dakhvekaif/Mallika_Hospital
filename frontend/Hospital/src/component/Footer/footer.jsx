@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaYoutube, FaRegCopyright } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -58,13 +58,13 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Services</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">CATHLAB</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">ICU</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">OT</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">WARD</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">DIAYSIS CENTER</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">PHARMACY</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">LAB</a></li>
+              <li><Link to="/services/cathlab" className="text-gray-400 hover:text-white transition-colors duration-300">CATHLAB</Link></li>
+              <li><Link to="/services/icu" className="text-gray-400 hover:text-white transition-colors duration-300">ICU</Link></li>
+              <li><Link to="/services/ot" className="text-gray-400 hover:text-white transition-colors duration-300">OT</Link></li>
+              <li><Link to="/services/ward" className="text-gray-400 hover:text-white transition-colors duration-300">WARD</Link></li>
+              <li><Link to="/services/dialysis-center" className="text-gray-400 hover:text-white transition-colors duration-300">DIALYSIS CENTER</Link></li>
+              <li><Link to="/services/pharmacy" className="text-gray-400 hover:text-white transition-colors duration-300">PHARMACY</Link></li>
+              <li><Link to="/services/lab" className="text-gray-400 hover:text-white transition-colors duration-300">LAB</Link></li>
             </ul>
           </div>
 
@@ -73,17 +73,13 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Medical Services</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">General Surgery</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Onco Surgery</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Obstetrics & Gynecology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Orthopedic</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Neuro Surgery</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Ent</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Proctology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Opthalmology</a></li>
-              {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</a></li> */}
-              {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Vascular Surgery</a></li> */}
-              {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Plastic Surgery</a></li> */}
+              <li><Link to="/surgeries/general-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">General Surgery</Link></li>
+              <li><Link to="/surgeries/onco-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">Onco Surgery</Link></li>
+              <li><Link to="/surgeries/obstetrics-and-gynecology" className="text-gray-400 hover:text-white transition-colors duration-300">Obstetrics & Gynecology</Link></li>
+              <li><Link to="/surgeries/orthopedic" className="text-gray-400 hover:text-white transition-colors duration-300">Orthopedic</Link></li>
+              <li><Link to="/surgeries/neuro-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">Neuro Surgery</Link></li>
+              <li><Link to="/surgeries/ent" className="text-gray-400 hover:text-white transition-colors duration-300">Ent</Link></li>
+              <li><Link to="/surgeries/proctology" className="text-gray-400 hover:text-white transition-colors duration-300">Proctology</Link></li>
             </ul>
           </div>
 
@@ -92,15 +88,15 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Consultants</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Physician & Diabetology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Neprology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Cardiology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Neurology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Oncology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Gastroenterology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Pediatrician</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Dermatology</a></li>
+              <li><Link to="/consultants/physician-and-diabetology" className="text-gray-400 hover:text-white transition-colors duration-300">Physician & Diabetology</Link></li>
+              <li><Link to="/consultants/neprology" className="text-gray-400 hover:text-white transition-colors duration-300">Neprology</Link></li>
+              <li><Link to="/consultants/cardiology" className="text-gray-400 hover:text-white transition-colors duration-300">Cardiology</Link></li>
+              <li><Link to="/consultants/neurology" className="text-gray-400 hover:text-white transition-colors duration-300">Neurology</Link></li>
+              <li><Link to="/consultants/oncology" className="text-gray-400 hover:text-white transition-colors duration-300">Oncology</Link></li>
+              <li><Link to="/consultants/gastroenterlogy" className="text-gray-400 hover:text-white transition-colors duration-300">Gastroenterology</Link></li>
+              <li><Link to="/consultants/urology" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</Link></li>
+              <li><Link to="/consultants/pediatrician" className="text-gray-400 hover:text-white transition-colors duration-300">Pediatrician</Link></li>
+              <li><Link to="/consultants/dermatology" className="text-gray-400 hover:text-white transition-colors duration-300">Dermatology</Link></li>
               {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Radiology</a></li> */}
             </ul>
           </div>
@@ -134,10 +130,6 @@ const Footer = () => {
             <a href="#" aria-label="YouTube" className="text-gray-400 hover:text-white transition-colors duration-300">
               <FaYoutube size={20} />
             </a>
-          </div>
-          <div className='flex gap-3 justify-center items-center h-full w-full'>
-            <FaRegCopyright  className='mb-3'/>
-            <p className="text-gray-400 mb-4">Created by Husnoor Infotech</p>
           </div>
         </div>
       </div>

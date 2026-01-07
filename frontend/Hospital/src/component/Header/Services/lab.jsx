@@ -16,7 +16,7 @@ const Laboratory = () => {
         />
         <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Clinical Laboratory</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Pathology Laboratory</h1>
             <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
             <p className="text-xl max-w-3xl mx-auto">
               Delivering precise, reliable, and timely diagnostic results to guide your healthcare.

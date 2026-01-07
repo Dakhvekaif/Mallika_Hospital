@@ -7,16 +7,16 @@ const leadershipData = {
   {
     id: 1,
     name: "Dr. Keshnath Chauhan",
-    title: "Chief Executive Officer & Medical Director",
-    description: "",
-    image: authority1 // Placeholder image
+    title: "Managing Director",
+    description: "Description",
+    image: authority1
   },
   {
     id: 2,
     name: "Dr. Roshan Jha",
     title: "M.D in Medicine",
-    description: "",
-    image: authority2 // Placeholder image
+    description: "Description",
+    image: authority2
     },
   ],
   leadership: [
@@ -26,20 +26,6 @@ const leadershipData = {
       title: "General Administration Head",
       description: "Description.",
       image: authority3 // Placeholder image
-    },
-    {
-      id: 4,
-      name: "Dr. Name",
-      title: "Title",
-      description: "Description.",
-      image: "https://i.ibb.co/3Tj1f5H/img4.jpg" // Placeholder image
-    },
-    {
-      id: 5,
-      name: "Dr. Name",
-      title: "Title",
-      description: "Description.",
-      image: "https://i.ibb.co/3Tj1f5H/img4.jpg" // Placeholder image
     }
   ]
 }
@@ -61,7 +47,7 @@ const Authorities = () => {
         {/* Leadership Tree Structure */}
         <div className="flex flex-col items-center space-y-16 md:space-y-24">
         {/* Head of Hospital */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-20 md:gap-100">
           {leadershipData.head.map((person) => (
             <div key={person.id} className="text-center">
               <div className="relative group flex justify-center">
@@ -85,25 +71,25 @@ const Authorities = () => {
           ))}
         </div>
             {/* Direct Reports */}
-            <div className="w-full">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+            <div className="w-full ">
+              <div className="flex justify-center items-center">
                 {leadershipData.leadership.map((person) => (
-                  <div key={person.id} className="text-center group">
-                    <div className="flex justify-center">
+                  <div key={person.id} className="text-center group ">
+                    <div className="flex justify-center ">
                       <img
                         src={person.image}
                         alt={person.name}
-                        className="w-36 h-36 sm:w-40 sm:h-40 rounded-full object-cover shadow-lg border-4 border-white transition-transform duration-300 ease-in-out group-hover:scale-105"
+                        className="w-40 h-40 sm:w-48 sm:h-48 rounded-full object-cover shadow-xl border-4 border-white transition-transform duration-300 ease-in-out group-hover:scale-105"
                       />
                     </div>
                 
-                    <h3 className="mt-4 text-xl font-semibold text-gray-800">
+                    <h3 className="mt-6 text-2xl font-semibold text-gray-800">
                       {person.name}
                     </h3>
-                    <p className="text-sm font-medium text-blue-600">
+                    <p className="text-md font-medium text-blue-600 mb-2">
                       {person.title}
                     </p>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 max-w-md mx-auto">
                       {person.description}
                     </p>
                   </div>
