@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   FaUserMd, FaSearch, FaPhone, FaClock, 
-  FaGraduationCap, FaFilter, FaCalendarAlt 
+  FaGraduationCap, FaFilter, FaCalendarAlt, FaPlus // Import FaPlus
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom'; 
 
 import { getDoctors, getDepartments } from '../dashboard/api.js';
-
 
 const DoctorsList = () => {
   const navigate = useNavigate(); 
@@ -18,7 +17,7 @@ const DoctorsList = () => {
   const [loading, setLoading] = useState(true);
 
   // PAGINATION STATE
-  const [visibleCount, setVisibleCount] = useState(8); // Show only 8 initially
+  const [visibleCount, setVisibleCount] = useState(8); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +37,6 @@ const DoctorsList = () => {
     fetchData();
   }, []);
 
-  // Helper functions
   const formatTime = (timeString) => {
     if (!timeString) return "Not Available";
     const [hours, minutes] = timeString.split(':');
@@ -54,8 +52,6 @@ const DoctorsList = () => {
     return dept ? dept.name : 'General';
   };
 
-  // OPTIMIZATION 1: useMemo for filtering
-  // This prevents the heavy filter logic from running on every single render
   const filteredDoctors = useMemo(() => {
     return doctors.filter(doctor => {
       const deptName = getDepartmentName(doctor.department);
@@ -71,14 +67,19 @@ const DoctorsList = () => {
     });
   }, [doctors, searchTerm, selectedDepartment, departments]);
 
-  // Reset pagination when search/filter changes
   useEffect(() => {
     setVisibleCount(8);
   }, [searchTerm, selectedDepartment]);
 
-  // Load More Handler
   const handleLoadMore = () => {
     setVisibleCount(prev => prev + 8);
+  };
+
+  // --- HANDLER FOR PROFILE CLICK ---
+  const handleProfileClick = (doctor) => {
+    // Navigate to the profile page, passing the doctor ID in URL and data in state
+    navigate(`/doctor-profile/${doctor.id}`, { state: { doctor } });
+    window.scrollTo(0, 0);
   };
 
   if (loading) {
@@ -141,14 +142,12 @@ const DoctorsList = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           
-          {/* OPTIMIZATION 2: Only map the visible subset */}
           {filteredDoctors.slice(0, visibleCount).map((doctor) => (
-            <div key={doctor.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+            <div key={doctor.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full relative group">
               
               {/* Doctor Image */}
-              <div className="relative h-64 bg-gray-200 rounded-t-lg overflow-hidden group">
+              <div className="relative h-64 bg-gray-200 rounded-t-lg overflow-hidden">
                 {doctor.photo ? (
-                  // OPTIMIZATION 3: loading="lazy" for images
                   <img 
                     src={""} 
                     alt={""}
@@ -161,7 +160,17 @@ const DoctorsList = () => {
                   </div>
                 )}
                 
-                <div className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium border ${
+                {/* --- THE "+" BUTTON --- */}
+                <button
+                  onClick={() => handleProfileClick(doctor)}
+                  title="View Full Profile"
+                  className="absolute top-2 right-2 w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center shadow-lg transform transition-transform hover:scale-110 z-10"
+                >
+                  <FaPlus size={16} />
+                </button>
+
+                {/* Status Badge */}
+                <div className={`absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-medium border ${
                   doctor.active 
                   ? 'bg-green-100 text-green-800 border-green-200' 
                   : 'bg-red-100 text-red-800 border-red-200'
@@ -177,11 +186,6 @@ const DoctorsList = () => {
                 <p className="text-blue-600 font-medium mb-2 text-sm uppercase tracking-wide">
                   {getDepartmentName(doctor.department)}
                 </p>
-
-                <div className="flex items-start mb-2">
-                  <FaGraduationCap className="text-gray-400 mr-2 mt-1 text-sm" />
-                  <p className="text-gray-600 text-sm">{doctor.qualifications || "Not Specified"}</p>
-                </div>
 
                 <div className="flex items-start mb-2">
                   <FaCalendarAlt className="text-gray-400 mr-2 mt-1 text-sm" />
@@ -204,21 +208,15 @@ const DoctorsList = () => {
                   {doctor.phone ? doctor.phone : "+91 98765 00000"} 
                 </div>
 
-                {/* Action Button */}
                 <button 
-                onClick={() => {
-                  // 1. Navigate to the Contact page
-                  // 2. Pass the selected doctor in 'state'
-                  navigate('/contact', { state: { selectedDoctor: doctor } });
-
-                  // Optional: Scroll to top of contact page
-                  window.scrollTo(0, 0); 
-                }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm mt-2"
-              >
-                Book Appointment
-              </button>
-
+                  onClick={() => {
+                    navigate('/contact', { state: { selectedDoctor: doctor } });
+                    window.scrollTo(0, 0); 
+                  }}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm mt-2"
+                >
+                  Book Appointment
+                </button>
               </div>
             </div>
           ))}

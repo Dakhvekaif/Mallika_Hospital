@@ -61,6 +61,7 @@ import ContactUs from "./ContactUS/ContactUs";
 
 // Find Doctor
 import DoctorsList from "./Doctor/doctor";
+import DoctorProfile from "./Doctor/doctorprofle";
 
 function App() {
 
@@ -140,6 +141,7 @@ function App() {
 
           {/* Find Doctor */}
           <Route path="/find-doctor" element={<DoctorsList />} />
+          <Route path="/doctor-profile/:id" element={<DoctorProfile />} />
 
         </Routes>
       </div>
