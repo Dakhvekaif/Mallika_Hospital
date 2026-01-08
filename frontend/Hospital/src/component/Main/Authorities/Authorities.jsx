@@ -22,9 +22,9 @@ const leadershipData = {
   leadership: [
     {
       id: 3,
-      name: "Dr. Umendra R. Varma",
+      name: "Umendra R. Varma",
       title: "General Administration Head",
-      description: "Business & Hospital Management, B.Com, MBA (Healthcare Management)",
+      description: "Business & Hospitality Management, B.Com, MBA (Healthcare Management)",
       image: authority3 // Placeholder image
     }
   ]
