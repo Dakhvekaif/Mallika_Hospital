@@ -209,17 +209,6 @@ const DoctorsList = () => {
                   {doctor.phone ? doctor.phone : "+91 98765 00000"} 
                 </div>
 
-<<<<<<< Updated upstream
-                <button 
-                  onClick={() => {
-                    navigate('/contact', { state: { selectedDoctor: doctor } });
-                    window.scrollTo(0, 0); 
-                  }}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm mt-2"
-                >
-                  Book Appointment
-                </button>
-=======
                 {/* Action Button */}
                 <button 
                 onClick={() => {
@@ -234,8 +223,6 @@ const DoctorsList = () => {
               >
                 Book Appointment
               </button>
-
->>>>>>> Stashed changes
               </div>
             </div>
           ))}
