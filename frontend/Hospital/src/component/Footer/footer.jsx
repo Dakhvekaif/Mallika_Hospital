@@ -73,6 +73,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Medical Services</h3>
             <ul className="space-y-2">
+<<<<<<< Updated upstream
               <li><Link to="/surgeries/general-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">General Surgery</Link></li>
               <li><Link to="/surgeries/onco-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">Onco Surgery</Link></li>
               <li><Link to="/surgeries/obstetrics-and-gynecology" className="text-gray-400 hover:text-white transition-colors duration-300">Obstetrics & Gynecology</Link></li>
@@ -80,6 +81,19 @@ const Footer = () => {
               <li><Link to="/surgeries/neuro-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">Neuro Surgery</Link></li>
               <li><Link to="/surgeries/ent" className="text-gray-400 hover:text-white transition-colors duration-300">Ent</Link></li>
               <li><Link to="/surgeries/proctology" className="text-gray-400 hover:text-white transition-colors duration-300">Proctology</Link></li>
+=======
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">General Surgery</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Onco Surgery</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Obstetrics & Gynecology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Orthopedic</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Neuro Surgery</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Ent</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Proctology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Opthalmology</a></li>
+              {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</a></li> */}
+              {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Vascular Surgery</a></li> */}
+              {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Plastic Surgery</a></li> */}
+>>>>>>> Stashed changes
             </ul>
           </div>
 
@@ -88,6 +102,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Consultants</h3>
             <ul className="space-y-2">
+<<<<<<< Updated upstream
               <li><Link to="/consultants/physician-and-diabetology" className="text-gray-400 hover:text-white transition-colors duration-300">Physician & Diabetology</Link></li>
               <li><Link to="/consultants/neprology" className="text-gray-400 hover:text-white transition-colors duration-300">Neprology</Link></li>
               <li><Link to="/consultants/cardiology" className="text-gray-400 hover:text-white transition-colors duration-300">Cardiology</Link></li>
@@ -97,6 +112,17 @@ const Footer = () => {
               <li><Link to="/consultants/urology" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</Link></li>
               <li><Link to="/consultants/pediatrician" className="text-gray-400 hover:text-white transition-colors duration-300">Pediatrician</Link></li>
               <li><Link to="/consultants/dermatology" className="text-gray-400 hover:text-white transition-colors duration-300">Dermatology</Link></li>
+=======
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Physician & Diabetology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Neprology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Cardiology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Neurology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Oncology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Gastroenterology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Pediatrician</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Dermatology</a></li>
+>>>>>>> Stashed changes
               {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Radiology</a></li> */}
             </ul>
           </div>

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { getDoctors, getDepartments } from '../dashboard/api.js';
 
+
 const DoctorsList = () => {
   const navigate = useNavigate(); 
 
@@ -208,6 +209,7 @@ const DoctorsList = () => {
                   {doctor.phone ? doctor.phone : "+91 98765 00000"} 
                 </div>
 
+<<<<<<< Updated upstream
                 <button 
                   onClick={() => {
                     navigate('/contact', { state: { selectedDoctor: doctor } });
@@ -217,6 +219,23 @@ const DoctorsList = () => {
                 >
                   Book Appointment
                 </button>
+=======
+                {/* Action Button */}
+                <button 
+                onClick={() => {
+                  // 1. Navigate to the Contact page
+                  // 2. Pass the selected doctor in 'state'
+                  navigate('/contact', { state: { selectedDoctor: doctor } });
+
+                  // Optional: Scroll to top of contact page
+                  window.scrollTo(0, 0); 
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm mt-2"
+              >
+                Book Appointment
+              </button>
+
+>>>>>>> Stashed changes
               </div>
             </div>
           ))}
