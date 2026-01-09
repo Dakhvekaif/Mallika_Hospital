@@ -24,7 +24,7 @@ export default function Speacialitiesmain () {
   return(
     <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-5">
             {/* LEFT SECTION */}
-            <div className="text-center px-5 py-5 md:py-0 w-[70%]">
+            <div className="text-center px-5 py-5 md:py-0 w-[70%] text-blue-800">
               <h2 className="text-3xl font-bold mb-4">
                 {cardTexts[activeCard].title}
               </h2>

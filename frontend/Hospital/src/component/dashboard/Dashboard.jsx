@@ -333,7 +333,7 @@ const Dashboard = () => {
       {isLoggedIn && (
         <>
           {/* Sidebar */}
-          <div className="border-r w-64 bg-white shadow-md h-screen hidden lg:block">
+          <div className="border-r w-64 bg-white shadow-md h-auto hidden lg:block">
             <div className="border-b flex justify-center">
               <div className="flex items-center border-red-900">
                 <img src={logo} alt='logo' className='w-30' />
@@ -441,8 +441,7 @@ const Dashboard = () => {
                   )}
                 </li>
               </ul>
-
-              {/* Logout Button in Sidebar */}
+              {/*Logout Button in Sidebar */}
               <div className="mt-8 pt-4 border-t">
                 <button
                   onClick={handleLogout}
@@ -473,29 +472,14 @@ const Dashboard = () => {
 
                 <button
                   onClick={handleLogout}
-                  className="flex items-center text-red-600 hover:text-red-800 gap-1"
+                  className="flex items-center text-red-600 hover:text-red-800 gap-1 sm:hidden"
                 >
                   <FaSignOutAlt />
-                  <span className="hidden sm:inline">Logout</span>
+                  {/* <span>Logout</span> */}
                 </button>
-              </div>
-            </div>
 
-            {/* Desktop Header with Back Button */}
-            {activeSection !== 'dashboard' && (
-              <div className="hidden lg:block bg-white shadow-sm p-4 border-b">
-                <div className="flex items-center justify-between">
-                  <button
-                    onClick={() => setActiveSection('dashboard')}
-                    className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
-                  >
-                    <FaArrowLeft className="mr-2" />
-                    Back to Dashboard
-                  </button>
-                </div>
               </div>
-            )}
-            
+            </div>            
             {/* Content Area */}
             <div className="flex-1 overflow-auto">
               {renderContent()}

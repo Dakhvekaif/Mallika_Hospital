@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaStethoscope, FaEdit, FaTrash, FaSearch, FaUserPlus, FaTimes, 
-  FaPhone, FaEnvelope, FaClock, FaSave, FaExclamationTriangle
+  FaPhone, FaClock, FaSave, FaExclamationTriangle, FaInfoCircle
 } from 'react-icons/fa';
 
 import { 
@@ -27,13 +27,12 @@ const ManageDoctor = ({ onBack }) => {
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
 
+  // 1. Updated State: Removed email/specialization, added description
   const initialFormState = {
     name: '',
     phone: '',
-    email: '',
     department: '', 
-    specialization: '', 
-    education: '',
+    description: '', // Changed from education
     startTime: '',
     endTime: '',
     status: 'Active'
@@ -70,7 +69,6 @@ const ManageDoctor = ({ onBack }) => {
     }
     setActionError('');
     
-    // Parse schedule string back to time inputs if possible
     let startTime = '';
     let endTime = '';
     if (doctor.schedule && doctor.schedule.includes(' - ')) {
@@ -78,9 +76,11 @@ const ManageDoctor = ({ onBack }) => {
     }
 
     setSelectedDoctor(doctor);
+    // 2. Map existing data to new form structure
     setFormData({
       ...doctor,
-      department: doctor.department || '', 
+      department: doctor.department || '',
+      description: doctor.description || doctor.education || '', // Fallback if backend still sends education
       startTime,
       endTime
     });
@@ -228,7 +228,7 @@ const ManageDoctor = ({ onBack }) => {
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search doctors by name or specialization..."
+                placeholder="Search doctors by name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -241,8 +241,8 @@ const ManageDoctor = ({ onBack }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
           {doctors
             .filter(d => 
-               (d.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-               (d.specialization || "").toLowerCase().includes(searchTerm.toLowerCase())
+               // 3. Updated Filter: Removed specialization
+               (d.name || "").toLowerCase().includes(searchTerm.toLowerCase())
             )
             .map((doctor) => (
             <div key={doctor.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6">
@@ -253,18 +253,19 @@ const ManageDoctor = ({ onBack }) => {
                   </div>
                   <div className="ml-3">
                     <h3 className="font-semibold text-gray-900">{doctor.name}</h3>
-                    <p className="text-sm text-gray-600">{doctor.specialization}</p>
+                    {/* 4. Removed Specialization subtitle, showing Dept instead */}
+                    <p className="text-sm text-gray-500">
+                        {getDepartmentName(doctor.department)}
+                    </p>
                   </div>
                 </div>
                 <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(doctor.status)}`}>
                   {doctor.status}
                 </span>
               </div>
+              
+              {/* 5. Removed Email row */}
               <div className="space-y-2 text-sm">
-                <div className="flex items-center text-gray-600">
-                  <FaEnvelope className="mr-2 text-gray-400" />
-                  {doctor.email || "N/A"}
-                </div>
                 <div className="flex items-center text-gray-600">
                   <FaPhone className="mr-2 text-gray-400" />
                   {doctor.phone || "N/A"}
@@ -274,6 +275,7 @@ const ManageDoctor = ({ onBack }) => {
                   {doctor.schedule || "N/A"}
                 </div>
               </div>
+
               <div className="mt-4 flex space-x-2">
                 <button 
                   onClick={() => handleEdit(doctor)}
@@ -340,16 +342,9 @@ const ManageDoctor = ({ onBack }) => {
                         required 
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                      <input 
-                        type="email" 
-                        value={formData.email} 
-                        onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                      />
-                    </div>
                     
+                    {/* Removed Email Input */}
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
                       <select 
@@ -365,24 +360,20 @@ const ManageDoctor = ({ onBack }) => {
                       </select>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
-                      <input 
-                        type="text" 
-                        value={formData.specialization} 
-                        onChange={(e) => setFormData({...formData, specialization: e.target.value})} 
+                    {/* Removed Specialization Input */}
+
+                    {/* 6. Changed Education to Description (Textarea) */}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                      <textarea 
+                        rows="3"
+                        value={formData.description} 
+                        onChange={(e) => setFormData({...formData, description: e.target.value})} 
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
+                        placeholder="Doctor's qualifications and bio..."
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
-                      <input 
-                        type="text" 
-                        value={formData.education} 
-                        onChange={(e) => setFormData({...formData, education: e.target.value})} 
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                      />
-                    </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
                       <div className="flex gap-3">
@@ -438,7 +429,7 @@ const ManageDoctor = ({ onBack }) => {
           </div>
         )}
 
-        {/* Edit Doctor Modal */}
+        {/* Edit Doctor Modal - SAME FORM STRUCTURE */}
         {showEditModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -478,15 +469,9 @@ const ManageDoctor = ({ onBack }) => {
                         required 
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                      <input 
-                        type="email" 
-                        value={formData.email} 
-                        onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                      />
-                    </div>
+                    
+                    {/* Removed Email */}
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
                       <select 
@@ -501,24 +486,20 @@ const ManageDoctor = ({ onBack }) => {
                         ))}
                       </select>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
-                      <input 
-                        type="text" 
-                        value={formData.specialization} 
-                        onChange={(e) => setFormData({...formData, specialization: e.target.value})} 
+
+                    {/* Removed Specialization */}
+
+                    {/* Changed Education to Description */}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                      <textarea 
+                        rows="3"
+                        value={formData.description} 
+                        onChange={(e) => setFormData({...formData, description: e.target.value})} 
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
-                      <input 
-                        type="text" 
-                        value={formData.education} 
-                        onChange={(e) => setFormData({...formData, education: e.target.value})} 
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                      />
-                    </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
                       <div className="flex gap-3">
@@ -586,14 +567,8 @@ const ManageDoctor = ({ onBack }) => {
                   <p className="text-gray-600">Are you sure you want to delete this doctor?</p>
                 </div>
               </div>
-              {actionError && (
-                <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                  {actionError}
-                </div>
-              )}
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
                 <p className="font-medium text-gray-900">{selectedDoctor?.name}</p>
-                <p className="text-sm text-gray-600">{selectedDoctor?.specialization}</p>
               </div>
               <div className="flex justify-end space-x-3">
                 <button 

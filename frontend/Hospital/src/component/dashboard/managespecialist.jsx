@@ -25,6 +25,7 @@ const ManageSpecialist = ({ onBack }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedSpecialist, setSelectedSpecialist] = useState(null);
+  
   const [specialists, setSpecialists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -42,6 +43,7 @@ const ManageSpecialist = ({ onBack }) => {
     try {
       setLoading(true);
       const data = await getDepartments();
+      // Map API data to component state
       const mapped = data.map(dep => ({
         id: dep.id,
         specialization: dep.name
@@ -53,15 +55,6 @@ const ManageSpecialist = ({ onBack }) => {
       setError('Failed to load specialists');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'Active': return 'bg-green-100 text-green-800';
-      case 'On Leave': return 'bg-yellow-100 text-yellow-800';
-      case 'Inactive': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -105,11 +98,7 @@ const ManageSpecialist = ({ onBack }) => {
       setActionError('');
     } catch (err) {
       console.error(err);
-      if (err.message.includes('401') || err.message.includes('403')) {
-        setActionError('Authentication failed. Please login again.');
-      } else {
-        setActionError('Failed to delete specialist. Please try again.');
-      }
+      setActionError('Failed to delete specialist. Please try again.');
     }
   };
 
@@ -131,11 +120,7 @@ const ManageSpecialist = ({ onBack }) => {
       setActionError('');
     } catch (err) {
       console.error(err);
-      if (err.message.includes('401') || err.message.includes('403')) {
-        setActionError('Authentication failed. Please login again.');
-      } else {
-        setActionError('Failed to update specialist. Please try again.');
-      }
+      setActionError('Failed to update specialist. Please try again.');
     }
   };
 
@@ -155,11 +140,7 @@ const ManageSpecialist = ({ onBack }) => {
       setActionError('');
     } catch (err) {
       console.error(err);
-      if (err.message.includes('401') || err.message.includes('403')) {
-        setActionError('Authentication failed. Please login again.');
-      } else {
-        setActionError('Failed to add specialist. Please try again.');
-      }
+      setActionError('Failed to add specialist. Please try again.');
     }
   };
 
@@ -177,6 +158,7 @@ const ManageSpecialist = ({ onBack }) => {
   return (
     <div className="p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
+        
         {/* Error Alert */}
         {(error || actionError) && (
           <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center">
@@ -203,117 +185,73 @@ const ManageSpecialist = ({ onBack }) => {
 
         {/* Search */}
         <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 mb-6">
-          <div className="relative">
-            <FaSearch className="absolute left-3 top-3 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search specialists..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex-1 relative">
+              <FaSearch className="absolute left-3 top-3 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search specialists..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
           </div>
         </div>
 
-        {/* Specialists Table - Desktop */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="hidden lg:block overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Specialties
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {specialists
-                  .filter(specialist =>
-                    (specialist.specialization || "").toLowerCase().includes(searchTerm.toLowerCase())
-                  )
-                  .map((specialist) => (
-                    <tr key={specialist.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <FaGraduationCap className="text-blue-600" />
-                          </div>
-                          <div className="ml-4 text-sm font-medium text-gray-900">
-                            {specialist.specialization}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={() => handleEdit(specialist)}
-                            className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-50 rounded"
-                            title="Edit"
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(specialist)}
-                            className="text-red-600 hover:text-red-900 p-2 hover:bg-red-50 rounded"
-                            title="Delete"
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile Card View */}
-          <div className="lg:hidden p-4 space-y-4">
-            {specialists
-              .filter(specialist =>
-                (specialist.specialization || "").toLowerCase().includes(searchTerm.toLowerCase())
-              )
-              .map((specialist) => (
-                <div key={specialist.id} className="bg-white border rounded-lg p-4 shadow-sm">
-                  <div className="flex items-center justify-between">
+        {/* Specialists Grid (Updated to match Doctors Grid) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+          {specialists
+            .filter(specialist =>
+              (specialist.specialization || "").toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map((specialist) => (
+              <div key={specialist.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6 flex flex-col justify-between">
+                
+                {/* Top Section */}
+                <div>
+                  <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center">
-                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                        <FaGraduationCap className="text-blue-600" />
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <FaGraduationCap className="text-blue-600 text-xl" />
                       </div>
-                      <h3 className="font-medium text-gray-900">
-                        {specialist.specialization}
-                      </h3>
-                    </div>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleEdit(specialist)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(specialist)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                      >
-                        <FaTrash />
-                      </button>
+                      <div className="ml-3">
+                        <h3 className="font-semibold text-gray-900 text-lg">{specialist.specialization}</h3>
+                        <p className="text-sm text-gray-500">Department ID: {specialist.id}</p>
+                      </div>
                     </div>
                   </div>
+                  
+                  {/* Decorative Spacer (to match height feel of doctor card) */}
+                  <div className="h-4"></div>
                 </div>
-              ))}
-          </div>
 
-          {/* Empty State */}
-          {specialists.length === 0 && (
-            <div className="p-8 text-center text-gray-500">
-              <FaGraduationCap className="mx-auto text-4xl text-gray-300 mb-4" />
-              <p>No specialists found</p>
-            </div>
-          )}
+                {/* Bottom Buttons */}
+                <div className="mt-4 flex space-x-2">
+                  <button 
+                    onClick={() => handleEdit(specialist)}
+                    className="flex-1 bg-blue-50 text-blue-600 py-2 px-3 rounded hover:bg-blue-100 transition-colors text-sm flex items-center justify-center"
+                  >
+                    <FaEdit className="mr-2" /> Edit
+                  </button>
+                  <button 
+                    onClick={() => handleDelete(specialist)}
+                    className="flex-1 bg-red-50 text-red-600 py-2 px-3 rounded hover:bg-red-100 transition-colors text-sm flex items-center justify-center"
+                  >
+                    <FaTrash className="mr-2" /> Delete
+                  </button>
+                </div>
+              </div>
+            ))}
         </div>
+
+        {/* Empty State */}
+        {specialists.length === 0 && (
+          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+            <FaGraduationCap className="mx-auto text-4xl text-gray-300 mb-4" />
+            <p>No specialists found</p>
+          </div>
+        )}
 
         {/* Add Specialist Modal */}
         {showAddModal && (
@@ -331,16 +269,11 @@ const ManageSpecialist = ({ onBack }) => {
                 </div>
               </div>
               <div className="p-6">
-                {actionError && (
-                  <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                    {actionError}
-                  </div>
-                )}
                 <form onSubmit={(e) => { e.preventDefault(); handleAddSpecialist(); }} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Specialization
+                        Specialization Name
                       </label>
                       <input
                         type="text"
@@ -349,7 +282,6 @@ const ManageSpecialist = ({ onBack }) => {
                           setFormData({ ...formData, specialization: e.target.value })
                         }
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="e.g., Cardiology, Neurology"
                         required
                       />
                     </div>
@@ -391,16 +323,11 @@ const ManageSpecialist = ({ onBack }) => {
                 </div>
               </div>
               <div className="p-6">
-                {actionError && (
-                  <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                    {actionError}
-                  </div>
-                )}
                 <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Specialization
+                        Specialization Name
                       </label>
                       <input
                         type="text"
@@ -444,23 +371,15 @@ const ManageSpecialist = ({ onBack }) => {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">Delete Specialist</h3>
-                  <p className="text-gray-600">Are you sure you want to delete this specialist?</p>
+                  <p className="text-gray-600 text-sm">Are you sure you want to delete this specialist?</p>
                 </div>
               </div>
-              {actionError && (
-                <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                  {actionError}
-                </div>
-              )}
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
                 <p className="font-medium text-gray-900">{selectedSpecialist?.specialization}</p>
               </div>
               <div className="flex justify-end space-x-3">
                 <button
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setActionError('');
-                  }}
+                  onClick={() => setShowDeleteModal(false)}
                   className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                 >
                   Cancel

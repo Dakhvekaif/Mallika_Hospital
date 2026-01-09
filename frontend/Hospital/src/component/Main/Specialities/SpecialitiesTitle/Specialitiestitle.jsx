@@ -5,7 +5,7 @@ function Specialitiestitle() {
     // Add the overflow-hidden class here
     <div className="overflow-hidden flex justify-center items-center h-20">       
         <AnimatedText>
-          <h1 className="text-4xl font-bold">Our Specialities</h1>
+          <h1 className="text-4xl font-bold text-blue-800">Our Specialities</h1>
         </AnimatedText>
     </div>
   );

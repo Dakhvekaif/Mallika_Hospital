@@ -6,9 +6,6 @@ export default function Quote() {
       <div className="absolute top-10 left-10 w-40 h-40 bg-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-10 right-10 w-60 h-60 bg-blue-300/20 rounded-full blur-3xl animate-ping"></div>
       
-      {/* Glow line */}
-      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-400 via-teal-300 to-blue-400 blur-sm"></div>
-
       <div className="relative max-w-4xl mx-auto text-center bg-white/60 backdrop-blur-xl shadow-2xl rounded-3xl p-12 border border-blue-200/50">
 
         <h2 className="text-4xl font-bold text-blue-800 mt-6 mb-4 tracking-wide">

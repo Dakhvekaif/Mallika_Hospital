@@ -1,29 +1,55 @@
-// import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import desktopVideo from '../../../assets/HeroPage/hero-desktop.mp4';
+import mobileVideo from '../../../assets/HeroPage/hero-mobile.mp4';
 
-// export default function Hero () {
-//   return (
-//     <div className="relative w-full h-screen flex items-center justify-center">
-      
-//       {/* Background Overlay */}
-//       <div className="absolute inset-0 bg-cyan-900 opacity-60"></div>
+function Hero() {
+  return (
+    <>
 
-//       {/* Content */}
-//       <div className="relative z-10 flex flex-col items-center justify-center">
-//         <h1 className="text-5xl md:text-7xl font-extrabold text-center mb-10 text-white">
-//           WELCOME TO <br />
-//           MALLIKA SUPER-SPECIALITY HOSPITAL
-//         </h1>
+      {/* Hero Wrapper */}
+      <div className="relative w-full h-[100vh] overflow-hidden md:mt-16">
+        
+        {/* Desktop Video */}
+        <video
+          className="hidden md:block absolute top-1/2 left-1/2 min-w-full min-h-full 
+                     -translate-x-1/2 -translate-y-1/2 object-cover -z-10"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src={desktopVideo} type="video/mp4" />
+        </video>
 
-//         <div className="flex justify-center items-center gap-10 md:gap-20">
-//           <Link to="/contact" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105">
-//               Book Appointment
-//           </Link>
+        {/* Mobile Video */}
+        <video
+          className="block md:hidden absolute top-1/2 left-1/2 min-w-full min-h-full
+                     -translate-x-1/2 -translate-y-1/2 object-cover -z-10"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src={mobileVideo} type="video/mp4" />
+        </video>
 
-//           <Link to="/find-doctor" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105">
-//               Find Doctor
-//           </Link>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
+        {/* Hero Content */}
+        <div className="relative flex justify-center items-end h-full pb-12 md:pb-20 gap-3 md:gap-6">
+        <Link
+          to="/find-doctor"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold
+                     text-sm md:text-base
+                     py-2 px-4 md:py-3 md:px-6
+                     rounded-md md:rounded-lg
+                     transition-all duration-200 transform hover:scale-105
+                     w-70 flex justify-center"
+        >
+          Find Doctor
+        </Link>
+      </div>
+      </div>
+    </>
+  );
+}
+
+export default Hero;

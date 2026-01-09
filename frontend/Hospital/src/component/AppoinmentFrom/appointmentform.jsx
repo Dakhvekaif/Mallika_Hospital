@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Fix 1: Add fallback URL to prevent crashes if env variable is missing
 const API = import.meta.env.VITE_BACKEND_URL || "https://mallika-hospital.onrender.com";
 
 const AppointmentForm = () => {
@@ -31,23 +30,31 @@ const AppointmentForm = () => {
       .catch(err => setError('Failed to load departments'));
   }, []);
 
-  // AUTO-FILL LOGIC (From Doctors List)
+  // --- AUTO-FILL LOGIC ---
   useEffect(() => {
     if (location.state && location.state.selectedDoctor) {
       const selectedDoc = location.state.selectedDoctor;
       
-      // Scroll form into view smoothly
+      // Scroll form into view
       const formElement = document.getElementById('appointment-form');
       if (formElement) formElement.scrollIntoView({ behavior: 'smooth' });
 
-      // A. Pre-fill form data
+      // 1. FORMAT TIME
+      // The API returns "09:00:00", but <input type="time"> expects "09:00"
+      let defaultTime = '';
+      if (selectedDoc.start_time) {
+        defaultTime = selectedDoc.start_time.slice(0, 5); 
+      }
+
+      // 2. SET FORM DATA (Department, Doctor, AND Time)
       setFormData(prev => ({
         ...prev,
         department: selectedDoc.department, 
-        doctor: selectedDoc.id 
+        doctor: selectedDoc.id,
+        appointmentTime: defaultTime // <--- Time is set here
       }));
 
-      // B. Fetch doctors for this department
+      // 3. Fetch doctors for this department
       setLoadingDoctors(true);
       fetch(`${API}/api/doctors/?department=${selectedDoc.department}`)
         .then(res => res.json())
@@ -56,9 +63,7 @@ const AppointmentForm = () => {
           setLoadingDoctors(false);
         })
         .catch(err => {
-          console.error(err);
-          // Fix 2: Ensure loading stops even on error
-          setLoadingDoctors(false); 
+          setLoadingDoctors(false);
         });
     }
   }, [location.state]);
@@ -81,15 +86,15 @@ const AppointmentForm = () => {
           setDoctors(data);
           setLoadingDoctors(false);
         })
-        .catch(err => {
-          setLoadingDoctors(false);
-        });
+        .catch(err => setLoadingDoctors(false));
+    } else {
+      setLoadingDoctors(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null);
     setStatusMessage('');
 
     const payload = {
@@ -110,7 +115,6 @@ const AppointmentForm = () => {
     .then(async (res) => {
       if (!res.ok) {
         const errData = await res.json();
-        // Return structured error for catch block
         throw new Error(JSON.stringify(errData)); 
       }
       return res.json();
@@ -121,15 +125,11 @@ const AppointmentForm = () => {
         fullName: '', phone: '', department: '', doctor: '', 
         appointmentDate: '', appointmentTime: '', reason: ''
       });
-      // Clear doctors list after success
       setDoctors([]); 
     })
     .catch((err) => {
-      console.error(err);
-      // Try to parse the Django error message, otherwise show generic
       try {
         const errorObj = JSON.parse(err.message);
-        // Join values if it's an object of arrays (standard Django format)
         const msg = Object.values(errorObj).flat().join(', ');
         setError(`Booking failed: ${msg}`);
       } catch (e) {
@@ -196,6 +196,7 @@ const AppointmentForm = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Time</label>
+            {/* The time value will now be populated automatically */}
             <input type="time" name="appointmentTime" value={formData.appointmentTime} onChange={handleChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" />
           </div>
         </div>

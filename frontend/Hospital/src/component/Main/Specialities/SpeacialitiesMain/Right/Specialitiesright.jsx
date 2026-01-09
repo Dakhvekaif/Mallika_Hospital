@@ -20,7 +20,7 @@ export default function Speacialitiesright ({ onActiveCardChange }) {
           customClass="bg-cover bg-center bg-no-repeat rounded-xl overflow-hidden"
         >           
           <div className="relative z-10 p-6 text-white">
-            <h3 className="text-xl font-bold">Nephrology</h3>
+            <h3 className="text-xl font-bold text-blue-800">Nephrology</h3>
             <p></p>
           </div>
           <div className="absolute inset-0 bg-black/30 rounded-xl"></div>
@@ -31,7 +31,7 @@ export default function Speacialitiesright ({ onActiveCardChange }) {
           customClass="bg-cover bg-center bg-no-repeat rounded-xl overflow-hidden"
         >
           <div className="relative z-10 p-6 text-white">
-            <h3 className="text-xl font-bold">Medicines</h3>
+            <h3 className="text-xl font-bold text-blue-800">Medicines</h3>
             <p></p>
           </div>
           <div className="absolute inset-0 bg-black/30 rounded-xl"></div>

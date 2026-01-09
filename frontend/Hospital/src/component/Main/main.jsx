@@ -1,19 +1,19 @@
-import Specialities from "./Specialities/Specialities";
-import Achievements from './Achievement/Achievement'
 import Healthquote from "./HealthQuote/Healthquote";
-import AppointmentForm from "../AppoinmentFrom/appointmentform";
+import Specialities from "./Specialities/Specialities";
 import Authorities from "./Authorities/Authorities";
+import Achievements from './Achievement/Achievement'
+import FAQ from "./FAQ/faq";
 import Chooseus from "./ChooseUs/ChooseUs";
 
 export default function Main () {
     return (
-        <div className="min-h-screen w-full border">
+        <div className="min-h-screen w-full">
             <Healthquote/>
             <Specialities/>
-            <Achievements/>
             <Authorities/>
+            <Achievements/>
+            <FAQ/>
             <Chooseus/>
-            {/* <AppointmentForm/> */}
         </div>
     );
 }
