@@ -30,7 +30,28 @@ const AppointmentForm = () => {
       .catch(err => setError('Failed to load departments'));
   }, []);
 
-  // --- AUTO-FILL LOGIC ---
+  // --- NEW: Handler for when a doctor is selected ---
+  const handleDoctorChange = (e) => {
+    const selectedDoctorId = e.target.value;
+    
+    // First, update the doctor field in the form
+    setFormData(prevData => ({ ...prevData, doctor: selectedDoctorId }));
+
+    // Find the selected doctor object from our state
+    const selectedDoctor = doctors.find(doc => doc.id === parseInt(selectedDoctorId, 10));
+
+    // If a doctor is found and they have a start_time, update the appointment time
+    if (selectedDoctor && selectedDoctor.start_time) {
+      // Format time from "HH:mm:ss" to "HH:mm" for the input field
+      const formattedTime = selectedDoctor.start_time.slice(0, 5);
+      setFormData(prevData => ({ ...prevData, appointmentTime: formattedTime }));
+    } else {
+      // If no doctor is selected or no time is available, clear the time field
+      setFormData(prevData => ({ ...prevData, appointmentTime: '' }));
+    }
+  };
+  
+  // --- REVISED: Auto-fill logic ---
   useEffect(() => {
     if (location.state && location.state.selectedDoctor) {
       const selectedDoc = location.state.selectedDoctor;
@@ -39,34 +60,38 @@ const AppointmentForm = () => {
       const formElement = document.getElementById('appointment-form');
       if (formElement) formElement.scrollIntoView({ behavior: 'smooth' });
 
-      // 1. FORMAT TIME
-      // The API returns "09:00:00", but <input type="time"> expects "09:00"
-      let defaultTime = '';
-      if (selectedDoc.start_time) {
-        defaultTime = selectedDoc.start_time.slice(0, 5); 
-      }
-
-      // 2. SET FORM DATA (Department, Doctor, AND Time)
-      setFormData(prev => ({
-        ...prev,
-        department: selectedDoc.department, 
-        doctor: selectedDoc.id,
-        appointmentTime: defaultTime // <--- Time is set here
-      }));
-
-      // 3. Fetch doctors for this department
+      // Fetch doctors for this department first
       setLoadingDoctors(true);
       fetch(`${API}/api/doctors/?department=${selectedDoc.department}`)
         .then(res => res.json())
         .then(data => {
           setDoctors(data);
+          
+          // Now that we have the doctors, find the full object for our selected doctor
+          const fullDoctorObject = data.find(doc => doc.id === selectedDoc.id);
+          
+          // Format the time
+          let defaultTime = '';
+          if (fullDoctorObject && fullDoctorObject.start_time) {
+            defaultTime = fullDoctorObject.start_time.slice(0, 5); 
+          }
+
+          // Set all form data at once, including the auto-filled time
+          setFormData(prev => ({
+            ...prev,
+            department: selectedDoc.department, 
+            doctor: selectedDoc.id,
+            appointmentTime: defaultTime 
+          }));
+          
           setLoadingDoctors(false);
         })
         .catch(err => {
+          console.error("Failed to fetch doctors for auto-fill:", err);
           setLoadingDoctors(false);
         });
     }
-  }, [location.state]);
+  }, [location.state]); // Dependency array remains the same
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,7 +100,7 @@ const AppointmentForm = () => {
 
   const handleDepartmentChange = (e) => {
     const deptId = e.target.value;
-    setFormData(prevData => ({ ...prevData, department: deptId, doctor: '' }));
+    setFormData(prevData => ({ ...prevData, department: deptId, doctor: '', appointmentTime: '' })); // Also clear time
     setDoctors([]);
     
     if(deptId) {
@@ -172,7 +197,8 @@ const AppointmentForm = () => {
             <select 
               name="doctor" 
               value={formData.doctor} 
-              onChange={handleChange} 
+              // --- UPDATED: Use the new handler ---
+              onChange={handleDoctorChange} 
               disabled={!formData.department || loadingDoctors} 
               required 
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-white disabled:bg-gray-100"
@@ -196,7 +222,7 @@ const AppointmentForm = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Time</label>
-            {/* The time value will now be populated automatically */}
+            {/* The time value will now be populated automatically when a doctor is selected */}
             <input type="time" name="appointmentTime" value={formData.appointmentTime} onChange={handleChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" />
           </div>
         </div>

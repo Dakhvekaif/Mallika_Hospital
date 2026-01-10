@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaStethoscope, FaEdit, FaTrash, FaSearch, FaUserPlus, FaTimes, 
-  FaPhone, FaClock, FaSave, FaExclamationTriangle, FaInfoCircle
+  FaPhone, FaClock, FaSave, FaExclamationTriangle, FaInfoCircle, FaUserMd, FaUpload
 } from 'react-icons/fa';
 
 import { 
@@ -27,15 +27,21 @@ const ManageDoctor = ({ onBack }) => {
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
 
-  // 1. Updated State: Removed email/specialization, added description
+  // --- NEW STATE for Load More functionality ---
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+
   const initialFormState = {
     name: '',
-    phone: '',
+    phone: '', 
     department: '', 
-    description: '', // Changed from education
+    description: '',
     startTime: '',
     endTime: '',
-    status: 'Active'
+    status: 'Active',
+    availableDays: [],
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -62,28 +68,53 @@ const ManageDoctor = ({ onBack }) => {
     }
   };
 
+  // --- NEW FUNCTION to handle loading more items ---
+  const handleLoadMore = () => {
+    setVisibleCount(prevCount => prevCount + 6);
+  };
+  
+  // --- MODIFIED: Filter logic is now separate from rendering ---
+  const filteredDoctors = doctors.filter(d => 
+    (d.name || "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // --- IMPORTANT: Reset visible count when search term changes ---
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [searchTerm]);
+
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreviewUrl(URL.createObjectURL(file));
+    } else {
+      setImageFile(null);
+      setImagePreviewUrl(null);
+    }
+  };
+  
   const handleEdit = (doctor) => {
     if (!isAuthenticated()) {
       setActionError('You must be logged in to edit doctors');
       return;
     }
     setActionError('');
-    
-    let startTime = '';
-    let endTime = '';
-    if (doctor.schedule && doctor.schedule.includes(' - ')) {
-      [startTime, endTime] = doctor.schedule.split(' - ');
-    }
-
     setSelectedDoctor(doctor);
-    // 2. Map existing data to new form structure
+
     setFormData({
       ...doctor,
       department: doctor.department || '',
-      description: doctor.description || doctor.education || '', // Fallback if backend still sends education
-      startTime,
-      endTime
+      description: doctor.description || '',
+      startTime: doctor.start_time ? doctor.start_time.slice(0, 5) : '',
+      endTime: doctor.end_time ? doctor.end_time.slice(0, 5) : '',
+      status: doctor.active ? 'Active' : 'Inactive',
+      availableDays: doctor.available_days ? doctor.available_days.split(', ').map(day => day.trim()) : [],
     });
+    
+    setImagePreviewUrl(doctor.photo || null);
+    setImageFile(null);
     setShowEditModal(true);
   };
 
@@ -104,6 +135,8 @@ const ManageDoctor = ({ onBack }) => {
     }
     setActionError('');
     setFormData(initialFormState);
+    setImageFile(null);
+    setImagePreviewUrl(null);
     setShowAddModal(true);
   };
 
@@ -126,10 +159,17 @@ const ManageDoctor = ({ onBack }) => {
 
   const handleUpdate = async () => {
     try {
-      const payload = {
-        ...formData,
-        schedule: `${formData.startTime} - ${formData.endTime}`
-      };
+      const payload = new FormData();
+      payload.append('name', formData.name);
+      payload.append('department', formData.department);
+      payload.append('description', formData.description);
+      payload.append('start_time', `${formData.startTime}:00`);
+      payload.append('end_time', `${formData.endTime}:00`);
+      payload.append('active', formData.status === 'Active');
+      payload.append('available_days', formData.availableDays.join(', '));
+      if (imageFile) {
+        payload.append('photo', imageFile);
+      }
       
       const updatedDoc = await updateDoctor(selectedDoctor.id, payload);
       
@@ -149,10 +189,17 @@ const ManageDoctor = ({ onBack }) => {
 
   const handleAddDoctor = async () => {
     try {
-      const payload = {
-        ...formData,
-        schedule: `${formData.startTime} - ${formData.endTime}`
-      };
+      const payload = new FormData();
+      payload.append('name', formData.name);
+      payload.append('department', formData.department);
+      payload.append('description', formData.description);
+      payload.append('start_time', `${formData.startTime}:00`);
+      payload.append('end_time', `${formData.endTime}:00`);
+      payload.append('active', formData.status === 'Active');
+      payload.append('available_days', formData.availableDays.join(', '));
+      if (imageFile) {
+        payload.append('photo', imageFile);
+      }
 
       const newDoc = await addDoctor(payload);
       
@@ -169,18 +216,22 @@ const ManageDoctor = ({ onBack }) => {
     }
   };
 
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'Active': return 'bg-green-100 text-green-800';
-      case 'On Leave': return 'bg-yellow-100 text-yellow-800';
-      case 'Inactive': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
+  const getStatusColor = (isActive) => {
+    return isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
   };
 
   const getDepartmentName = (id) => {
     const dept = departments.find(d => d.id === id);
     return dept ? dept.name : 'N/A';
+  };
+  
+  const handleDayChange = (day, isChecked) => {
+    setFormData(prev => {
+      const days = isChecked 
+        ? [...prev.availableDays, day]
+        : prev.availableDays.filter(d => d !== day);
+      return { ...prev, availableDays: days };
+    });
   };
 
   if (loading) {
@@ -239,32 +290,30 @@ const ManageDoctor = ({ onBack }) => {
 
         {/* Doctors Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
-          {doctors
-            .filter(d => 
-               // 3. Updated Filter: Removed specialization
-               (d.name || "").toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((doctor) => (
+          {/* --- MODIFIED: Map over the SLICED array --- */}
+          {filteredDoctors.slice(0, visibleCount).map((doctor) => (
             <div key={doctor.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <FaStethoscope className="text-green-600" />
-                  </div>
+                  {doctor.photo ? (
+                    <img src={doctor.photo} alt={doctor.name} className="w-12 h-12 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                      <FaUserMd className="text-green-600" />
+                    </div>
+                  )}
                   <div className="ml-3">
                     <h3 className="font-semibold text-gray-900">{doctor.name}</h3>
-                    {/* 4. Removed Specialization subtitle, showing Dept instead */}
                     <p className="text-sm text-gray-500">
                         {getDepartmentName(doctor.department)}
                     </p>
                   </div>
                 </div>
-                <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(doctor.status)}`}>
-                  {doctor.status}
+                <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(doctor.active)}`}>
+                  {doctor.active ? 'Active' : 'Inactive'}
                 </span>
               </div>
               
-              {/* 5. Removed Email row */}
               <div className="space-y-2 text-sm">
                 <div className="flex items-center text-gray-600">
                   <FaPhone className="mr-2 text-gray-400" />
@@ -272,7 +321,15 @@ const ManageDoctor = ({ onBack }) => {
                 </div>
                 <div className="flex items-center text-gray-600">
                   <FaClock className="mr-2 text-gray-400" />
-                  {doctor.schedule || "N/A"}
+                  {doctor.start_time && doctor.end_time 
+                    ? `${doctor.start_time.slice(0, 5)} - ${doctor.end_time.slice(0, 5)}`
+                    : "N/A"}
+                </div>
+                <div className="text-gray-600">
+                  <FaInfoCircle className="mr-2 text-gray-400 inline" />
+                  {doctor.available_days 
+                    ? doctor.available_days.split(',').map(day => day.trim()).join(', ') 
+                    : 'No days specified'}
                 </div>
               </div>
 
@@ -294,14 +351,27 @@ const ManageDoctor = ({ onBack }) => {
           ))}
         </div>
 
+        {/* --- NEW: Load More Button --- */}
+        {filteredDoctors.length > visibleCount && (
+          <div className="mt-8 text-center">
+            <button
+              onClick={handleLoadMore}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 px-6 rounded-lg transition-colors"
+            >
+              Load More
+            </button>
+          </div>
+        )}
+
         {/* Empty State */}
-        {doctors.length === 0 && (
+        {filteredDoctors.length === 0 && !loading && (
           <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
             <FaStethoscope className="mx-auto text-4xl text-gray-300 mb-4" />
             <p>No doctors found</p>
           </div>
         )}
 
+        {/* Modals (Add, Edit, Delete) remain the same */}
         {/* Add Doctor Modal */}
         {showAddModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -333,19 +403,6 @@ const ManageDoctor = ({ onBack }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                      <input 
-                        type="tel" 
-                        value={formData.phone} 
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})} 
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                        required 
-                      />
-                    </div>
-                    
-                    {/* Removed Email Input */}
-
-                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
                       <select 
                         value={formData.department} 
@@ -360,9 +417,26 @@ const ManageDoctor = ({ onBack }) => {
                       </select>
                     </div>
 
-                    {/* Removed Specialization Input */}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Doctor Photo</label>
+                      <div className="flex items-center space-x-4">
+                        <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+                          <FaUpload className="mr-2" />
+                          Choose File
+                          <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                        </label>
+                        <span className="text-sm text-gray-500">
+                          {imageFile ? imageFile.name : 'No file chosen'}
+                        </span>
+                      </div>
+                      {imagePreviewUrl && (
+                        <div className="mt-4">
+                          <p className="text-xs text-gray-500 mb-2">Image Preview:</p>
+                          <img src={imagePreviewUrl} alt="Preview" className="h-24 w-24 object-cover rounded-full shadow-md" />
+                        </div>
+                      )}
+                    </div>
 
-                    {/* 6. Changed Education to Description (Textarea) */}
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                       <textarea 
@@ -375,24 +449,24 @@ const ManageDoctor = ({ onBack }) => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
-                      <div className="flex gap-3">
-                        <input 
-                          type="time" 
-                          value={formData.startTime} 
-                          onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} 
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                          required 
-                        />
-                        <span className="self-center text-gray-500">to</span>
-                        <input 
-                          type="time" 
-                          value={formData.endTime} 
-                          onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} 
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                          required 
-                        />
-                      </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                      <input 
+                        type="time" 
+                        value={formData.startTime} 
+                        onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} 
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
+                        required 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                      <input 
+                        type="time" 
+                        value={formData.endTime} 
+                        onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} 
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
+                        required 
+                      />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
@@ -402,9 +476,26 @@ const ManageDoctor = ({ onBack }) => {
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                       >
                         <option value="Active">Active</option>
-                        <option value="On Leave">On Leave</option>
                         <option value="Inactive">Inactive</option>
                       </select>
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Available Days</label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+                          <label key={day} className="flex items-center space-x-2 text-sm">
+                            <input
+                              type="checkbox"
+                              value={day}
+                              checked={formData.availableDays.includes(day)}
+                              onChange={(e) => handleDayChange(day, e.target.checked)}
+                              className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                            />
+                            <span>{day}</span>
+                          </label>
+                        ))}
+                      </div>
                     </div>
                   </div>
                   
@@ -428,8 +519,8 @@ const ManageDoctor = ({ onBack }) => {
             </div>
           </div>
         )}
-
-        {/* Edit Doctor Modal - SAME FORM STRUCTURE */}
+        
+        {/* Edit Doctor Modal - Form is the same as Add Modal */}
         {showEditModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -460,19 +551,6 @@ const ManageDoctor = ({ onBack }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                      <input 
-                        type="tel" 
-                        value={formData.phone} 
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})} 
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                        required 
-                      />
-                    </div>
-                    
-                    {/* Removed Email */}
-
-                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
                       <select 
                         value={formData.department} 
@@ -487,9 +565,26 @@ const ManageDoctor = ({ onBack }) => {
                       </select>
                     </div>
 
-                    {/* Removed Specialization */}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Doctor Photo</label>
+                      <div className="flex items-center space-x-4">
+                        <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+                          <FaUpload className="mr-2" />
+                          Choose New File
+                          <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                        </label>
+                        <span className="text-sm text-gray-500">
+                          {imageFile ? imageFile.name : 'No new file chosen'}
+                        </span>
+                      </div>
+                      {imagePreviewUrl && (
+                        <div className="mt-4">
+                          <p className="text-xs text-gray-500 mb-2">Current/New Image Preview:</p>
+                          <img src={imagePreviewUrl} alt="Preview" className="h-24 w-24 object-cover rounded-full shadow-md" />
+                        </div>
+                      )}
+                    </div>
 
-                    {/* Changed Education to Description */}
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                       <textarea 
@@ -501,24 +596,24 @@ const ManageDoctor = ({ onBack }) => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
-                      <div className="flex gap-3">
-                        <input 
-                          type="time" 
-                          value={formData.startTime} 
-                          onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} 
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                          required 
-                        />
-                        <span className="self-center text-gray-500">to</span>
-                        <input 
-                          type="time" 
-                          value={formData.endTime} 
-                          onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} 
-                          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
-                          required 
-                        />
-                      </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                      <input 
+                        type="time" 
+                        value={formData.startTime} 
+                        onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} 
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
+                        required 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                      <input 
+                        type="time" 
+                        value={formData.endTime} 
+                        onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} 
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" 
+                        required 
+                      />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
@@ -528,9 +623,26 @@ const ManageDoctor = ({ onBack }) => {
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                       >
                         <option value="Active">Active</option>
-                        <option value="On Leave">On Leave</option>
                         <option value="Inactive">Inactive</option>
                       </select>
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Available Days</label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+                          <label key={day} className="flex items-center space-x-2 text-sm">
+                            <input
+                              type="checkbox"
+                              value={day}
+                              checked={formData.availableDays.includes(day)}
+                              onChange={(e) => handleDayChange(day, e.target.checked)}
+                              className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                            />
+                            <span>{day}</span>
+                          </label>
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-end space-x-3 pt-4">

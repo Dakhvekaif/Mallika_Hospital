@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaCalendarAlt, FaEdit, FaTrash, FaSearch, FaTimes, 
-  FaFilter, FaUserMd, FaHospital, FaExclamationTriangle
+  FaFilter, FaUserMd, FaHospital, FaExclamationTriangle, FaEye, FaPhone, FaFileMedical
 } from 'react-icons/fa';
 
 import { 
@@ -19,6 +19,7 @@ const ManageAppointment = ({ onBack }) => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   
   const [appointments, setAppointments] = useState([]);
@@ -28,15 +29,16 @@ const ManageAppointment = ({ onBack }) => {
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
 
-  // Form State
+  // 1. UPDATED Form State to match the exact API field names
   const [formData, setFormData] = useState({
     patient_name: '',
-    doctor: '',
+    phone: '',
     department: '',
+    doctor: '',
     date: '',
     time: '',
-    status: 'Pending',
-    type: ''
+    reason: '',
+    status: 'Pending'
   });
 
   useEffect(() => {
@@ -63,7 +65,6 @@ const ManageAppointment = ({ onBack }) => {
     }
   };
 
-  // Helper to find Name from ID
   const getDoctorName = (id) => {
     const doc = doctors.find(d => d.id === id);
     return doc ? doc.name : 'Unknown Doctor';
@@ -84,6 +85,11 @@ const ManageAppointment = ({ onBack }) => {
     }
   };
 
+  const handleView = (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowViewModal(true);
+  };
+
   const handleEdit = (appointment) => {
     if (!isAuthenticated()) {
       setActionError('You must be logged in to edit appointments');
@@ -91,14 +97,16 @@ const ManageAppointment = ({ onBack }) => {
     }
     setActionError('');
     setSelectedAppointment(appointment);
+    // 2. UPDATED handleEdit to map the correct API field names
     setFormData({
-      patient_name: appointment.patient_name || appointment.patientName || '',
+      patient_name: appointment.patient_name || '',
+      phone: appointment.phone || '',
       doctor: appointment.doctor,
       department: appointment.department,
-      date: appointment.date,
-      time: appointment.time,
+      date: appointment.date || '',
+      time: appointment.time ? appointment.time.slice(0, 5) : '', // Format time for input
+      reason: appointment.reason || '',
       status: appointment.status,
-      type: appointment.type || ''
     });
     setShowEditModal(true);
   };
@@ -132,7 +140,14 @@ const ManageAppointment = ({ onBack }) => {
 
   const handleUpdate = async () => {
     try {
-      const updatedApt = await updateAppointment(selectedAppointment.id, formData);
+      // The formData state now has the correct keys, so we can send it directly.
+      // We might need to format the time back to HH:mm:ss if the backend requires it.
+      const payload = {
+        ...formData,
+        time: `${formData.time}:00` // Append seconds for the API
+      };
+
+      const updatedApt = await updateAppointment(selectedAppointment.id, payload);
       
       setAppointments(appointments.map(a => 
         a.id === selectedAppointment.id ? updatedApt : a
@@ -151,13 +166,15 @@ const ManageAppointment = ({ onBack }) => {
     }
   };
 
-  // Filter Logic
+  // 3. UPDATED Filter Logic to use the correct field names
   const filteredAppointments = appointments.filter(apt => {
-    const pName = apt.patient_name || apt.patientName || "";
+    const patientName = apt.patient_name || "";
+    const phone = apt.phone || "";
     const docName = getDoctorName(apt.doctor); 
     const deptName = getDepartmentName(apt.department);
 
-    const matchesSearch = pName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           docName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           deptName.toLowerCase().includes(searchTerm.toLowerCase());
     
@@ -204,7 +221,7 @@ const ManageAppointment = ({ onBack }) => {
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search by patient, doctor, or department..."
+                placeholder="Search by patient name, phone, doctor, or department..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -235,8 +252,9 @@ const ManageAppointment = ({ onBack }) => {
             <div key={appointment.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="font-semibold text-gray-900">{appointment.patient_name || appointment.patientName}</h3>
-                  <p className="text-sm text-gray-600">{appointment.type}</p>
+                  {/* 4. UPDATED to use patient_name and reason */}
+                  <h3 className="font-semibold text-gray-900">{appointment.patient_name}</h3>
+                  <p className="text-sm text-gray-600">{appointment.reason}</p>
                 </div>
                 <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(appointment.status)}`}>
                   {appointment.status}
@@ -250,24 +268,31 @@ const ManageAppointment = ({ onBack }) => {
                 </div>
                 <div className="flex items-center text-gray-600">
                   <FaCalendarAlt className="mr-2 text-gray-400" />
-                  {appointment.date} at {appointment.time}
+                  {appointment.date} at {appointment.time ? appointment.time.slice(0, 5) : 'N/A'}
                 </div>
+                 {/* Added phone to the card for more info */}
                 <div className="flex items-center text-gray-600">
-                  <FaHospital className="mr-2 text-gray-400" />
-                  {getDepartmentName(appointment.department)}
+                  <FaPhone className="mr-2 text-gray-400" />
+                  {appointment.phone}
                 </div>
               </div>
               
-              <div className="mt-4 flex space-x-2">
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                <button 
+                  onClick={() => handleView(appointment)}
+                  className="bg-gray-50 text-gray-600 py-2 px-3 rounded hover:bg-gray-100 transition-colors text-sm"
+                >
+                  <FaEye className="inline mr-1" /> View
+                </button>
                 <button 
                   onClick={() => handleEdit(appointment)}
-                  className="flex-1 bg-blue-50 text-blue-600 py-2 px-3 rounded hover:bg-blue-100 transition-colors text-sm"
+                  className="bg-blue-50 text-blue-600 py-2 px-3 rounded hover:bg-blue-100 transition-colors text-sm"
                 >
                   <FaEdit className="inline mr-1" /> Edit
                 </button>
                 <button 
                   onClick={() => handleDelete(appointment)}
-                  className="flex-1 bg-red-50 text-red-600 py-2 px-3 rounded hover:bg-red-100 transition-colors text-sm"
+                  className="bg-red-50 text-red-600 py-2 px-3 rounded hover:bg-red-100 transition-colors text-sm"
                 >
                   <FaTrash className="inline mr-1" /> Delete
                 </button>
@@ -314,6 +339,16 @@ const ManageAppointment = ({ onBack }) => {
                         required
                       />
                     </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                      <input
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        required
+                      />
+                    </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Doctor</label>
@@ -326,6 +361,21 @@ const ManageAppointment = ({ onBack }) => {
                         <option value="">Select Doctor</option>
                         {doctors.map(doc => (
                           <option key={doc.id} value={doc.id}>{doc.name}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
+                      <select
+                        value={formData.department}
+                        onChange={(e) => setFormData({...formData, department: e.target.value})}
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        required
+                      >
+                        <option value="">Select Department</option>
+                        {departments.map(dept => (
+                           <option key={dept.id} value={dept.id}>{dept.name}</option>
                         ))}
                       </select>
                     </div>
@@ -351,29 +401,14 @@ const ManageAppointment = ({ onBack }) => {
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
-                      <select
-                        value={formData.department}
-                        onChange={(e) => setFormData({...formData, department: e.target.value})}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Reason for Visit</label>
+                      <textarea
+                        rows="2"
+                        value={formData.reason}
+                        onChange={(e) => setFormData({...formData, reason: e.target.value})}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        required
-                      >
-                        <option value="">Select Department</option>
-                        {departments.map(dept => (
-                           <option key={dept.id} value={dept.id}>{dept.name}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
-                      <input
-                        type="text"
-                        value={formData.type}
-                        onChange={(e) => setFormData({...formData, type: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        placeholder="e.g., Checkup"
+                        placeholder="e.g., Fever, Checkup"
                       />
                     </div>
                     <div>
@@ -412,6 +447,81 @@ const ManageAppointment = ({ onBack }) => {
           </div>
         )}
 
+        {/* 5. NEW View Appointment Modal - Shows the correct fields */}
+        {showViewModal && selectedAppointment && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-bold text-gray-900">Appointment Details</h2>
+                  <button onClick={() => setShowViewModal(false)} className="text-gray-400 hover:text-gray-600">
+                    <FaTimes />
+                  </button>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {selectedAppointment.patient_name}
+                    </h3>
+                    <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(selectedAppointment.status)}`}>
+                      {selectedAppointment.status}
+                    </span>
+                  </div>
+                  
+                  <hr />
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <h4 className="font-semibold text-gray-700 flex items-center">
+                        <FaPhone className="mr-2 text-gray-400" /> Phone Number
+                      </h4>
+                      <p className="text-gray-600 mt-1">{selectedAppointment.phone}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-700 flex items-center">
+                        <FaFileMedical className="mr-2 text-gray-400" /> Reason
+                      </h4>
+                      <p className="text-gray-600 mt-1">{selectedAppointment.reason}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-700 flex items-center">
+                        <FaUserMd className="mr-2 text-gray-400" /> Doctor
+                      </h4>
+                      <p className="text-gray-600 mt-1">{getDoctorName(selectedAppointment.doctor)}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-700 flex items-center">
+                        <FaHospital className="mr-2 text-gray-400" /> Department
+                      </h4>
+                      <p className="text-gray-600 mt-1">{getDepartmentName(selectedAppointment.department)}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-gray-700 flex items-center">
+                      <FaCalendarAlt className="mr-2 text-gray-400" /> Date & Time
+                    </h4>
+                    <p className="text-gray-600 mt-1">
+                      {selectedAppointment.date} at {selectedAppointment.time ? selectedAppointment.time.slice(0, 5) : 'N/A'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex justify-end">
+                  <button
+                    onClick={() => setShowViewModal(false)}
+                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Delete Confirmation Modal */}
         {showDeleteModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -431,7 +541,7 @@ const ManageAppointment = ({ onBack }) => {
                 </div>
               )}
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                <p className="font-medium text-gray-900">{selectedAppointment?.patient_name || selectedAppointment?.patientName}</p>
+                <p className="font-medium text-gray-900">{selectedAppointment?.patient_name}</p>
                 <p className="text-sm text-gray-600">Date: {selectedAppointment?.date}</p>
               </div>
               <div className="flex justify-end space-x-3">

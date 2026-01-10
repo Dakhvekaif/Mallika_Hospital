@@ -62,6 +62,7 @@ import ContactUs from "./ContactUS/ContactUs";
 // Find Doctor
 import DoctorsList from "./Doctor/doctor";
 import DoctorProfile from "./Doctor/doctorprofle";
+import ChatbotWrapper from "./ChatBot/ChatBotWrapper";
 
 function App() {
 
@@ -147,6 +148,8 @@ function App() {
       </div>
 
       <Footer />
+
+      <ChatbotWrapper />
     </div>
   );
 }
