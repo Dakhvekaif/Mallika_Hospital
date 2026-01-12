@@ -29,11 +29,15 @@ function Hero() {
       </video>
 
       {/* Hero Content */}
-      <div className="relative flex justify-center items-end h-full pb-12 md:pb-20">
+     <div className="
+        relative flex items-end h-full pb-12 md:pb-20
+        justify-start md:justify-center
+        px-4 md:px-0
+      ">
         <Link
           to="/find-doctor"
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold
-                     text-sm md:text-base
+                     text-sm md:text-base 
                      py-2 px-6 md:py-3 md:px-8
                      rounded-md md:rounded-lg
                      transition-all duration-200 transform hover:scale-105
