@@ -29,41 +29,69 @@ const Achievements = () => {
   });
   const [hoveredAchievement, setHoveredAchievement] = useState(null);
 
-  // Counter animation effect
+  const statsRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
   useEffect(() => {
-    const targetValues = {
-      patients: 50000,
-      surgeries: 10000,
-      doctors: 150,
-      years: 25
-    };
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting && !hasAnimated) {
+        setHasAnimated(true);
 
-    const duration = 2000; // 2 seconds
-    const steps = 60;
-    const increment = {
-      patients: targetValues.patients / steps,
-      surgeries: targetValues.surgeries / steps,
-      doctors: targetValues.doctors / steps,
-      years: targetValues.years / steps
-    };
+        const targetValues = {
+          patients: 50000,
+          surgeries: 10000,
+          doctors: 150,
+          years: 25,
+        };
 
-    let currentStep = 0;
-    const timer = setInterval(() => {
-      currentStep++;
-      setCounters({
-        patients: Math.floor(Math.min(currentStep * increment.patients, targetValues.patients)),
-        surgeries: Math.floor(Math.min(currentStep * increment.surgeries, targetValues.surgeries)),
-        doctors: Math.floor(Math.min(currentStep * increment.doctors, targetValues.doctors)),
-        years: Math.floor(Math.min(currentStep * increment.years, targetValues.years))
-      });
+        const duration = 2000;
+        const steps = 60;
+        const increment = {
+          patients: targetValues.patients / steps,
+          surgeries: targetValues.surgeries / steps,
+          doctors: targetValues.doctors / steps,
+          years: targetValues.years / steps,
+        };
 
-      if (currentStep >= steps) {
-        clearInterval(timer);
+        let currentStep = 0;
+
+        const timer = setInterval(() => {
+          currentStep++;
+
+          setCounters({
+            patients: Math.floor(
+              Math.min(currentStep * increment.patients, targetValues.patients)
+            ),
+            surgeries: Math.floor(
+              Math.min(currentStep * increment.surgeries, targetValues.surgeries)
+            ),
+            doctors: Math.floor(
+              Math.min(currentStep * increment.doctors, targetValues.doctors)
+            ),
+            years: Math.floor(
+              Math.min(currentStep * increment.years, targetValues.years)
+            ),
+          });
+
+          if (currentStep >= steps) {
+            clearInterval(timer);
+          }
+        }, duration / steps);
       }
-    }, duration / steps);
+    },
+    {
+      threshold: 0.5, // 🔥 50% visibility
+    }
+  );
 
-    return () => clearInterval(timer);
-  }, []);
+  if (statsRef.current) {
+    observer.observe(statsRef.current);
+  }
+
+  return () => observer.disconnect();
+}, [hasAnimated]);
+
 
   // Achievement data
   const awards = [
@@ -187,7 +215,7 @@ const Achievements = () => {
       </div>
 
       {/* Statistics Section */}
-      <div className="bg-white py-16 px-4">
+      <div ref={statsRef} className="bg-white py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Our Impact in Numbers</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
