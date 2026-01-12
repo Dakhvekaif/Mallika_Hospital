@@ -15,7 +15,7 @@ const leadershipData = {
     id: 2,
     name: "Dr. Roshan Jha",
     title: "Managing Director",
-    description: "M.D in Medicine, Cardiologist, Diabetologist, Physician & Consultant ",
+    description: "M.D in Medicine, Cardiologist, Diabetologist, Physician & Consultant, MD DNB MNAMS MRCP1,2(UK), MRCP (Endocrinology & Diabetes), PGC(Diabetes)  Fellow (2D echo & Doppler), FICM FCCM, Eular (Rheumatology) ",
     image: authority2
     },
   ],
