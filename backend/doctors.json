@@ -538,7 +538,8 @@
     "name": "Dr. Dhruv Gohil",
     "photo": "doctors/pexels-cottonbro-5867737_K7QqFen.jpg",
     "department": 23,
-description    "available_days": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",
+    "description": "M.B.B.S",
+    "available_days": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",
     "start_time": "13:00:00",
     "end_time": "14:00:00",
     "active": true
