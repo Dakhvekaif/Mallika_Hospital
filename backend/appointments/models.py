@@ -10,7 +10,7 @@ class Doctor(models.Model):
     name = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='doctors/')
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    qualifications = models.TextField(blank=True)
+    description = models.TextField(blank=True)
     available_days = models.CharField(max_length=100)  # Example: "Mon,Wed,Fri"
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
