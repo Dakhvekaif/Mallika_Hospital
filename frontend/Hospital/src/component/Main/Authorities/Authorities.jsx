@@ -8,14 +8,14 @@ const leadershipData = {
     id: 1,
     name: "Dr. Keshnath Chauhan",
     title: "Managing Director",
-    description: "Description",
+    description: "Intensivist",
     image: authority1
   },
   {
     id: 2,
     name: "Dr. Roshan Jha",
-    title: "M.D in Medicine",
-    description: "Description",
+    title: "Managing Director",
+    description: "M.D in Medicine, Cardiologist, Diabetologist, Physician & Consultant ",
     image: authority2
     },
   ],
