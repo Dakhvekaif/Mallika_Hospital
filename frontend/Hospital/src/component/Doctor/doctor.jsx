@@ -150,7 +150,7 @@ const DoctorsList = () => {
               <div className="relative h-64 bg-gray-200 rounded-t-lg overflow-hidden">
                 {doctor.photo ? (
                   <img 
-                    src={""} 
+                    src={doctor.photo} 
                     alt={""}
                     loading="lazy" 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

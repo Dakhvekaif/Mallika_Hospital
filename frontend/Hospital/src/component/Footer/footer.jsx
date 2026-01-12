@@ -1,4 +1,5 @@
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram , FaLinkedinIn,} from 'react-icons/fa';
+import { IoLogoWhatsapp } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -33,27 +34,14 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Find a Doctor</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Our Services</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Patient Portal</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Billing & Insurance</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Pay Your Bill</a></li>
+              <li><Link to="/find-doctor" className="text-gray-400 hover:text-white transition-colors duration-300">Find a Doctor</Link></li>
+              <li><Link to="/cashless-&-tpa" className="text-gray-400 hover:text-white transition-colors duration-300">Cashless & TPA Services</Link></li>
+              <li><Link to="/govt.sch" className="text-gray-400 hover:text-white transition-colors duration-300">Government Schemes</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors duration-300">Contact Us</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Resources */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Resources</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">For Patients</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">For Visitors</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Health Library</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Careers</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Contact Us</a></li>
-            </ul>
-          </div>
-
-          {/* Column 4: Services */}
+          {/* Column 3: Services */}
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Services</h3>
@@ -68,7 +56,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 5: Medical Services */}
+          {/* Column 4: Medical Services */}
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Medical Services</h3>
@@ -86,7 +74,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 6: Consultants */}
+          {/* Column 5: Consultants */}
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Consultants</h3>
@@ -104,13 +92,12 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 7: Legal & Newsletter */}
+          {/* Column 6: Legal & Newsletter */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2 mb-6">
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Privacy Policy</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Terms of Service</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">HIPAA Notice</a></li>
             </ul>
           </div>
         </div>
@@ -121,17 +108,17 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} City General Hospital. All Rights Reserved.
           </p> */}
           <div className="flex space-x-6 mb-5">
-            <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-white transition-colors duration-300">
+            <a href="https://www.facebook.com/people/Mallika-Multi-Specialty-Hospital/pfbid02PrCR9NYSk59itFDNYwEqxSeXwpV7j2c6FZ3rDzQVNLivicPvBFkHUE6bRxJYQa8al/?mibextid=ZbWKwL" aria-label="Facebook" className="text-gray-400 hover:text-white transition-colors duration-300">
               <FaFacebookF size={20} />
             </a>
-            <a href="#" aria-label="Twitter" className="text-gray-400 hover:text-white transition-colors duration-300">
-              <FaTwitter size={20} />
+            <a href="https://www.instagram.com/mallika_hospital" aria-label="Twitter" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <FaInstagram  size={20} />
             </a>
-            <a href="#" aria-label="LinkedIn" className="text-gray-400 hover:text-white transition-colors duration-300">
+            <a href="https://www.linkedin.com/in/mallika-hospital-27b547115/" aria-label="LinkedIn" className="text-gray-400 hover:text-white transition-colors duration-300">
               <FaLinkedinIn size={20} />
             </a>
-            <a href="#" aria-label="YouTube" className="text-gray-400 hover:text-white transition-colors duration-300">
-              <FaYoutube size={20} />
+            <a href="https://api.whatsapp.com/send?phone=919082097421" aria-label="YouTube" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <IoLogoWhatsapp   size={20} />
             </a>
           </div>
         </div>
