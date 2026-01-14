@@ -64,7 +64,7 @@ const Authorities = () => {
               <p className="text-md font-medium text-blue-600 mb-2">
                 {person.title}
               </p>
-              <p className="text-sm text-gray-600 max-w-md mx-auto">
+              <p className="text-sm font-bold text-gray-600 max-w-md mx-auto">
                 {person.description}
               </p>
             </div>
@@ -89,7 +89,7 @@ const Authorities = () => {
                     <p className="text-md font-medium text-blue-600 mb-2">
                       {person.title}
                     </p>
-                    <p className="text-sm text-gray-600 max-w-md mx-auto">
+                    <p className="text-sm font-bold text-gray-600 max-w-md mx-auto">
                       {person.description}
                     </p>
                   </div>

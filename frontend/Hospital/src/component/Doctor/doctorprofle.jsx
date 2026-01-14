@@ -171,7 +171,7 @@ const DoctorProfile = () => {
                     <div className="flex flex-col gap-3 text-gray-600">
                         <div className="flex items-center">
                             <FaPhone className="mr-3 text-blue-600" /> 
-                            <span className='font-semibold'>{doctor.phone || "022 26797171 / 022 26798585"}</span>
+                            <span className='font-semibold'>{ "022 26798585"}</span>
                         </div>
                         <div className="flex items-center">
                             <FaEnvelope className="mr-3 text-blue-600" /> 
