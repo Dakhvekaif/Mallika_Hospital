@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
+from django.conf import settings
+from django.http import JsonResponse
 
 
 # --- Stats Views (PUBLIC) ---
@@ -96,3 +98,8 @@ class AppointmentDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AppointmentSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]  # Auth required to edit/delete
+
+
+
+def db_check(request):
+    return JsonResponse(settings.DATABASES)
