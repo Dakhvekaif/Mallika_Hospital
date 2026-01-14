@@ -86,7 +86,7 @@ const DoctorsList = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-xl text-blue-600 font-semibold animate-pulse">Loading Doctors...</div>
+        <div className="text-xl text-blue-600 font-semibold animate-pulse">Finding Doctors...</div>
       </div>
     );
   }
