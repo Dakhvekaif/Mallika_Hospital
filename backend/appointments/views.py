@@ -1,3 +1,4 @@
+from django.db.models import Case, When, IntegerField
 from rest_framework import generics
 from .models import Department, Doctor, Appointment
 from .serializers import DepartmentSerializer, DoctorSerializer, AppointmentSerializer
@@ -61,17 +62,27 @@ class DoctorListCreateView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
-        # ✅ FIXED: Use .filter() or .all(), not .all(active=True)
-        queryset = Doctor.objects.all()
+        featured_doctor_id = 34  # 👈 change to the doctor ID you want first
+
+        queryset = Doctor.objects.annotate(
+            priority=Case(
+                When(id=featured_doctor_id, then=0),
+                default=1,
+                output_field=IntegerField(),
+            )
+        ).order_by('priority', 'name')
+
         dept_id = self.request.query_params.get('department')
         if dept_id:
             queryset = queryset.filter(department_id=dept_id)
+
         return queryset
 
     def get_permissions(self):
         if self.request.method == "GET":
             return [AllowAny()]
         return [IsAuthenticated()]
+
 
 
 class DoctorDetailView(generics.RetrieveUpdateDestroyAPIView):
