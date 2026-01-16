@@ -57,20 +57,23 @@ class DepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # --- Doctor Views ---
 class DoctorListCreateView(generics.ListCreateAPIView):
-    queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
-        featured_doctor_id = 34  # 👈 change to the doctor ID you want first
+        featured_doctor_id = 34  # optional, remove if not needed
 
-        queryset = Doctor.objects.annotate(
+        queryset = Doctor.objects.select_related('department').annotate(
             priority=Case(
                 When(id=featured_doctor_id, then=0),
                 default=1,
                 output_field=IntegerField(),
             )
-        ).order_by('priority', 'name')
+        ).order_by(
+            'priority',                 # featured doctor first (optional)
+            'department__name',         # department A → Z
+            'name'                      # doctor name A → Z
+        )
 
         dept_id = self.request.query_params.get('department')
         if dept_id:
@@ -82,6 +85,7 @@ class DoctorListCreateView(generics.ListCreateAPIView):
         if self.request.method == "GET":
             return [AllowAny()]
         return [IsAuthenticated()]
+
 
 
 
