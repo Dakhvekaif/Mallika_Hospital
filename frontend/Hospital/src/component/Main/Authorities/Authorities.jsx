@@ -4,19 +4,19 @@ import authority3 from '../../../assets/Authority/Umandra.png';
 
 const leadershipData = {
   head:[ 
-  {
-    id: 1,
-    name: "Dr. Keshnath Chauhan",
-    title: "Managing Director",
-    description: "Intensivist",
-    image: authority1
-  },
-  {
-    id: 2,
-    name: "Dr. Roshan Jha",
-    title: "Managing Director",
-    description: "M.D in Medicine, Cardiologist, Diabetologist, Physician & Consultant, MD DNB MNAMS MRCP1,2(UK), MRCP (Endocrinology & Diabetes), PGC(Diabetes)  Fellow (2D echo & Doppler), FICM FCCM, Eular (Rheumatology) ",
-    image: authority2
+    {
+      id: 1,
+      name: "Dr. Roshan Jha",
+      title: "Managing Director",
+      description: "M.D in Medicine, Cardiologist, Diabetologist, Physician & Consultant, MD DNB MNAMS MRCP1,2(UK), MRCP (Endocrinology & Diabetes), PGC(Diabetes)  Fellow (2D echo & Doppler), FICM FCCM, Eular (Rheumatology) ",
+      image: authority2
+    },
+    {
+      id: 2,
+      name: "Dr. Keshnath Chauhan",
+      title: "Managing Director",
+      description: "Intensivist",
+      image: authority1
     },
   ],
   leadership: [

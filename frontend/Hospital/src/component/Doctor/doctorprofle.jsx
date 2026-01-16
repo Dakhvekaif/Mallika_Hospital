@@ -148,11 +148,7 @@ const DoctorProfile = () => {
                 {/* Collapsible Content */}
                 <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activeSection === 'profile' ? 'max-h-96 opacity-100 mb-6' : 'max-h-0 opacity-0'}`}>
                     <p className="text-gray-600 leading-relaxed">
-                        {doctor.name} is a dedicated {departmentName} with extensive experience in the field. 
-                        Holding qualifications in {doctor.qualifications || "Medicine"}, Dr. {doctor.name.split(' ')[1]} is committed to providing compassionate and comprehensive care to all patients.
-                        <br /><br />
-                        He/She specializes in advanced treatments within the {departmentName} department and is known for a patient-centric approach. 
-                        With a focus on continuous learning, the doctor stays updated with the latest medical advancements to ensure the best possible outcomes.
+                       {doctor.description || "No detailed profile available at the moment."}
                     </p>
                 </div>
             </div>
