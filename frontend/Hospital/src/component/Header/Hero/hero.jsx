@@ -4,7 +4,7 @@ import mobileVideo from '../../../assets/HeroPage/hero-mobile.mp4';
 
 function Hero() {
   return (
-    <div className="relative w-full h-[100vh] overflow-hidden md:mt-16 max-w-full">
+    <div className="relative w-full h-[100vh] overflow-hidden md:mt-16 max-w-full object-fill">
       
       {/* Desktop Video */}
       <video

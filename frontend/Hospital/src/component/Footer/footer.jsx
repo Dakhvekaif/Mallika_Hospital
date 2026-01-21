@@ -120,6 +120,7 @@ const Footer = () => {
             <a href="https://api.whatsapp.com/send?phone=919082097421" aria-label="YouTube" className="text-gray-400 hover:text-white transition-colors duration-300">
               <IoLogoWhatsapp   size={20} />
             </a>
+            <a href='https://husnoorinfotech.in/' target="_blank" className='text-gray-400 pl-85' >© 2026 Husnoor Infotech</a>
           </div>
         </div>
       </div>

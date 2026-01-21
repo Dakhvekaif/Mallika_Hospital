@@ -57,7 +57,7 @@ import ContactUs from "./ContactUS/ContactUs";
 // import Floor1 from "./Media/floor1";
 // import Floor2 from "./Media/floor2";
 // import Floor3 from "./Media/floor3";
-// import Dashboard from "./dashboard/Dashboard.jsx"
+import Dashboard from "./dashboard/Dashboard.jsx"
 
 // Find Doctor
 import DoctorsList from "./Doctor/doctor";
@@ -90,7 +90,7 @@ function App() {
             </>          } />  
 
           {/* About Us */}
-          {/* <Route path='/dashboard' element={<Dashboard />} /> */}
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/about-us' element={<AboutUs />} />
 
           {/* Service Pages */}
