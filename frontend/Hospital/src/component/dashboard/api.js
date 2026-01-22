@@ -77,10 +77,11 @@ export const addDoctor = async (data) => {
   const response = await fetch(`${BASE_URL}/api/doctors/`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       ...getAuthHeader(), // Include auth token
     },
-    body: JSON.stringify(data)
+    body: data // FormData directly
+    // body: JSON.stringify(data)
   });
   return handleResponse(response);
 };
@@ -90,10 +91,11 @@ export const updateDoctor = async (id, data) => {
   const response = await fetch(`${BASE_URL}/api/doctors/${id}/`, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       ...getAuthHeader(), // Include auth token
     },
-    body: JSON.stringify(data)
+    body: data // FormData directly
+    // body: JSON.stringify(data)
   });
   return handleResponse(response);
 };

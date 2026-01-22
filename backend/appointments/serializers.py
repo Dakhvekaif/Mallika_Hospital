@@ -42,13 +42,13 @@ class AppointmentSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Doctor not available at this time.")
         elif doctor.active and (not doctor.start_time or not doctor.end_time):
             if requested < today + timedelta(days=2):
-                raise serializers.ValidationError("Doctor’s schedule not set. Please contact reception at 123-4567 for appointments.")
+                raise serializers.ValidationError("Doctor available only on appointment. Please contact reception at 02 226798585 for booking appointments")
 
         if data['department'] != doctor.department:
             raise serializers.ValidationError("Doctor and department mismatch.")
 
         if not doctor.active:
-            raise serializers.ValidationError("Doctor is currently inactive.")
+            raise serializers.ValidationError("Doctor is currently not available.")
         return data
 
 
