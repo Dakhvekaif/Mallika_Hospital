@@ -103,25 +103,55 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          {/* <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} City General Hospital. All Rights Reserved.
-          </p> */}
-          <div className="flex space-x-6 mb-5">
-            <a href="https://www.facebook.com/people/Mallika-Multi-Specialty-Hospital/pfbid02PrCR9NYSk59itFDNYwEqxSeXwpV7j2c6FZ3rDzQVNLivicPvBFkHUE6bRxJYQa8al/?mibextid=ZbWKwL" aria-label="Facebook" className="text-gray-400 hover:text-white transition-colors duration-300">
+        <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col gap-4 md:flex-row md:items-center">
+          
+          {/* Social Icons */}
+          <div className="flex space-x-6 mb-5 justify-center md:justify-start">
+            <a
+              href="https://www.facebook.com/people/Mallika-Multi-Specialty-Hospital/pfbid02PrCR9NYSk59itFDNYwEqxSeXwpV7j2c6FZ3rDzQVNLivicPvBFkHUE6bRxJYQa8al/?mibextid=ZbWKwL"
+              aria-label="Facebook"
+              className="text-gray-400 hover:text-white transition-colors duration-300"
+            >
               <FaFacebookF size={20} />
             </a>
-            <a href="https://www.instagram.com/mallika_hospital" aria-label="Twitter" className="text-gray-400 hover:text-white transition-colors duration-300">
-              <FaInstagram  size={20} />
+          
+            <a
+              href="https://www.instagram.com/mallika_hospital"
+              aria-label="Instagram"
+              className="text-gray-400 hover:text-white transition-colors duration-300"
+            >
+              <FaInstagram size={20} />
             </a>
-            <a href="https://www.linkedin.com/in/mallika-hospital-27b547115/" aria-label="LinkedIn" className="text-gray-400 hover:text-white transition-colors duration-300">
+          
+            <a
+              href="https://www.linkedin.com/in/mallika-hospital-27b547115/"
+              aria-label="LinkedIn"
+              className="text-gray-400 hover:text-white transition-colors duration-300"
+            >
               <FaLinkedinIn size={20} />
             </a>
-            <a href="https://api.whatsapp.com/send?phone=919082097421" aria-label="YouTube" className="text-gray-400 hover:text-white transition-colors duration-300">
-              <IoLogoWhatsapp   size={20} />
+          
+            <a
+              href="https://api.whatsapp.com/send?phone=919082097421"
+              aria-label="WhatsApp"
+              className="text-gray-400 hover:text-white transition-colors duration-300"
+            >
+              <IoLogoWhatsapp size={20} />
             </a>
-            <a href='https://husnoorinfotech.in/' target="_blank" className='text-gray-400 pl-85' >© 2026 Husnoor Infotech</a>
           </div>
+          
+          {/* Spacer pushes copyright to right on desktop */}
+          <div className="hidden md:block md:flex-1" />
+          
+          {/* Copyright */}
+          <a
+            href="https://husnoorinfotech.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-5 text-gray-400 text-sm text-center md:text-right hover:text-white transition-colors duration-300"
+          >
+            © 2026 Husnoor Infotech
+          </a>
         </div>
       </div>
     </footer>
