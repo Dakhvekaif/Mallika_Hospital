@@ -226,7 +226,7 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
-
+backend.zip
 
 # Marimo
 marimo/_static/

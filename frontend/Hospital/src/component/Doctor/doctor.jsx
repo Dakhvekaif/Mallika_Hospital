@@ -28,6 +28,7 @@ const DoctorsList = () => {
           getDepartments()
         ]);
         setDoctors(doctorsData);
+        console.log("Doctors Data:", doctorsData);
         setDepartments(departmentsData);
         setLoading(false);
       } catch (error) {
@@ -206,7 +207,7 @@ const DoctorsList = () => {
 
                 <div className="flex items-center text-gray-600 text-sm mb-4 mt-auto">
                   <FaPhone className="mr-2 text-gray-400" />
-                  {doctor.phone ? doctor.phone : "+91 98765 00000"} 
+                  {doctor.phone ? doctor.phone : "+91 9082097421 / 022 26798585"} 
                 </div>
 
                 {/* Action Button */}

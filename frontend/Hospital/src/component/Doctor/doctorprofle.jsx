@@ -86,7 +86,7 @@ const DoctorProfile = () => {
                 <div className="relative w-full max-w-sm aspect-[4/5] bg-gray-100 rounded-[40px] overflow-hidden shadow-sm">
                      {doctor.photo ? (
                         <img 
-                            src={doctor.photo} 
+                            src={doctor.photo_url} 
                             alt={doctor.name} 
                             className="w-full h-full object-cover"
                         />

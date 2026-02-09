@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
+# import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,7 +30,8 @@ SECRET_KEY = 'django-insecure-&ovy5&!=8(es8a(_an&u(ow3k_=vu*g*onpbo&1jb2m_yx#ak-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mallika-hospital.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['mallika-hospital.onrender.com', 
+                  'sg2plzcpnl509069.prod.sin2.secureserver.net', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -95,16 +96,15 @@ WSGI_APPLICATION = 'hospital_project.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "mallika_db",
+        "USER": "mallika_db_user",
+        "PASSWORD": "Mallika@1234",
+        "HOST": "sg2plzcpnl509069.prod.sin2.secureserver.net",
+        "PORT": "3306",
     }
 }
-
-# This automatically switches to PostgreSQL on Render
-database_url = os.environ.get("DATABASE_URL")
-if database_url:
-    DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 # Password validation

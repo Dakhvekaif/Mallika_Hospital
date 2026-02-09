@@ -808,7 +808,7 @@
   "model": "appointments.department",
   "pk": 13,
   "fields": {
-    "name": "CORDIO-VASCULAR SURGEON"
+    "name": "CARDIO-VASCULAR SURGEON"
   }
 },
 {

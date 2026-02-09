@@ -26,7 +26,7 @@ const getBaseUrl = () => {
   
   // Production fallback
   console.log('Using production URL');
-  return 'https://mallika-hospital.onrender.com/api';
+return 'https://mallikahospital.co.in/api';
 };
 
 const BASE_URL = getBaseUrl();
