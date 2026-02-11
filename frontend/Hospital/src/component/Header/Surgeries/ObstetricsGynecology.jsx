@@ -105,9 +105,12 @@ const ObstetricsGynecology = () => {
                 When surgery is necessary, our specialists are leaders in minimally invasive techniques, including robotic and laparoscopic surgery, which means less pain and a quicker recovery.
               </p>
               <ul className="mt-4 space-y-2 text-gray-700">
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Robotic & Laparoscopic Hysterectomy</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Myomectomy (Fibroid Removal)</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Endometriosis Resection</li>
+                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Uterine Fibroid </li>
+                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Uterine prolapse </li>
+                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Endometriosis </li>
+                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Ovarian Cyst  </li>
+                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Uterine and cervical cancer  </li>
+                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Myomectomy, Polpectomy </li>
               </ul>
             </div>
             <div className="md:w-1/2">
@@ -118,8 +121,91 @@ const ObstetricsGynecology = () => {
           </div>
         </section>
 
+        {/* Our Procedures - Alternating Layout */}
+        <section className="space-y-16">
+          <h2 className="text-3xl font-bold text-center text-gray-800">Our Surgical Procedures</h2>
+          
+          {/* Procedure 1 */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Uterine Fibroid </h3>
+              <p className="text-gray-600">
+                Uterine fibroids are non-cancerous growths in the uterus that can cause heavy menstrual bleeding, pelvic pain, pressure symptoms, or infertility. Surgical treatment helps remove fibroids, relieve symptoms, and preserve the uterus whenever possible.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+          {/* Procedure 2 - Alternated */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Uterine prolapse </h3>
+              <p className="text-gray-600">
+                Uterine prolapse occurs when the uterus descends into or outside the vaginal canal due to weakened pelvic floor muscles. Surgery restores the uterus to its normal position, improving discomfort, urinary problems, and overall quality of life.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img3} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+          {/* Procedure 3 */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Endometriosis  </h3>
+              <p className="text-gray-600">
+                Endometriosis is a painful condition in which tissue similar to the uterine lining grows outside the uterus. Surgical treatment focuses on removing abnormal tissue to reduce pain, improve fertility, and prevent further complications.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+          {/* Procedure 4 - Alternated */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Ovarian Cyst  </h3>
+              <p className="text-gray-600">
+                Ovarian cysts are fluid-filled sacs that form on the ovaries and may cause pain, bloating, or complications if left untreated. Surgery is recommended when cysts are large, persistent, or suspected to be abnormal.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img3} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+          {/* Procedure 5 */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Uterine and cervical cancer  </h3>
+              <p className="text-gray-600">
+                Uterine and cervical cancer surgery involves removing cancerous tissue and, in some cases, surrounding organs or lymph nodes to prevent the spread of disease and improve long-term outcomes.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+          {/* Procedure 6 - Alternated */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Myomectomy, Polpectomy </h3>
+              <p className="text-gray-600">
+                Myomectomy and polypectomy are uterus-preserving procedures used to remove fibroids and uterine polyps, helping relieve symptoms such as heavy bleeding and supporting future fertility.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img3} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+        </section>
+
         {/* Meet Our Lead Surgeons Section */}
-        <section>
+        {/* <section>
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
@@ -128,7 +214,7 @@ const ObstetricsGynecology = () => {
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
               <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
-            {/* <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
               <img src="" alt="Dr. Name" className="w-full h-48 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-800">Dr. Sara Davis</h3>
@@ -137,9 +223,9 @@ const ObstetricsGynecology = () => {
                   Descrioption.
                 </p>
               </div>
-            </div> */}
+            </div>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

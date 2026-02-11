@@ -125,7 +125,7 @@ const Ophthalmology = () => {
         </section>
 
         {/* Meet Our Lead Surgeons Section */}
-        <section>
+        {/* <section>
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
@@ -159,7 +159,7 @@ const Ophthalmology = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import desktopVideo from '../../../assets/HeroPage/hero-desktop.mp4';
-import mobileVideo from '../../../assets/HeroPage/hero-mobile.mp4';
+// import mobileVideo from '../../../assets/HeroPage/hero-mobile.mp4';
 
 function Hero() {
   return (
@@ -25,7 +25,7 @@ function Hero() {
         loop
         playsInline
       >
-        <source src={mobileVideo} type="video/mp4" />
+        <source src={desktopVideo} type="video/mp4" />
       </video>
 
       {/* Hero Content */}

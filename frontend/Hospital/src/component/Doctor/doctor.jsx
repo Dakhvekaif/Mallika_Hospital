@@ -191,8 +191,8 @@ const DoctorsList = () => {
 
                 <div className="flex items-start mb-2">
                   <FaCalendarAlt className="text-gray-400 mr-2 mt-1 text-sm" />
-                  <p className="text-gray-600 text-xs line-clamp-2">
-                    {doctor.available_days || "Call for Schedule"}
+                  <p className="text-gray-600 text-xs line-clamp-2 font-semibold">
+                    {doctor.display_available_days || "Call for Schedule"}
                   </p>
                 </div>
 

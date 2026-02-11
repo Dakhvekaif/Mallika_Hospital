@@ -117,16 +117,22 @@ const Cardiology = () => {
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Consultants</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
+              <img src={doc4} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
               <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
+              <img src={""} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc4} alt="Dr. image" className="w-full h-full object-cover" />
+              <img src={""} alt="Dr. image" className="w-full h-full object-cover" />
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src={""} alt="Dr. image" className="w-full h-full object-cover" />
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
           </div>
         </section>

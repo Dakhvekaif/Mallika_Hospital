@@ -117,6 +117,15 @@ const Nephrology = () => {
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
               <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src={"doc1"} alt="Dr. image" className="w-full h-full object-cover" />
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src={"doc1"} alt="Dr. image" className="w-full h-full object-cover" />
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+              <img src={"doc1"} alt="Dr. image" className="w-full h-full object-cover" />
+            </div>
           </div>
         </section>
       </div>

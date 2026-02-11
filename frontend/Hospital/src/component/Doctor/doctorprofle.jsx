@@ -109,7 +109,7 @@ const DoctorProfile = () => {
 
                 <h3 className="text-lg font-bold text-gray-900 mb-4">OPD Schedule</h3>
                 <div className="text-gray-600 mb-8">
-                   <p className="mb-1"><span className="font-semibold">Days:</span> {doctor.available_days || "Contact Hospital"}</p>
+                   <p className="mb-1"><span className="font-semibold">Days:</span> {doctor.display_available_days || "Contact Hospital"}</p>
                    <p><span className="font-semibold">Time:</span> {doctor.start_time ? `${formatTime(doctor.start_time)} - ${formatTime(doctor.end_time)}` : "By Appointment"}</p>
                 </div>
 

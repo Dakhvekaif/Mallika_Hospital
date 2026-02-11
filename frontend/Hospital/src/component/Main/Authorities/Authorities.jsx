@@ -1,5 +1,5 @@
-import authority1 from '../../../assets/Authority/Keshnath Chauhan.png';
-import authority2 from '../../../assets/Authority/Roshan Jha.png';
+import authority1 from '../../../assets/Authority/KeshnathChauhan.png';
+import authority2 from '../../../assets/Authority/RoshanJha.png';
 import authority3 from '../../../assets/Authority/Umandra.png';
 
 const leadershipData = {
@@ -8,14 +8,14 @@ const leadershipData = {
       id: 1,
       name: "Dr. Roshan Jha",
       title: "Managing Director",
-      description: "M.D in Medicine, Cardiologist, Diabetologist, Physician & Consultant, MD DNB MNAMS MRCP1,2(UK), MRCP (Endocrinology & Diabetes), PGC(Diabetes)  Fellow (2D echo & Doppler), FICM FCCM, Eular (Rheumatology) ",
+      // description: "M.D in Medicine, Cardiologist, Diabetologist, Physician & Consultant, MD DNB MNAMS MRCP1,2(UK), MRCP (Endocrinology & Diabetes), PGC(Diabetes)  Fellow (2D echo & Doppler), FICM FCCM, Eular (Rheumatology) ",
       image: authority2
     },
     {
       id: 2,
       name: "Dr. Keshnath Chauhan",
       title: "Managing Director",
-      description: "Intensivist",
+      // description: "Intensivist",
       image: authority1
     },
   ],
@@ -24,7 +24,7 @@ const leadershipData = {
       id: 3,
       name: "Umendra R. Varma",
       title: "General Administration Head",
-      description: "Business & Hospitality Management, B.Com, MBA (Healthcare Management)",
+      // description: "Business & Hospitality Management, B.Com, MBA (Healthcare Management)",
       image: authority3 // Placeholder image
     }
   ]

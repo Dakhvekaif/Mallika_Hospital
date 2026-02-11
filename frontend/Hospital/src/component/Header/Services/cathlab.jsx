@@ -9,7 +9,7 @@ const CathLab = () => {
     <div className="w-full min-h-screen bg-white pt-20" id='cathlab'>
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <div className="absolute inset-0 z-10"></div> {/* bg-gradient-to-r from-blue-900/80 to-blue-700/80* for bluecolor in the bg */}
         <img 
           src={img1} 
           alt="Catheterization Laboratory (Cath Lab)" 
@@ -17,9 +17,9 @@ const CathLab = () => {
         />
         <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Cath Lab</h1>
+            <h1 className="text-4xl bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent md:text-5xl font-bold mb-4 ">Cath Lab</h1>
             <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
-            <p className="text-xl max-w-3xl mx-auto">
+            <p className="text-xl font-semibold max-w-3xl mx-auto bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent">
               Providing state-of-the-art diagnostic and interventional cardiology services for your heart health.
             </p>
           </div>

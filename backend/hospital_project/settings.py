@@ -30,8 +30,14 @@ SECRET_KEY = 'django-insecure-&ovy5&!=8(es8a(_an&u(ow3k_=vu*g*onpbo&1jb2m_yx#ak-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mallika-hospital.onrender.com', 
-                  'sg2plzcpnl509069.prod.sin2.secureserver.net', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'mallika-hospital.onrender.com',
+    'mallikahospital.co.in',
+    'www.mallikahospital.co.in',
+    'sg2plzcpnl509069.prod.sin2.secureserver.net',
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -77,7 +83,7 @@ ROOT_URLCONF = 'hospital_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,9 +104,9 @@ WSGI_APPLICATION = 'hospital_project.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "mallika_db",
+        "NAME": os.getenv('DB_NAME'),
         "USER": "mallika_db_user",
-        "PASSWORD": "Mallika@1234",
+        "PASSWORD": os.getenv('DB_PASSWORD'),
         "HOST": "sg2plzcpnl509069.prod.sin2.secureserver.net",
         "PORT": "3306",
     }
@@ -137,16 +143,22 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# For Production On Render
-if not DEBUG:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
+
+# This is where Django looks for the assets you uploaded (favicon, css, js)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static', 
+]
+
+# This is where Django collects files when you run 'collectstatic'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# ALWAYS use WhiteNoise for storage (even in Debug mode on cPanel)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

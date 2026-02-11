@@ -64,19 +64,14 @@ const Orthopedic = () => {
         {/* Areas of Expertise - Alternating Layout */}
         <section className="space-y-16">
           <h2 className="text-3xl font-bold text-center text-gray-800">Areas of Expertise</h2>
-          
+
           {/* Expertise 1 */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Joint Replacement</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Fracture Surgery</h3>
               <p className="text-gray-600">
-                Relieve chronic pain and restore function with our advanced joint replacement procedures. We specialize in minimally invasive hip and knee replacements to help you get back on your feet faster.
+                Fracture surgery is performed to repair broken bones when they cannot heal properly with casting or splinting alone. The procedure involves realigning the broken bone fragments and stabilizing them using plates, screws, rods, or pins to ensure proper healing. Fracture surgery helps restore normal bone function, reduce pain, and prevent long-term deformity or loss of movement. With proper care and rehabilitation, most patients recover well and regain strength and mobility.
               </p>
-              <ul className="mt-4 space-y-2 text-gray-700">
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Total & Partial Knee Replacement</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Total Hip Replacement</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Shoulder & Elbow Replacement</li>
-              </ul>
             </div>
             <div className="md:w-1/2">
               <img src={img3} 
@@ -88,15 +83,10 @@ const Orthopedic = () => {
           {/* Expertise 2 - Alternated */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
             <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Sports Medicine</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Joint Dislocation slippe Disc</h3>
               <p className="text-gray-600">
-                We provide specialized care for athletes of all levels. Our focus is on the prevention, diagnosis, and treatment of sports-related injuries, helping you return to your peak performance safely and quickly.
+                Joint dislocation occurs when the ends of bones are forced out of their normal position, usually due to injury or trauma. Surgical treatment is required when the joint cannot be safely repositioned or when there is repeated dislocation. Surgery helps restore joint alignment, stability, and normal movement while reducing pain and the risk of future injuries.Slipped disc, also known as a herniated or prolapsed disc, happens when the soft inner portion of a spinal disc pushes out and presses on nearby nerves. Surgery is recommended when severe pain, weakness, or nerve damage does not improve with conservative treatment. The procedure relieves pressure on the nerves, reduces pain, and improves mobility and quality of life.
               </p>
-              <ul className="mt-4 space-y-2 text-gray-700">
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Arthroscopic Knee & Shoulder Surgery</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> ACL & Ligament Reconstruction</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Concussion Management</li>
-              </ul>
             </div>
             <div className="md:w-1/2">
               <img src={img4}
@@ -104,22 +94,48 @@ const Orthopedic = () => {
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
-
+          
           {/* Expertise 3 */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Spine Care</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Joint Replacement</h3>
               <p className="text-gray-600">
-                Our spine specialists offer expert diagnosis and treatment for back and neck pain. We offer a full range of options, from physical therapy to complex spinal reconstruction, to alleviate pain and restore stability.
+                Joint replacement surgery of the hip or knee is performed to relieve severe pain and restore movement in joints damaged by arthritis, injury, or wear and tear. During the procedure, the damaged joint surfaces are removed and replaced with artificial implants designed to function like a natural joint. Hip and knee replacement surgery significantly improves mobility, reduces pain, and enhances quality of life. With proper rehabilitation, most patients can return to daily activities and enjoy long-term relief.
               </p>
-              <ul className="mt-4 space-y-2 text-gray-700">
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Minimally Invasive Spine Surgery</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Herniated Disc Treatment</li>
-                <li className="flex items-center"><FaCheckCircle className="text-green-500 mr-2" /> Spinal Fusion & Decompression</li>
-              </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={img5} 
+              <img src={img3} 
+              alt="Advanced surgical technology" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+
+
+          {/* Expertise 5 - Alternated */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Arthroscopic Rotatar Cuff repair</h3>
+              <p className="text-gray-600">
+                Arthroscopic rotator cuff repair is a minimally invasive procedure used to treat tears in the rotator cuff tendons of the shoulder. Using a small camera and specialized instruments, the surgeon repairs the damaged tendons through tiny incisions, reducing pain and tissue damage. This surgery helps restore shoulder strength, stability, and range of motion. With proper physiotherapy and rehabilitation, most patients achieve good recovery and improved shoulder function.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img4}
+              alt="Athlete training with physiotherapist" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+            </div>
+          </div>
+          
+          {/* Expertise 4 */}
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Arthroscopic Ligament Reconstruction</h3>
+              <p className="text-gray-600">
+                Arthroscopic ligament reconstruction is a minimally invasive surgical procedure used to repair or replace a damaged ligament, most commonly in the knee or shoulder. The surgery is performed using a small camera (arthroscope) and specialized instruments through tiny incisions, allowing precise reconstruction of the ligament. This procedure helps restore joint stability, reduce pain, and improve movement. With proper rehabilitation and physiotherapy, patients can gradually return to normal activities and sports.
+              </p>
+            </div>
+            <div className="md:w-1/2">
+              <img src={img4} 
               alt="Doctor examining a spine model" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -127,7 +143,7 @@ const Orthopedic = () => {
         </section>
 
         {/* Meet Our Lead Surgeons Section */}
-        <section>
+        {/* <section>
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
@@ -140,7 +156,7 @@ const Orthopedic = () => {
               <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
             </div>
           </div>
-        </section>
+        </section> */}
 
       </div>
     </div>
