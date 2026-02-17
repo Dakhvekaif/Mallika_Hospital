@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import desktopVideo from '../../../assets/HeroPage/hero-desktop.mp4';
+import Mobile from '../../../assets/HeroPage/mobile.png'
 // import mobileVideo from '../../../assets/HeroPage/hero-mobile.mp4';
 
 function Hero() {
@@ -18,7 +19,8 @@ function Hero() {
       </video>
 
       {/* Mobile Video */}
-      <video
+      <img src={Mobile} className='block md:hidden absolute inset-0 w-full h-full object-cover -z-10 mt-20' alt="HeroPage image" />
+      {/* <video
         className="block md:hidden absolute inset-0 w-full h-full object-cover -z-10"
         autoPlay
         muted
@@ -26,11 +28,11 @@ function Hero() {
         playsInline
       >
         <source src={desktopVideo} type="video/mp4" />
-      </video>
+      </video> */}
 
       {/* Hero Content */}
      <div className="
-        relative flex items-end h-full pb-12 md:pb-20
+        relative flex items-end h-full pb-4 md:pb-20
         justify-start md:justify-center
         px-4 md:px-0
       ">
