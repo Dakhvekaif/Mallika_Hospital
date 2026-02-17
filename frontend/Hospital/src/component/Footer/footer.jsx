@@ -68,9 +68,11 @@ const Footer = () => {
               <li><Link to="/surgeries/neuro-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">Neuro Surgery</Link></li>
               <li><Link to="/surgeries/ent" className="text-gray-400 hover:text-white transition-colors duration-300">Ent</Link></li>
               <li><Link to="/surgeries/proctology" className="text-gray-400 hover:text-white transition-colors duration-300">Proctology</Link></li>
+              <li><Link to="/surgeries/pediatirc-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">Pedaitric Surgery</Link></li>
+              <li><Link to="/surgeries/plastic-surgery" className="text-gray-400 hover:text-white transition-colors duration-300">Plastic Surgery</Link></li>
+              <li><Link to="/surgeries/urology" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</Link></li>
               {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Urology</a></li> */}
               {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Vascular Surgery</a></li> */}
-              {/* <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Plastic Surgery</a></li> */}
             </ul>
           </div>
 

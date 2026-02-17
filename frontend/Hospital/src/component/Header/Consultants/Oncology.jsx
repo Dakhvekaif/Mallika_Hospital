@@ -3,11 +3,47 @@ import img2 from '../../../assets/Consultant/Onco/oncoimg1.png';
 import img3 from '../../../assets/Consultant/Onco/oncoimg2.png';
 import img4 from '../../../assets/Consultant/Onco/oncoimg3.png';
 import img5 from '../../../assets/Consultant/Onco/oncoimg4.png';
-import doc1 from '../../../assets/Consultant/Onco/doc1.png';
-import doc2 from '../../../assets/Consultant/Onco/doc2.png';
+import { useEffect, useState } from 'react';
+import { getDoctors } from '../../dashboard/api';
+import DoctorCard from './DoctorCard';
 import { FaUserMd, FaRadiation, FaFlask, FaShieldAlt, FaUsers, FaHandHoldingMedical } from 'react-icons/fa';
 
 const Oncology = () => {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ ONLY THESE 4 DOCTORS
+  const ALLOWED_DOCTOR_IDS = [50, 83, 84, 51];
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await getDoctors();
+
+        // ✅ FILTER BY ID (EXACT MATCH)
+        const selectedDoctors = data.filter((doctor) =>
+          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        );
+
+        setDoctors(selectedDoctors);
+      } catch (error) {
+        console.error('Failed to fetch doctors:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const formatTime = (time) => {
+    if (!time) return 'By Appointment';
+    const [h, m] = time.split(':');
+    const hour = h % 12 || 12;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    return `${hour}:${m} ${ampm}`;
+  };
+
   return (
     <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
@@ -110,21 +146,28 @@ const Oncology = () => {
           </div>
         </section>
 
-        {/* Meet Our Lead Surgeons Section */}
-        <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Consultants</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={"doc1"} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={"doc2"} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
+        {/* DOCTORS */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-10">
+          Our Cardiology Consultants
+        </h2>
+
+        {loading ? (
+          <p className="text-center text-gray-500">Loading doctors...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {doctors.map((doctor) => (
+              <DoctorCard
+                key={doctor.id}
+                doctor={doctor}
+                departmentName="Cardiology"
+                formatTime={formatTime}
+              />
+            ))}
           </div>
-        </section>
+        )}
+      </div>
+
       </div>
     </div>
   );

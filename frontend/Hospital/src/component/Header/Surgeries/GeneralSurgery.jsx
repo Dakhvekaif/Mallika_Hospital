@@ -2,11 +2,6 @@ import img1 from '../../../assets/Surgery/General/general.png';
 import img2 from '../../../assets/Surgery/General/generalimg1.png';
 import img3 from '../../../assets/Surgery/General/generalimg2.png';
 import img4 from '../../../assets/Surgery/General/generalimg3.png';
-import doc1 from '../../../assets/Surgery/General/doc1.png';
-import doc2 from '../../../assets/Surgery/General/doc2.png';
-import doc3 from '../../../assets/Surgery/General/doc3.png';
-import doc4 from '../../../assets/Surgery/General/doc4.png';
-import doc5 from '../../../assets/Surgery/General/doc5.png';
 import { FaUserMd, FaProcedures, FaHandHoldingMedical, FaShieldAlt, FaCheckCircle, FaUserFriends } from 'react-icons/fa';
 
 const GeneralSurgery = () => {

@@ -3,9 +3,6 @@ import img2 from '../../../assets/Surgery/Ent/entimg1.png';
 import img3 from '../../../assets/Surgery/Ent/entimg2.png';
 import img4 from '../../../assets/Surgery/Ent/entimg3.png';
 import img5 from '../../../assets/Surgery/Ent/entimg4.png';
-import doc1 from '../../../assets/Surgery/Ent/doc1.png';
-import doc2 from '../../../assets/Surgery/Ent/doc2.png';
-import doc3 from '../../../assets/Surgery/Ent/doc3.png';
 import { FaEarListen, FaUserDoctor, FaWind, FaMicrophone, FaCircleCheck , FaHeadSideVirus } from 'react-icons/fa6'; // Using react-icons v6
 import { FaStethoscope, FaComments } from 'react-icons/fa'; // Using react-icons v5 for compatibility
 

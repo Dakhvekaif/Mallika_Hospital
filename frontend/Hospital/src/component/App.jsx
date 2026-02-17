@@ -29,7 +29,9 @@ import NeuroSurgery from './Header/Surgeries/NeuroSurgery';
 import Ent from './Header/Surgeries/Ent';
 import Opthalmology from './Header/Surgeries/Opthalmology';
 import Proctology from './Header/Surgeries/Proctology';
-// import PlasticSurgery from './Header/Surgeries/PlasticSurgery';
+import PediatricSurgery from "./Header/Surgeries/PediatricSurgery.jsx";
+import PlasticSurgery from './Header/Surgeries/PlasticSurgery.jsx';
+import Urology from "./Header/Surgeries/Urology.jsx";
 // import VascularSurgery from './Header/Surgeries/VascularSurgery';
 
 //Consultants
@@ -53,10 +55,7 @@ import GovtSchemes from "./GovtSch/GovtSchemes";
 // ContactUs
 import ContactUs from "./ContactUS/ContactUs";
 
-// Meida
-// import Floor1 from "./Media/floor1";
-// import Floor2 from "./Media/floor2";
-// import Floor3 from "./Media/floor3";
+// Dashboard
 import Dashboard from "./dashboard/Dashboard.jsx"
 
 // Find Doctor
@@ -111,6 +110,9 @@ function App() {
           <Route path='/surgeries/ent' element={<Ent />} />
           <Route path='/surgeries/Opthalmology' element={<Opthalmology />} />
           <Route path='/surgeries/proctology' element={<Proctology />} />
+          <Route path='/surgeries/pediatric-surgery' element={<PediatricSurgery />} />
+          <Route path='/surgeries/plastic-surgery' element={<PlasticSurgery />} />
+          <Route path='/surgeries/urology' element={<Urology />} />
           {/* <Route path='/surgeries/plastic-surgery' element={<PlasticSurgery />} /> */}
           {/* <Route path='/surgeries/vascular-surgery' element={<VascularSurgery />} /> */}
 

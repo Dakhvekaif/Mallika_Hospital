@@ -3,10 +3,6 @@ import img2 from '../../../assets/Surgery/Neuro/neuroimg1.png';
 import img3 from '../../../assets/Surgery/Neuro/neuroimg2.png';
 import img4 from '../../../assets/Surgery/Neuro/neuroimg3.png';
 import img5 from '../../../assets/Surgery/Neuro/neuroimg4.png';
-import doc1 from '../../../assets/Surgery/Neuro/doc1.png';
-import doc2 from '../../../assets/Surgery/Neuro/doc2.png';
-import doc3 from '../../../assets/Surgery/Neuro/doc3.png';
-import doc4 from '../../../assets/Surgery/Neuro/doc4.png';
 import { FaBrain, FaMicroscope, FaUserMd, FaCogs, FaShieldAlt, FaCheckCircle, FaBone } from 'react-icons/fa';
 
 const Neurosurgery = () => {

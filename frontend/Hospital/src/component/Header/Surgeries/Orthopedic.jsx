@@ -3,9 +3,6 @@ import img2 from '../../../assets/Surgery/Ortho/orthoimg1.png';
 import img3 from '../../../assets/Surgery/Ortho/orthoimg2.png';
 import img4 from '../../../assets/Surgery/Ortho/orthoimg3.png';
 import img5 from '../../../assets/Surgery/Ortho/orthoimg4.png';
-import doc1 from '../../../assets/Surgery/Ortho/doc1.png';
-import doc2 from '../../../assets/Surgery/Ortho/doc2.png';
-import doc3 from '../../../assets/Surgery/Ortho/doc3.png';
 import { FaBone, FaRunning, FaUserMd, FaHandHoldingMedical, FaWheelchair, FaCheckCircle} from 'react-icons/fa';
 
 const Orthopedic = () => {

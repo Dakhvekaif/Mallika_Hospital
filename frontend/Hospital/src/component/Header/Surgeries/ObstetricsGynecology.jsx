@@ -1,8 +1,6 @@
 import img1 from '../../../assets/Surgery/Gyeno/gyeno.png';
 import img2 from '../../../assets/Surgery/Gyeno/gyenoimg1.png';
 import img3 from '../../../assets/Surgery/Gyeno/gyenoimg2.png';
-import doc1 from '../../../assets/Surgery/Gyeno/doc1.png';
-import doc2 from '../../../assets/Surgery/Gyeno/doc2.png';
 import { FaBaby, FaHeartbeat, FaUserMd, FaFemale, FaShieldAlt, FaCheckCircle, FaComments } from 'react-icons/fa';
 
 const ObstetricsGynecology = () => {

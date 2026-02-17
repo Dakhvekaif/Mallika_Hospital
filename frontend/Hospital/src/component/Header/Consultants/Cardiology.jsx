@@ -3,13 +3,46 @@ import img2 from '../../../assets/Consultant/Cardio/cardioimg1.png';
 import img3 from '../../../assets/Consultant/Cardio/cardioimg2.png';
 import img4 from '../../../assets/Consultant/Cardio/cardioimg3.png';
 import img5 from '../../../assets/Consultant/Cardio/cardioimg4.png';
-import doc1 from '../../../assets/Consultant/Cardio/doc1.png';
-import doc2 from '../../../assets/Consultant/Cardio/doc2.png';
-import doc3 from '../../../assets/Consultant/Cardio/doc3.png';
-import doc4 from '../../../assets/Consultant/Cardio/doc4.png';
 import { FaHeartbeat, FaUserMd, FaStethoscope, FaProcedures, FaLaptopMedical, FaClock } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { getDoctors } from '../../dashboard/api';
+import DoctorCard from './DoctorCard';
 
 const Cardiology = () => {
+   const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ ONLY THESE 6 DOCTORS
+  const ALLOWED_DOCTOR_IDS = [12, 11, 64, 68, 67, 66];
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await getDoctors();
+
+        // ✅ FILTER BY ID (EXACT MATCH)
+        const selectedDoctors = data.filter((doctor) =>
+          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        );
+
+        setDoctors(selectedDoctors);
+      } catch (error) {
+        console.error('Failed to fetch doctors:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const formatTime = (time) => {
+    if (!time) return 'By Appointment';
+    const [h, m] = time.split(':');
+    const hour = h % 12 || 12;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    return `${hour}:${m} ${ampm}`;
+  };
   return (
     <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
@@ -112,31 +145,28 @@ const Cardiology = () => {
           </div>
         </section>
 
-        {/* Meet Our Lead Surgeons Section */}
-        <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Consultants</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc4} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={""} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={""} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={""} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
+      {/* DOCTORS */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-10">
+          Our Cardiology Consultants
+        </h2>
+
+        {loading ? (
+          <p className="text-center text-gray-500">Loading doctors...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {doctors.map((doctor) => (
+              <DoctorCard
+                key={doctor.id}
+                doctor={doctor}
+                departmentName="Cardiology"
+                formatTime={formatTime}
+              />
+            ))}
           </div>
-        </section>
+        )}
       </div>
+    </div>
     </div>
   );
 };
