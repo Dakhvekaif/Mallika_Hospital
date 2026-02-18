@@ -1,7 +1,14 @@
-import img1 from '../../../assets/Surgery/General/general.png';
-import img2 from '../../../assets/Surgery/General/generalimg1.png';
-import img3 from '../../../assets/Surgery/General/generalimg2.png';
-import img4 from '../../../assets/Surgery/General/generalimg3.png';
+import img from '../../../assets/Surgery/General/general.png';
+import img1 from '../../../assets/Surgery/General/generalimg1.png';
+import img2 from '../../../assets/Surgery/General/generalimg2.webp';
+import img3 from '../../../assets/Surgery/General/generalimg3.png';
+import img4 from '../../../assets/Surgery/General/generalimg4.png';
+import img5 from '../../../assets/Surgery/General/generalimg5.webp';
+import img6 from '../../../assets/Surgery/General/generalimg6.webp';
+import img7 from '../../../assets/Surgery/General/generalimg7.webp';
+import img8 from '../../../assets/Surgery/General/generalimg8.webp';
+import img9 from '../../../assets/Surgery/General/generalimg9.webp';
+import img10 from '../../../assets/Surgery/General/generalimg10.webp';
 import { FaUserMd, FaProcedures, FaHandHoldingMedical, FaShieldAlt, FaCheckCircle, FaUserFriends } from 'react-icons/fa';
 
 const GeneralSurgery = () => {
@@ -9,9 +16,9 @@ const GeneralSurgery = () => {
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
-            src={img1} 
+            src={img} 
             alt="General Surgery" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -73,7 +80,7 @@ const GeneralSurgery = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src={img2} 
+            <img src={img1} 
               alt="Surgeons consulting" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
@@ -92,7 +99,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img2} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -105,7 +112,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img4} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img3} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -118,7 +125,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img4} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -131,7 +138,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img4} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img5} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -144,7 +151,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img6} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -157,7 +164,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img4} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img7} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -170,7 +177,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img8} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -183,7 +190,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img4} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img9} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -196,7 +203,7 @@ const GeneralSurgery = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img10} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>

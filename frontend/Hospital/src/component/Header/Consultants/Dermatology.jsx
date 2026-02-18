@@ -48,10 +48,10 @@ const Dermatology = () => {
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
             src={img1} 
-            alt="Otolaryngology (ENT)" 
+            alt="Dermatology" 
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">

@@ -71,7 +71,7 @@ const GovtSchemes = () => {
     <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white z-10 opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
             src={img1} 
             alt="Government Scheme" 

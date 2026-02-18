@@ -1,6 +1,12 @@
-import img1 from '../../../assets/Surgery/Gyeno/gyeno.png';
-import img2 from '../../../assets/Surgery/Gyeno/gyenoimg1.png';
-import img3 from '../../../assets/Surgery/Gyeno/gyenoimg2.png';
+import img from '../../../assets/Surgery/Gyeno/gyeno.png';
+import img1 from '../../../assets/Surgery/Gyeno/gyenoimg1.png';
+import img2 from '../../../assets/Surgery/Gyeno/gyenoimg2.png';
+import img3 from '../../../assets/Surgery/Gyeno/gyenoimg3.webp';
+import img4 from '../../../assets/Surgery/Gyeno/gyenoimg4.webp';
+import img5 from '../../../assets/Surgery/Gyeno/gyenoimg5.webp';
+import img6 from '../../../assets/Surgery/Gyeno/gyenoimg6.webp';
+import img7 from '../../../assets/Surgery/Gyeno/gyenoimg7.webp';
+import img8 from '../../../assets/Surgery/Gyeno/gyenoimg8.webp';
 import { FaBaby, FaHeartbeat, FaUserMd, FaFemale, FaShieldAlt, FaCheckCircle, FaComments } from 'react-icons/fa';
 
 const ObstetricsGynecology = () => {
@@ -8,9 +14,9 @@ const ObstetricsGynecology = () => {
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
-            src={img1} 
+            src={img} 
             alt="Obstetrics & Gynecology" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -89,7 +95,7 @@ const ObstetricsGynecology = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={img2}
+              <img src={img1}
               alt="Doctor consulting with a patient"
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -112,7 +118,7 @@ const ObstetricsGynecology = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} 
+              <img src={img2} 
               alt="Advanced surgical technology" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -145,7 +151,7 @@ const ObstetricsGynecology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img4} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -158,7 +164,7 @@ const ObstetricsGynecology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img5} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -171,7 +177,7 @@ const ObstetricsGynecology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img6} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -184,7 +190,7 @@ const ObstetricsGynecology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img7} alt="Laparoscopic tools" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
@@ -197,7 +203,7 @@ const ObstetricsGynecology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img8} alt="Surgical team in operating room" className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>

@@ -7,20 +7,14 @@ from appointments.views import db_check
 from django.views.static import serve
 from django.views.generic import TemplateView
 
-
-
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('appointments.urls')),
     path('api/db-check/', db_check),
 
-    # --- FIX FOR IMAGES (MEDIA) ---
     # This tells Django to serve doctor images directly
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
-    # --- FIX FOR STATIC FILES ---
     # This helps serve favicon and other root files if WhiteNoise misses them
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 

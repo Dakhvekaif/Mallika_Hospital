@@ -95,7 +95,7 @@ const CashlessTpa = () => {
     <div className="w-full min-h-screen bg-white pt-20">
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-700 z-10 opacity-40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-700 z-10 opacity-20"></div>
         <img 
           src={img1} 
           alt="CashlessTpa" 

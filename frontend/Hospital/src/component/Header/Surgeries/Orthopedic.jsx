@@ -1,8 +1,10 @@
-import img1 from '../../../assets/Surgery/Ortho/ortho.png';
-import img2 from '../../../assets/Surgery/Ortho/orthoimg1.png';
-import img3 from '../../../assets/Surgery/Ortho/orthoimg2.png';
-import img4 from '../../../assets/Surgery/Ortho/orthoimg3.png';
-import img5 from '../../../assets/Surgery/Ortho/orthoimg4.png';
+import img from '../../../assets/Surgery/Ortho/ortho.png';
+import img1 from '../../../assets/Surgery/Ortho/orthoimg1.png';
+import img2 from '../../../assets/Surgery/Ortho/orthoimg2.png';
+import img3 from '../../../assets/Surgery/Ortho/orthoimg3.png';
+import img4 from '../../../assets/Surgery/Ortho/orthoimg4.png';
+import img5 from '../../../assets/Surgery/Ortho/orthoimg5.png';
+import img6 from '../../../assets/Surgery/Ortho/orthoimg6.png';
 import { FaBone, FaRunning, FaUserMd, FaHandHoldingMedical, FaWheelchair, FaCheckCircle} from 'react-icons/fa';
 
 const Orthopedic = () => {
@@ -10,9 +12,9 @@ const Orthopedic = () => {
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
-            src={img1} 
+            src={img} 
             alt="Orthopedics" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -52,7 +54,7 @@ const Orthopedic = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src={img2} 
+            <img src={img1} 
             alt="Surgeon analyzing a knee model" 
             className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
@@ -71,7 +73,7 @@ const Orthopedic = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} 
+              <img src={img2} 
               alt="Advanced surgical technology" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -86,7 +88,7 @@ const Orthopedic = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img4}
+              <img src={img3}
               alt="Athlete training with physiotherapist" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -101,7 +103,7 @@ const Orthopedic = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img3} 
+              <img src={img4} 
               alt="Advanced surgical technology" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -117,7 +119,7 @@ const Orthopedic = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img4}
+              <img src={img5}
               alt="Athlete training with physiotherapist" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -132,7 +134,7 @@ const Orthopedic = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-              <img src={img4} 
+              <img src={img6} 
               alt="Doctor examining a spine model" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>

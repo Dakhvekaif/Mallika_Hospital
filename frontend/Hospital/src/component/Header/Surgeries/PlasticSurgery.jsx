@@ -1,8 +1,8 @@
-// import img1 from '../../../assets/Surgery/Plastic/plastic.png';
-// import img2 from '../../../assets/Surgery/Plastic/plasticimg1.png';
-// import img3 from '../../../assets/Surgery/Plastic/plasticimg2.png';
-// import img4 from '../../../assets/Surgery/Plastic/plasticimg3.png';
-// import img5 from '../../../assets/Surgery/Plastic/plasticimg4.png';
+import img from '../../../assets/Surgery/Plastic/plastic.png';
+import img1 from '../../../assets/Surgery/Plastic/plasticimg1.png';
+import img2 from '../../../assets/Surgery/Plastic/plasticimg2.png';
+import img3 from '../../../assets/Surgery/Plastic/plasticimg3.png';
+import img4 from '../../../assets/Surgery/Plastic/plasticimg4.png';
 import { FaUserMd, FaUsers, FaShieldAlt, FaHandHoldingMedical, FaHeartbeat, FaCheckCircle, FaStar, FaSpa, FaGem } from 'react-icons/fa';
 
 const PlasticSurgery = () => {
@@ -10,9 +10,9 @@ const PlasticSurgery = () => {
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
-            src={"img1"} 
+            src={img} 
             alt="Plastic Surgery" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -54,7 +54,7 @@ const PlasticSurgery = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src={"img2"}
+            <img src={img1}
              alt="Plastic surgeon consulting with patient" 
              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
@@ -78,7 +78,7 @@ const PlasticSurgery = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={"img3"} 
+              <img src={img2} 
               alt="Facial rejuvenation procedure" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -98,7 +98,7 @@ const PlasticSurgery = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={"img4"} 
+              <img src={img3} 
               alt="Body contouring procedure" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -118,7 +118,7 @@ const PlasticSurgery = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={"img5"} 
+              <img src={img4} 
               alt="Breast surgery procedure" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>

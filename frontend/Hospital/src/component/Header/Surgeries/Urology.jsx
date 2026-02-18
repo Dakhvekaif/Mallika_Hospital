@@ -1,8 +1,8 @@
-// import img1 from '../../../assets/Surgery/Urology/urology.png';
-// import img2 from '../../../assets/Surgery/Urology/urologyimg1.png';
-// import img3 from '../../../assets/Surgery/Urology/urologyimg2.png';
-// import img4 from '../../../assets/Surgery/Urology/urologyimg3.png';
-// import img5 from '../../../assets/Surgery/Urology/urologyimg4.png';
+import img from '../../../assets/Surgery/Urology/urology.png';
+import img1 from '../../../assets/Surgery/Urology/urologyimg1.png';
+import img2 from '../../../assets/Surgery/Urology/urologyimg2.png';
+import img3 from '../../../assets/Surgery/Urology/urologyimg3.png';
+import img4 from '../../../assets/Surgery/Urology/urologyimg4.png';
 import { FaUserMd, FaUsers, FaShieldAlt, FaHandHoldingMedical, FaHeartbeat, FaCheckCircle, FaStethoscope, FaWater, FaSearch } from 'react-icons/fa';
 
 const Urology = () => {
@@ -10,9 +10,9 @@ const Urology = () => {
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
-            src={"img1"} 
+            src={img} 
             alt="Urology" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -53,7 +53,7 @@ const Urology = () => {
             </ul>
           </div>
           <div className="md:w-1/2">
-            <img src={"img2"}
+            <img src={img1}
              alt="Urologist consulting with patient" 
              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
@@ -77,7 +77,7 @@ const Urology = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={"img3"} 
+              <img src={img2} 
               alt="Kidney stone treatment" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -97,7 +97,7 @@ const Urology = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={"img4"} 
+              <img src={img3} 
               alt="Prostate examination" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
@@ -117,7 +117,7 @@ const Urology = () => {
               </ul>
             </div>
             <div className="md:w-1/2">
-              <img src={"img5"} 
+              <img src={img4} 
               alt="Male reproductive health consultation" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>

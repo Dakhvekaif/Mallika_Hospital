@@ -159,6 +159,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ALWAYS use WhiteNoise for storage (even in Debug mode on cPanel)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
