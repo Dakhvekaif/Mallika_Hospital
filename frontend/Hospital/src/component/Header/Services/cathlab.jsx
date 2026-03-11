@@ -11,15 +11,15 @@ const CathLab = () => {
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
         <img 
-          src={img1} 
+          src={img2} 
           alt="Catheterization Laboratory (Cath Lab)" 
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
           <div>
-            <h1 className="text-4xl bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent md:text-5xl font-bold mb-4 ">Cath Lab</h1>
+            <h1 className="text-4xl bg-gradient-to-r text-white bg-clip-text text-transparent md:text-5xl font-bold mb-4 ">Cath Lab</h1>
             <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
-            <p className="text-xl font-semibold max-w-3xl mx-auto bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent">
+            <p className="text-xl font-semibold max-w-3xl mx-auto bg-gradient-to-r text-white bg-clip-text text-transparent">
               Providing state-of-the-art diagnostic and interventional cardiology services for your heart health.
             </p>
           </div>

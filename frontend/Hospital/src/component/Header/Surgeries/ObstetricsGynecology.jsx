@@ -8,8 +8,46 @@ import img6 from '../../../assets/Surgery/Gyeno/gyenoimg6.webp';
 import img7 from '../../../assets/Surgery/Gyeno/gyenoimg7.webp';
 import img8 from '../../../assets/Surgery/Gyeno/gyenoimg8.webp';
 import { FaBaby, FaHeartbeat, FaUserMd, FaFemale, FaShieldAlt, FaCheckCircle, FaComments } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import DoctorCard from '../DoctorCard.jsx';
+import { getDoctors } from '../../dashboard/api.js';
 
 const ObstetricsGynecology = () => {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ UPDATED: Based on your data, the ID should be 13
+  const GYNECOLOGY_SURGERY_DEPARTMENT_ID = 19; 
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await getDoctors();
+
+        // Filter only Gynecology Surgery doctors by matching the department ID 19
+        const gynecologySurgeryDoctors = data.filter(
+          (doctor) => doctor.department === GYNECOLOGY_SURGERY_DEPARTMENT_ID
+        );
+
+        setDoctors(gynecologySurgeryDoctors);
+      } catch (error) {
+        console.error("Failed to fetch doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const formatTime = (time) => {
+    if (!time) return 'By Appointment';
+    const [h, m] = time.split(':');
+    const hour = h % 12 || 12;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    return `${hour}:${m} ${ampm}`;
+  };
+
   return (
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
@@ -30,6 +68,28 @@ const ObstetricsGynecology = () => {
             </div>
           </div>
         </div>
+
+        {/* Gynecology Surgery Doctors Section */}
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <h2 className="text-3xl font-bold text-center mb-10">
+            Our Gynecology & Laproscopic Specialists
+          </h2>
+
+          {loading ? (
+            <p className="text-center text-gray-500">Loading specialists...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {doctors.map((doctor) => (
+                <DoctorCard
+                  key={doctor.id}
+                  doctor={doctor}
+                  departmentName="GYNECOLOGY"
+                  formatTime={formatTime}
+                />
+              ))}
+            </div>
+          )}
+        </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 

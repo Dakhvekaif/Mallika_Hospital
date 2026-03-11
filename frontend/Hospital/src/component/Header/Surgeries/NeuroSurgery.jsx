@@ -4,8 +4,46 @@ import img3 from '../../../assets/Surgery/Neuro/neuroimg2.png';
 import img4 from '../../../assets/Surgery/Neuro/neuroimg3.png';
 import img5 from '../../../assets/Surgery/Neuro/neuroimg4.png';
 import { FaBrain, FaMicroscope, FaUserMd, FaCogs, FaShieldAlt, FaCheckCircle, FaBone } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import DoctorCard from '../DoctorCard.jsx';
+import { getDoctors } from '../../dashboard/api.js';
 
 const Neurosurgery = () => {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ UPDATED: Based on your data, the ID should be 13
+  const NEUROLOGY_DEPARTMENT_ID = 14; 
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await getDoctors();
+
+        // Filter only Neurology doctors by matching the department ID 14
+        const neurologyDoctors = data.filter(
+          (doctor) => doctor.department === NEUROLOGY_DEPARTMENT_ID
+        );
+
+        setDoctors(neurologyDoctors);
+      } catch (error) {
+        console.error("Failed to fetch doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const formatTime = (time) => {
+    if (!time) return 'By Appointment';
+    const [h, m] = time.split(':');
+    const hour = h % 12 || 12;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    return `${hour}:${m} ${ampm}`;
+  };
+
   return (
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
@@ -26,6 +64,28 @@ const Neurosurgery = () => {
             </div>
           </div>
         </div>
+
+        {/* NEUROLOGY Surgery Doctors Section */}
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <h2 className="text-3xl font-bold text-center mb-10">
+            Our Neurology Specialists
+          </h2>
+
+          {loading ? (
+            <p className="text-center text-gray-500">Loading specialists...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {doctors.map((doctor) => (
+                <DoctorCard
+                  key={doctor.id}
+                  doctor={doctor}
+                  departmentName="NEUROLOGY"
+                  formatTime={formatTime}
+                />
+              ))}
+            </div>
+          )}
+        </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -123,25 +183,6 @@ const Neurosurgery = () => {
             </div>
           </div>
         </section>
-
-        {/* Meet Our Lead Surgeons Section */}
-        {/* <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc4} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </section> */}
       </div>
     </div>
   );

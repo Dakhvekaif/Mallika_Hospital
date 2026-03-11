@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   FaUserMd, FaSearch, FaPhone, FaClock, 
-  FaGraduationCap, FaFilter, FaCalendarAlt, FaPlus // Import FaPlus
+  FaFilter, FaCalendarAlt, FaPlus 
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom'; 
 
-import { getDoctors, getDepartments } from '../dashboard/api.js';
-
+import { getDoctors } from '../dashboard/api.js'; // Removed getDepartments, no longer needed!
 
 const DoctorsList = () => {
   const navigate = useNavigate(); 
@@ -14,8 +13,18 @@ const DoctorsList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('all');
   const [doctors, setDoctors] = useState([]);
-  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Extract unique departments from the doctors list for the filter dropdown
+  const uniqueDepartments = useMemo(() => {
+    const depts = new Map();
+    doctors.forEach(doc => {
+      if (doc.department && doc.department_name) {
+        depts.set(doc.department, doc.department_name);
+      }
+    });
+    return Array.from(depts, ([id, name]) => ({ id, name }));
+  }, [doctors]);
 
   // PAGINATION STATE
   const [visibleCount, setVisibleCount] = useState(8); 
@@ -23,13 +32,9 @@ const DoctorsList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [doctorsData, departmentsData] = await Promise.all([
-          getDoctors(),
-          getDepartments()
-        ]);
+        const doctorsData = await getDoctors();
         setDoctors(doctorsData);
         console.log("Doctors Data:", doctorsData);
-        setDepartments(departmentsData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -48,18 +53,12 @@ const DoctorsList = () => {
     return `${formattedHour}:${minutes} ${ampm}`;
   };
 
-  const getDepartmentName = (id) => {
-    if (!id) return "General";
-    const dept = departments.find(d => d.id === parseInt(id));
-    return dept ? dept.name : 'General';
-  };
-
   const filteredDoctors = useMemo(() => {
     return doctors.filter(doctor => {
-      const deptName = getDepartmentName(doctor.department);
+      const deptName = doctor.department_name || "General";
       
       const matchesSearch = (doctor.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            (doctor.qualifications || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            (doctor.degrees || doctor.qualifications || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
                             deptName.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesDepartment = selectedDepartment === 'all' || 
@@ -67,7 +66,7 @@ const DoctorsList = () => {
 
       return matchesSearch && matchesDepartment;
     });
-  }, [doctors, searchTerm, selectedDepartment, departments]);
+  }, [doctors, searchTerm, selectedDepartment]);
 
   useEffect(() => {
     setVisibleCount(8);
@@ -79,8 +78,8 @@ const DoctorsList = () => {
 
   // --- HANDLER FOR PROFILE CLICK ---
   const handleProfileClick = (doctor) => {
-    // Navigate to the profile page, passing the doctor ID in URL and data in state
-    navigate(`/doctor-profile/${doctor.id}`, { state: { doctor } });
+    // ✅ FIXED: Now uses doctor.slug instead of doctor.id!
+    navigate(`/doctor-profile/${doctor.slug}`, { state: { doctor } });
     window.scrollTo(0, 0);
   };
 
@@ -114,7 +113,7 @@ const DoctorsList = () => {
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search doctors by name..."
+                placeholder="Search doctors by name or specialty..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -129,7 +128,7 @@ const DoctorsList = () => {
                 className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white min-w-[200px]"
                 >
                 <option value="all">All Departments</option>
-                {departments.map(dept => (
+                {uniqueDepartments.map(dept => (
                     <option key={dept.id} value={dept.id}>
                     {dept.name}
                     </option>
@@ -149,10 +148,10 @@ const DoctorsList = () => {
               
               {/* Doctor Image */}
               <div className="relative h-64 bg-gray-200 rounded-t-lg overflow-hidden">
-                {doctor.photo ? (
+                {doctor.photo_url ? (
                   <img 
-                    src={doctor.photo} 
-                    alt={""}
+                    src={doctor.photo_url} 
+                    alt={doctor.name}
                     loading="lazy" 
                     className="w-full h-full object-contain bg-gray-100 transition-transform duration-500 group-hover:scale-105"
                   />
@@ -186,7 +185,7 @@ const DoctorsList = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">{doctor.name}</h3>
                 
                 <p className="text-blue-600 font-medium mb-2 text-sm uppercase tracking-wide">
-                  {getDepartmentName(doctor.department)}
+                  {doctor.department_name || "Specialist"}
                 </p>
 
                 <div className="flex items-start mb-2">
@@ -213,11 +212,7 @@ const DoctorsList = () => {
                 {/* Action Button */}
                 <button 
                 onClick={() => {
-                  // 1. Navigate to the Contact page
-                  // 2. Pass the selected doctor in 'state'
                   navigate('/contact', { state: { selectedDoctor: doctor } });
-
-                  // Optional: Scroll to top of contact page
                   window.scrollTo(0, 0); 
                 }}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm mt-2"
@@ -255,4 +250,4 @@ const DoctorsList = () => {
   );
 };
 
-export default DoctorsList;
+export default DoctorsList

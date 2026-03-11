@@ -10,8 +10,8 @@ const Navbar = () => {
   const navItems = [
     { title: 'About Us', dropdownItems: [] },
     { title: 'Our Services', dropdownItems: ['CATHLAB', 'ICU', 'OT', 'WARD', 'DIALYSIS CENTER', 'PHARMACY', 'Pathology LAB'] },
-    { title: 'Surgeries', dropdownItems: ['General Surgery', 'Onco Surgery', 'Obstetrics & Gynecology', 'Orthopedic', 'Neuro Surgery', 'Ent', 'Proctology', 'Pediatric Surgery', 'Plastic Surgery', 'Urology'] }, //Other options that can be added "Vascular Surgery", "Plastic Surgery"
-    { title: 'Consultants', dropdownItems: ['Physician & Diabetology', 'Neprology', 'Cardiology', 'Neurology', 'Oncology', 'Gastroenterology', 'Pediatrician', 'Dermatology'] }, //other option that can be added "Radiology", "Urology"
+    { title: 'Surgeries', dropdownItems: ['General Surgery', 'Onco Surgery', 'Obstetrics & Gynecology', 'Orthopedic', 'Neuro Surgery', 'ENT', 'Proctology', 'Pediatric Surgery', 'Plastic Surgery', 'Urology'] }, //Other options that can be added "Vascular Surgery", "Plastic Surgery"
+    { title: 'Consultants', dropdownItems: ['Physician & Diabetology', 'Nephrology', 'Cardiology', 'Neurology', 'Oncology', 'Gastroenterology', 'Pediatrician', 'Dermatology'] }, //other option that can be added "Radiology", "Urology"
     { title: 'Cashless & TPA', dropdownItems: [] },
     { title: 'Govt.Sch', dropdownItems: [] },
     { title: 'Testimonial', dropdownItems: [] },

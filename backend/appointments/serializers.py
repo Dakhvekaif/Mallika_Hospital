@@ -9,13 +9,15 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class DoctorSerializer(serializers.ModelSerializer):
     photo_url = serializers.SerializerMethodField()
-    # New field for UI display only
     display_available_days = serializers.SerializerMethodField()
+    # Adding department_name so we can use it in the Schema without a second API call
+    department_name = serializers.CharField(source='department.name', read_only=True)
 
     class Meta:
         model = Doctor
         fields = [
-            'id', 'name', 'photo', 'photo_url', 'department', 
+            'id', 'slug', 'name', 'photo', 'photo_url', 'department', 'department_name',
+            'degrees', 'experience_years', 'mmc_registration', # Added fields
             'description', 'available_days', 'display_available_days', 
             'start_time', 'end_time', 'active'
         ]
@@ -25,12 +27,22 @@ class DoctorSerializer(serializers.ModelSerializer):
         return request.build_absolute_uri(obj.photo.url) if obj.photo else None
 
     def get_display_available_days(self, obj):
-        days = obj.available_days or ""
-        # Professional UI cleanup: Monday to Saturday
-        full_week = "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
-        if days.strip() == full_week:
+        if not obj.available_days:
+            return ""
+
+        # 1. Split by comma, remove extra spaces, and capitalize each day
+        # This turns "Monday,Tuesday , wednesday" into ["Monday", "Tuesday", "Wednesday"]
+        days_list = [day.strip().capitalize() for day in obj.available_days.split(',') if day.strip()]
+
+        # 2. Define the set of days that make up a full week
+        full_week_set = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+
+        # 3. Check if the doctor's days match the full week set exactly
+        if set(days_list) == full_week_set:
             return "Monday to Saturday"
-        return days
+
+        # 4. If it's not a full week, return the days perfectly formatted with spaces
+        return ", ".join(days_list)
 
 class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:

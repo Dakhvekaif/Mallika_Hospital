@@ -118,7 +118,7 @@ function App() {
 
           {/* Consultants Pages */}
           <Route path='/consultants/physician-and-diabetology' element={<InternalMedicine />} />
-          <Route path='/consultants/neprology' element={<Nephrology />} />
+          <Route path='/consultants/nephrology' element={<Nephrology />} />
           <Route path='/consultants/cardiology' element={<Cardiology />} />
           <Route path='/consultants/neurology' element={<Neurology />} />
           <Route path='/consultants/oncology' element={<Oncology />} />
@@ -144,7 +144,7 @@ function App() {
 
           {/* Find Doctor */}
           <Route path="/find-doctor" element={<DoctorsList />} />
-          <Route path="/doctor-profile/:id" element={<DoctorProfile />} />
+          <Route path="/doctor-profile/:slug" element={<DoctorProfile />} />
 
         </Routes>
       </div>

@@ -6,7 +6,7 @@ import img5 from '../../../assets/Consultant/Cardio/cardioimg4.png';
 import { FaHeartbeat, FaUserMd, FaStethoscope, FaProcedures, FaLaptopMedical, FaClock } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { getDoctors } from '../../dashboard/api';
-import DoctorCard from './DoctorCard';
+import DoctorCard from '../DoctorCard';
 
 const Cardiology = () => {
    const [doctors, setDoctors] = useState([]);
@@ -62,6 +62,28 @@ const Cardiology = () => {
             </p>
           </div>
         </div>
+      </div>
+
+            {/* DOCTORS */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-10">
+          Our Cardiology Consultants
+        </h2>
+
+        {loading ? (
+          <p className="text-center text-gray-500">Loading doctors...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {doctors.map((doctor) => (
+              <DoctorCard
+                key={doctor.id}
+                doctor={doctor}
+                departmentName="Cardiology"
+                formatTime={formatTime}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
@@ -144,28 +166,6 @@ const Cardiology = () => {
             </div>
           </div>
         </section>
-
-      {/* DOCTORS */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-10">
-          Our Cardiology Consultants
-        </h2>
-
-        {loading ? (
-          <p className="text-center text-gray-500">Loading doctors...</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {doctors.map((doctor) => (
-              <DoctorCard
-                key={doctor.id}
-                doctor={doctor}
-                departmentName="Cardiology"
-                formatTime={formatTime}
-              />
-            ))}
-          </div>
-        )}
-      </div>
     </div>
     </div>
   );

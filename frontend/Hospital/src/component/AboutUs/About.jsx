@@ -1,5 +1,5 @@
 import img1 from '../../assets/AboutUs/aboutus.png';
-import img2 from '../../assets/AboutUs/whoarewe.png';
+import img2 from '../../assets/AboutUs/whoarewe.jpg';
 import img3 from '../../assets/AboutUs/Latest-Research.png';
 import img4 from '../../assets/AboutUs/Lab.png';
 import img5 from '../../assets/AboutUs/Expertise.png';

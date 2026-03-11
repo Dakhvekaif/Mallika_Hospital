@@ -4,8 +4,46 @@ import img2 from '../../../assets/Surgery/Plastic/plasticimg2.png';
 import img3 from '../../../assets/Surgery/Plastic/plasticimg3.png';
 import img4 from '../../../assets/Surgery/Plastic/plasticimg4.png';
 import { FaUserMd, FaUsers, FaShieldAlt, FaHandHoldingMedical, FaHeartbeat, FaCheckCircle, FaStar, FaSpa, FaGem } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import DoctorCard from '../DoctorCard.jsx';
+import { getDoctors } from '../../dashboard/api.js';
 
 const PlasticSurgery = () => {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ UPDATED: Based on your data, the ID should be 13
+  const PLASTIC_SURGERY_DEPARTMENT_ID = 29; 
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await getDoctors();
+
+        // Filter only General Surgery doctors by matching the department ID 17
+        const plasticSurgeryDoctors = data.filter(
+          (doctor) => doctor.department === PLASTIC_SURGERY_DEPARTMENT_ID
+        );
+
+        setDoctors(plasticSurgeryDoctors);
+      } catch (error) {
+        console.error("Failed to fetch doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const formatTime = (time) => {
+    if (!time) return 'By Appointment';
+    const [h, m] = time.split(':');
+    const hour = h % 12 || 12;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    return `${hour}:${m} ${ampm}`;
+  };
+
   return (
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
@@ -26,6 +64,28 @@ const PlasticSurgery = () => {
             </div>
           </div>
         </div>
+
+        {/* Plastic Surgery Doctors Section */}
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <h2 className="text-3xl font-bold text-center mb-10">
+            Our Plastic & Reconstructive Specialists
+          </h2>
+
+          {loading ? (
+            <p className="text-center text-gray-500">Loading specialists...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {doctors.map((doctor) => (
+                <DoctorCard
+                  key={doctor.id}
+                  doctor={doctor}
+                  departmentName="PLASTIC"
+                  formatTime={formatTime}
+                />
+              ))}
+            </div>
+          )}
+        </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 

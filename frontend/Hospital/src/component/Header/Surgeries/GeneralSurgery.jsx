@@ -10,8 +10,46 @@ import img8 from '../../../assets/Surgery/General/generalimg8.webp';
 import img9 from '../../../assets/Surgery/General/generalimg9.webp';
 import img10 from '../../../assets/Surgery/General/generalimg10.webp';
 import { FaUserMd, FaProcedures, FaHandHoldingMedical, FaShieldAlt, FaCheckCircle, FaUserFriends } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import DoctorCard from '../DoctorCard.jsx';
+import { getDoctors } from '../../dashboard/api.js';
 
 const GeneralSurgery = () => {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ UPDATED: Based on your data, the ID should be 13
+  const GENERAL_SURGERY_DEPARTMENT_ID = 17; 
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await getDoctors();
+
+        // Filter only General Surgery doctors by matching the department ID 17
+        const generalSurgeryDoctors = data.filter(
+          (doctor) => doctor.department === GENERAL_SURGERY_DEPARTMENT_ID
+        );
+
+        setDoctors(generalSurgeryDoctors);
+      } catch (error) {
+        console.error("Failed to fetch doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const formatTime = (time) => {
+    if (!time) return 'By Appointment';
+    const [h, m] = time.split(':');
+    const hour = h % 12 || 12;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    return `${hour}:${m} ${ampm}`;
+  };
+
   return (
       <div className="w-full min-h-screen bg-white pt-20">
         {/* Hero Section */}
@@ -32,6 +70,28 @@ const GeneralSurgery = () => {
             </div>
           </div>
         </div>
+
+         {/* General Surgery Doctors Section */}
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <h2 className="text-3xl font-bold text-center mb-10">
+            Our General & Laproscopic Specialists
+          </h2>
+
+          {loading ? (
+            <p className="text-center text-gray-500">Loading specialists...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {doctors.map((doctor) => (
+                <DoctorCard
+                  key={doctor.id}
+                  doctor={doctor}
+                  departmentName="General Surgery"
+                  formatTime={formatTime}
+                />
+              ))}
+            </div>
+          )}
+        </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
@@ -207,28 +267,6 @@ const GeneralSurgery = () => {
             </div>
           </div>
         </section>
-
-        {/* Meet Our Lead Surgeons Section */}
-        {/* <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center ">
-              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center ">
-              <img src={doc4} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center ">
-              <img src={doc5} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </section> */}
       </div>
     </div>
   );

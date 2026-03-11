@@ -61,16 +61,18 @@ class DoctorListCreateView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
-        featured_doctor_id = 34  # optional, remove if not needed
+        # featured_doctor_id = 34  # optional, remove if not needed
+        featured_doctor_ids = [34, 6]  # Add your new doctor IDs here!
 
         queryset = Doctor.objects.select_related('department').annotate(
             priority=Case(
-                When(id=featured_doctor_id, then=0),
+                # 2. Change 'id' to 'id__in'
+                When(id__in=featured_doctor_ids, then=0),
                 default=1,
                 output_field=IntegerField(),
             )
         ).order_by(
-            'priority',                 # featured doctor first (optional)
+            'priority',                 # featured doctors first 
             'department__name',         # department A → Z
             'name'                      # doctor name A → Z
         )
@@ -93,7 +95,8 @@ class DoctorDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny] # Changed to AllowAny so public can view the profile!
+    lookup_field = 'slug' # Tell Django to use the slug to find the doctor
 
 
 # --- Appointment Views ---
