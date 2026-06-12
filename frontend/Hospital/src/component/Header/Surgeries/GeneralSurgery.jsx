@@ -30,7 +30,8 @@ const GeneralSurgery = () => {
         const generalSurgeryDoctors = data.filter(
           (doctor) => doctor.department === GENERAL_SURGERY_DEPARTMENT_ID
         );
-
+        generalSurgeryDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
+        
         setDoctors(generalSurgeryDoctors);
       } catch (error) {
         console.error("Failed to fetch doctors:", error);
@@ -62,7 +63,7 @@ const GeneralSurgery = () => {
           />
           <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">General Surgery</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">General & Laproscopic Surgery</h1>
               <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
               <p className="text-xl max-w-3xl mx-auto">
                 Expert surgical care for a wide range of conditions, using advanced techniques for a faster recovery.              

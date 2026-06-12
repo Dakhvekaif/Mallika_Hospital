@@ -13,7 +13,7 @@ const Oncology = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ ONLY THESE 4 DOCTORS
-  const ALLOWED_DOCTOR_IDS = [50, 83, 84, 51];
+  const ONCOLOGY_DEPARTMENT_ID = 25;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -21,9 +21,10 @@ const Oncology = () => {
         const data = await getDoctors();
 
         // ✅ FILTER BY ID (EXACT MATCH)
-        const selectedDoctors = data.filter((doctor) =>
-          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        const selectedDoctors = data.filter(
+          (doctor) => doctor.department === ONCOLOGY_DEPARTMENT_ID
         );
+        selectedDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
 
         setDoctors(selectedDoctors);
       } catch (error) {
@@ -79,7 +80,7 @@ const Oncology = () => {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                departmentName="Cardiology"
+                departmentName="Oncology"
                 formatTime={formatTime}
               />
             ))}

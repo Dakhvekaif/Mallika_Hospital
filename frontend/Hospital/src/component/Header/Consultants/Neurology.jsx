@@ -13,7 +13,7 @@ const Neurology = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ ONLY THESE 3 DOCTORS
-  const ALLOWED_DOCTOR_IDS = [22, 19, 70];
+  const NEUROLOGY_DEPARTMENT_ID = 14;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -21,9 +21,10 @@ const Neurology = () => {
         const data = await getDoctors();
 
         // ✅ FILTER BY ID (EXACT MATCH)
-        const selectedDoctors = data.filter((doctor) =>
-          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        const selectedDoctors = data.filter(
+          (doctor) => doctor.department === NEUROLOGY_DEPARTMENT_ID
         );
+        selectedDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
 
         setDoctors(selectedDoctors);
       } catch (error) {
@@ -79,7 +80,7 @@ const Neurology = () => {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                departmentName="Cardiology"
+                departmentName="Neurology"
                 formatTime={formatTime}
               />
             ))}

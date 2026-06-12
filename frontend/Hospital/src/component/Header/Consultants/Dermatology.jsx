@@ -13,17 +13,17 @@ const Dermatology = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ ONLY THESE 4 DOCTORS
-  const ALLOWED_DOCTOR_IDS = [94, 57, 93];
+  const DERMATOLOGY_DEPARTMENT_ID = 28;
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const data = await getDoctors();
 
-        // ✅ FILTER BY ID (EXACT MATCH)
-        const selectedDoctors = data.filter((doctor) =>
-          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        const selectedDoctors = data.filter(
+          (doctor) => doctor.department === DERMATOLOGY_DEPARTMENT_ID
         );
+        selectedDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
 
         setDoctors(selectedDoctors);
       } catch (error) {
@@ -79,7 +79,7 @@ const Dermatology = () => {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                departmentName="Cardiology"
+                departmentName="Dermatology"
                 formatTime={formatTime}
               />
             ))}

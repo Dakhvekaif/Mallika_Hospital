@@ -19,7 +19,7 @@ const AboutUs = () => {
         />
         <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">About Mallika Super-Speciality Hospital</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Mallika Super-Speciality Hospital</h1>
             <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
             <p className="text-xl max-w-3xl mx-auto">Excellence in Healthcare with Compassion</p>
           </div>
@@ -33,10 +33,10 @@ const AboutUs = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                We at <strong>Mallika Super-Speciality Hospital</strong> provide the highest quality and affordable treatments to our patients. Our hospital is located at Jogeshwari West, Mumbai, Maharashtra. All patients are assured of the best service in a very pleasant and non-stressful atmosphere.
+                Welcome to <strong>Mallika Super-Speciality Hospital</strong>, where clinical expertise meets compassionate care. Strategically located in Jogeshwari West, Mumbai, our 100-bed facility has spent the last 25 years delivering premier, budget-friendly medical treatments across multiple specialities. We pride ourselves on maintaining an pristine, hygienic environment and a comforting atmosphere that minimizes the stress of hospital visits, allowing our patients to focus entirely on their recovery.
               </p>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                Proper attention is paid to the hygiene and sanitation. We have the best and most experienced surgeons and specialists treating our patients with utmost care. With our rich knowledge and experience, be assured of quality healthcare services that we provide. We have an unwavering commitment to medical ethics.
+                Our reputation is anchored by our team of highly accomplished specialists and surgeons who bring decades of rich knowledge to every treatment plan. Guided by uncompromised ethical standards and a patient-first philosophy, we continuously upgrade our technology from advanced Cath Labs to robust intensive care to deliver predictable, precise medical outcomes. At Mallika Hospital, your health is our legacy, and your well-being remains our singular priority.
               </p>
             </div>
             <div className="rounded-lg overflow-hidden shadow-xl">
@@ -62,13 +62,13 @@ const AboutUs = () => {
             </div>
             <div className="order-1 lg:order-2">
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                At <strong>Mallika Super-Speciality Hospital</strong>, we deliver premier and affordable treatments in Jogeshwari West, Mumbai, Maharashtra. Our patients experience top-notch care in a serene environment with utmost attention to hygiene.
+                At <strong>Mallika Super-Speciality Hospital</strong>, we back up our medical care with upto date diagnostic tools and modern medical equipment right here in Jogeshwari West, Mumbai. We believe that combining affordable healthcare with the right technology is the best way to help our patients heal safely and comfortably.
               </p>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                With a team of highly skilled surgeons and specialists, we ensure the best possible care for every patient. Count on our rich expertise and unwavering commitment to medical ethics for quality healthcare services.
+                Our specialists use advanced diagnostic tools to catch health issues early and plan highly accurate treatments. This ensures you get clear answers and care from doctors you can trust.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                We continuously invest in the latest medical technology and research to provide our patients with cutting-edge treatments and diagnostics.
+                By constantly upgrading our labs, imaging systems, and operation theatres, we ensure your family always has access to the safest, most advanced treatment available.
               </p>
             </div>
           </div>
@@ -78,7 +78,7 @@ const AboutUs = () => {
         <div className="mb-20">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Why Choose Us</h2>
           <p className="text-xl text-gray-700 text-center mb-12 max-w-3xl mx-auto">
-            Experience excellence in care tailored to you. Our commitment to compassionate service ensures your well-being every step of the way.
+            From our advanced diagnostic labs to our experienced medical team, we ensure your treatment is safe, precise, and completely transparent.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

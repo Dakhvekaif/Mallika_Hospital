@@ -13,7 +13,7 @@ const Gastroenterology = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ ONLY THESE 4 DOCTORS
-  const ALLOWED_DOCTOR_IDS = [42, 73, 43, 74];
+  const GASTROENTEROLOGY_DEPARTMENT_ID = 22;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -21,9 +21,10 @@ const Gastroenterology = () => {
         const data = await getDoctors();
 
         // ✅ FILTER BY ID (EXACT MATCH)
-        const selectedDoctors = data.filter((doctor) =>
-          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        const selectedDoctors = data.filter(
+          (doctor) => doctor.department === GASTROENTEROLOGY_DEPARTMENT_ID
         );
+        selectedDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
 
         setDoctors(selectedDoctors);
       } catch (error) {
@@ -79,7 +80,7 @@ const Gastroenterology = () => {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                departmentName="Cardiology"
+                departmentName="Gastroenterology"
                 formatTime={formatTime}
               />
             ))}

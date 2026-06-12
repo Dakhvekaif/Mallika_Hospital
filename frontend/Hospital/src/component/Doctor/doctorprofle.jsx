@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { FaPlus, FaMinus, FaArrowLeft, FaPhone, FaEnvelope } from 'react-icons/fa';
-import { Helmet } from 'react-helmet'; 
+import { Helmet } from 'react-helmet-async';
 
 // We only need getDoctors now!
 import { getDoctors } from '../dashboard/api.js'; 
@@ -14,32 +14,48 @@ const DoctorProfile = () => {
   const [doctor, setDoctor] = useState(location.state?.doctor || null);
   const [departmentName, setDepartmentName] = useState("Specialist");
   const [loading, setLoading] = useState(!doctor);
+  const [fetchError, setFetchError] = useState(null); 
   
   const [activeSection, setActiveSection] = useState('profile');
 
   // Fetch Data
   useEffect(() => {
     const loadData = async () => {
-      try {
-        let currentDoc = doctor;
+  try {
+    let currentDoc = doctor; // use location.state if available (fast nav)
 
-        if (!currentDoc) {
-          const allDoctors = await getDoctors();
-          // Finding the doctor by SLUG instead of ID
-          currentDoc = allDoctors.find(d => d.slug === slug); 
-          setDoctor(currentDoc);
-        }
+    if (!currentDoc) {
+      // ✅ Hit the single-doctor endpoint directly — much faster for Googlebot
+      const res = await fetch(`https://mallikahospital.co.in/api/doctors/${slug}/`);
 
-        if (currentDoc && currentDoc.department_name) {
-          setDepartmentName(currentDoc.department_name);
-        }
-
+      if (res.status === 404) {
+        setFetchError('not_found');
         setLoading(false);
-      } catch (error) {
-        console.error("Error loading profile:", error);
-        setLoading(false);
+        return;
       }
-    };
+
+      if (!res.ok) {
+        setFetchError('network');
+        setLoading(false);
+        return;
+      }
+
+      currentDoc = await res.json();
+      setDoctor(currentDoc);
+    }
+
+    if (currentDoc?.department_name) {
+      setDepartmentName(currentDoc.department_name);
+    }
+
+    setLoading(false);
+
+  } catch (error) {
+    console.error("Error loading profile:", error);
+    setFetchError('network');
+    setLoading(false);
+  }
+};
 
     loadData();
   }, [slug, doctor]); // <--- Fixed! No more 'id' hiding here!
@@ -57,8 +73,41 @@ const DoctorProfile = () => {
     return `${formattedHour}:${minutes} ${ampm}`;
   };
 
-  if (loading) return <div className="h-screen flex items-center justify-center text-blue-600 font-bold">Loading Profile...</div>;
-  if (!doctor) return <div className="h-screen flex items-center justify-center text-red-600">Doctor not found.</div>;
+  if (loading) return (
+    <>
+      <Helmet>
+        <title>Loading Doctor Profile… | Mallika Hospital</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
+      <div className="h-screen flex items-center justify-center text-blue-600 font-bold">
+        Loading Profile...
+      </div>
+    </>
+  );
+
+  if (fetchError === 'not_found') return (
+    <>
+      <Helmet>
+        <title>Doctor Not Found | Mallika Hospital</title>
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
+      <div className="h-screen flex items-center justify-center text-red-600">
+        Doctor not found.
+      </div>
+    </>
+  );
+
+  if (fetchError === 'network') return (
+    <>
+      <Helmet>
+        <title>Something Went Wrong | Mallika Hospital</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
+      <div className="h-screen flex items-center justify-center text-orange-500 font-bold">
+        Could not load profile. Please try again.
+      </div>
+    </>
+  );
 
   // --- JSON-LD SCHEMA GENERATOR ---
   const schemaData = {

@@ -1,4 +1,4 @@
-import img1 from '../../../assets/Consultant/Cardio/cardio.png';
+import img1 from '../../../assets/Consultant/Cardio/cardio.webp';
 import img2 from '../../../assets/Consultant/Cardio/cardioimg1.png';
 import img3 from '../../../assets/Consultant/Cardio/cardioimg2.png';
 import img4 from '../../../assets/Consultant/Cardio/cardioimg3.png';
@@ -13,7 +13,7 @@ const Cardiology = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ ONLY THESE 6 DOCTORS
-  const ALLOWED_DOCTOR_IDS = [12, 11, 64, 68, 67, 66];
+  const CARDIOLOGY_DEPARTMENT_ID = 12
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -21,9 +21,12 @@ const Cardiology = () => {
         const data = await getDoctors();
 
         // ✅ FILTER BY ID (EXACT MATCH)
-        const selectedDoctors = data.filter((doctor) =>
-          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        const selectedDoctors = data.filter(
+          (doctor) => doctor.department === CARDIOLOGY_DEPARTMENT_ID
         );
+
+        // ✅ Automatically apply the priority order we built in the backend
+        selectedDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
 
         setDoctors(selectedDoctors);
       } catch (error) {
@@ -45,19 +48,24 @@ const Cardiology = () => {
   };
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+      {/* ✅ PASTE THIS NEW BLOCK */}
       {/* Hero Section */}
-      <div className="relative h-96 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
+      <div className="relative h-96 overflow-hidden w-full">
+        {/* Left-heavy gradient overlay keeps text crisp without hiding the stent on the right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-950/85 via-blue-900/45 to-transparent z-10"></div>
+        
         <img 
           src={img1} 
           alt="Cardiology" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
-          <div>
+        
+        {/* Left-aligned content layout matching the professional look of Mallika Hospital */}
+        <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 h-full flex items-center justify-start text-left text-white">
+          <div className="max-w-xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Cardiology</h1>
-            <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
-            <p className="text-xl max-w-3xl mx-auto">
+            <div className="w-32 h-1 bg-white mb-6"></div>
+            <p className="text-xl leading-relaxed drop-shadow-md">
               Leaders in heart health, dedicated to providing you with expert, personalized, and compassionate cardiac care.
             </p>
           </div>

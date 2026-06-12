@@ -17,7 +17,7 @@ urlpatterns = [
 
     # --- Doctor URLs ---
     path('doctors/', DoctorListCreateView.as_view(), name='doctor-list'),
-    path('doctors/<int:pk>/', DoctorDetailView.as_view(), name='doctor-detail'),
+    path('doctors/<slug:slug>/', DoctorDetailView.as_view(), name='doctor-detail'),
 
     # --- Appointment URLs ---
     path('appointments/', AppointmentListCreateView.as_view(), name='appointment-list'),

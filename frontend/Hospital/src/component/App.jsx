@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
+import { useLocation, Routes, Route } from "react-router-dom";
 
 // Components
 import Header from './Header/header';
@@ -32,7 +31,6 @@ import Proctology from './Header/Surgeries/Proctology';
 import PediatricSurgery from "./Header/Surgeries/PediatricSurgery.jsx";
 import PlasticSurgery from './Header/Surgeries/PlasticSurgery.jsx';
 import Urology from "./Header/Surgeries/Urology.jsx";
-// import VascularSurgery from './Header/Surgeries/VascularSurgery';
 
 //Consultants
 import InternalMedicine from "./Header/Consultants/PhysicianDiabetology";
@@ -43,8 +41,7 @@ import Oncology from "./Header/Consultants/Oncology";
 import Gastroenterology from "./Header/Consultants/Gastroenterology";
 import Pediatrician from "./Header/Consultants/Pediatrician";
 import Dermatology from "./Header/Consultants/Dermatology";
-// import Urology from "./Header/Consultants/Urology";
-// import Radiology from "./Header/Consultants/Radiology";
+import Hematology from "./Header/Consultants/Hematology";
 
 // Cashless & TPA
 import CashlessTpa from "./Cashless&TPA/CashlessTPA";
@@ -63,21 +60,26 @@ import DoctorsList from "./Doctor/doctor";
 import DoctorProfile from "./Doctor/doctorprofle";
 import ChatbotWrapper from "./ChatBot/ChatBotWrapper";
 
-function App() {
+import Testimonial from "./Testimonial/Testimonial";
 
+function App() {
   const { pathname } = useLocation();
+
+  // Check if current route is dashboard to hide global nav/footer
+  const isDashboard = pathname.includes('/dashboard');
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "instant" // or "smooth"
+      behavior: "instant"
     });
   }, [pathname]);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar /> 
+      {/* Navbar only shows if NOT on dashboard */}
+      {!isDashboard && <Navbar />} 
       
       <div className="flex-grow"> 
         <Routes>
@@ -86,9 +88,10 @@ function App() {
             <>
               <Header/>
               <Main/>
-            </>          } />  
+            </>
+          } />  
 
-          {/* About Us */}
+          {/* Core Routes */}
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/about-us' element={<AboutUs />} />
 
@@ -113,8 +116,6 @@ function App() {
           <Route path='/surgeries/pediatric-surgery' element={<PediatricSurgery />} />
           <Route path='/surgeries/plastic-surgery' element={<PlasticSurgery />} />
           <Route path='/surgeries/urology' element={<Urology />} />
-          {/* <Route path='/surgeries/plastic-surgery' element={<PlasticSurgery />} /> */}
-          {/* <Route path='/surgeries/vascular-surgery' element={<VascularSurgery />} /> */}
 
           {/* Consultants Pages */}
           <Route path='/consultants/physician-and-diabetology' element={<InternalMedicine />} />
@@ -125,33 +126,23 @@ function App() {
           <Route path='/consultants/gastroenterology' element={<Gastroenterology />} />
           <Route path='/consultants/pediatrician' element={<Pediatrician />} />
           <Route path='/consultants/dermatology' element={<Dermatology />} />
-          {/* <Route path='/consultants/urology' element={<Urology />} /> */}
-          {/* <Route path='/consultants/radiology' element={<Radiology />} /> */}
+          <Route path='/consultants/hematology' element={<Hematology />} />
 
-          {/* Cashless & TPA */}
+          {/* Additional Pages */}
+          <Route path='/testimonial' element={<Testimonial />} />
           <Route path='/cashless-&-tpa' element={<CashlessTpa />} />
-
-          {/* Govt Schemes */}
           <Route path='/govt.sch' element={<GovtSchemes />} />
-
-          {/* ContactUs */}
           <Route path='/contact' element={<ContactUs />} />
-
-          {/* Media */}
-          {/* <Route path='media/floor1' element={<Floor1 />} />
-          <Route path='media/floor2' element={<Floor2 />} />
-          <Route path='media/floor3' element={<Floor3 />} /> */}
 
           {/* Find Doctor */}
           <Route path="/find-doctor" element={<DoctorsList />} />
           <Route path="/doctor-profile/:slug" element={<DoctorProfile />} />
-
         </Routes>
       </div>
 
-      <Footer />
-
-      <ChatbotWrapper />
+      {/* Footer and Chatbot hide on dashboard */}
+      {!isDashboard && <Footer />}
+      {!isDashboard && <ChatbotWrapper />}
     </div>
   );
 }

@@ -73,7 +73,22 @@ export const apiLogin = async (username, password) => {
   }
 
   const data = await response.json();
-  console.log('Login success, token received');
+  
+  // --- CRITICAL FIX START ---
+  // Extract only the string. Check your console to see if your backend 
+  // returns 'token', 'access', or 'key'.
+  const tokenString = data.token || data.access || data.key;
+
+  if (tokenString) {
+    console.log('Login success, saving token string');
+    setAuthToken(tokenString); 
+  } else {
+    console.error('Data received but no token string found. Check backend response keys.');
+    // If your backend returns something like { "token": "xyz" }, 
+    // and we save the whole thing, the Authorization header will fail.
+  }
+  // --- CRITICAL FIX END ---
+
   return data;
 };
 

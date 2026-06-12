@@ -1,4 +1,4 @@
-import img1 from '../../../assets/Consultant/Physic/physic.png';
+import img1 from '../../../assets/Consultant/Physic/physic.webp';
 import img2 from '../../../assets/Consultant/Physic/physicimg1.png';
 import img3 from '../../../assets/Consultant/Physic/physicimg2.png';
 import img4 from '../../../assets/Consultant/Physic/physicimg3.png';
@@ -12,8 +12,8 @@ const InternalMedicine = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ ONLY THESE 4 DOCTORS
-  const ALLOWED_DOCTOR_IDS = [6, 9, 10, 65];
+  // ✅ ONLY THESE 4 DOCTORS(M.D. Medicine)
+  const PHYSICIAN_DIABETOLOGY_DEPARTMENT_ID = 11;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -21,9 +21,10 @@ const InternalMedicine = () => {
         const data = await getDoctors();
 
         // ✅ FILTER BY ID (EXACT MATCH)
-        const selectedDoctors = data.filter((doctor) =>
-          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        const selectedDoctors = data.filter(
+          (doctor) => doctor.department === PHYSICIAN_DIABETOLOGY_DEPARTMENT_ID
         );
+        selectedDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
 
         setDoctors(selectedDoctors);
       } catch (error) {
@@ -79,7 +80,7 @@ const InternalMedicine = () => {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                departmentName="Cardiology"
+                departmentName="md-medicine"
                 formatTime={formatTime}
               />
             ))}

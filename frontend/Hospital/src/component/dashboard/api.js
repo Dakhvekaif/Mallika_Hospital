@@ -87,25 +87,26 @@ export const addDoctor = async (data) => {
 };
 
 // UPDATE a doctor (Requires Auth)
-export const updateDoctor = async (id, data) => {
-  const response = await fetch(`${BASE_URL}/api/doctors/${id}/`, {
+export const updateDoctor = async (slug, data) => {
+  const authHeader = getAuthHeader();
+  console.log('Auth header:', authHeader); // check this in console
+  
+  const response = await fetch(`${BASE_URL}/api/doctors/${slug}/`, {
     method: "PUT",
     headers: {
-      // "Content-Type": "application/json",
-      ...getAuthHeader(), // Include auth token
+      ...authHeader,
     },
-    body: data // FormData directly
-    // body: JSON.stringify(data)
+    body: data
   });
   return handleResponse(response);
 };
 
 // DELETE a doctor (Requires Auth)
-export const deleteDoctor = async (id) => {
-  const response = await fetch(`${BASE_URL}/api/doctors/${id}/`, {
+export const deleteDoctor = async (slug, data) => {
+  const response = await fetch(`${BASE_URL}/api/doctors/${slug}/`, {
     method: "DELETE",
     headers: {
-      ...getAuthHeader(), // Include auth token
+      ...getAuthHeader(),
     }
   });
   return handleResponse(response);
@@ -154,4 +155,13 @@ export const deleteAppointment = async (id) => {
     }
   });
   return handleResponse(response);
+};
+
+
+export const getTestimonials = async () => {
+  const response = await fetch('http://127.0.0.1:8000/api/testimonials/');
+  if (!response.ok) {
+    throw new Error('Failed to fetch testimonials');
+  }
+  return await response.json();
 };

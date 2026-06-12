@@ -1,4 +1,4 @@
-import img1 from '../../../assets/Consultant/Nepro/nepro.png';
+import img1 from '../../../assets/Consultant/Nepro/nepro.webp';
 import img2 from '../../../assets/Consultant/Nepro/neproimg1.png';
 import img3 from '../../../assets/Consultant/Nepro/neproimg2.png';
 import img4 from '../../../assets/Consultant/Nepro/neproimg3.png';
@@ -12,8 +12,8 @@ const Nephrology = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ ONLY THESE 3 DOCTORS
-  const ALLOWED_DOCTOR_IDS = [4, 5, 69];
+ // ✅ Use the unique Department ID from your backend
+const NEPHROLOGY_DEPARTMENT_ID = 10;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -21,9 +21,11 @@ const Nephrology = () => {
         const data = await getDoctors();
 
         // ✅ FILTER BY ID (EXACT MATCH)
-        const selectedDoctors = data.filter((doctor) =>
-          ALLOWED_DOCTOR_IDS.includes(doctor.id)
+        const selectedDoctors = data.filter(
+          (doctor) => doctor.department === NEPHROLOGY_DEPARTMENT_ID
         );
+        // ✅ Automatically apply the priority order we built in the backend
+        selectedDoctors.sort((a, b) => (a.display_order ?? 100) - (b.display_order ?? 100));
 
         setDoctors(selectedDoctors);
       } catch (error) {
@@ -79,7 +81,7 @@ const Nephrology = () => {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                departmentName="Cardiology"
+                departmentName="Nephrology"
                 formatTime={formatTime}
               />
             ))}

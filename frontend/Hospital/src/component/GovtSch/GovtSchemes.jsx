@@ -4,7 +4,8 @@ import { FaCheckCircle, FaHospital, FaShieldAlt, FaHandHoldingMedical, FaChevron
 
 const GovtSchemes = () => {
   const [openStates, setOpenStates] = useState({
-    'Bajaj Allianz Gen. Ins. Co. Ltd.': false,
+    'PMJAY': false,
+    'ESIS': false,
     'MJPJAY (Mahatma Jyotiba Phule Scheme)': false,
     'CGHS': false,
     'FCI': false,
@@ -23,9 +24,14 @@ const GovtSchemes = () => {
 
   const schemes = [
     { 
-      name: 'Bajaj Allianz Gen. Ins. Co. Ltd.', 
+      name: 'PMJAY', 
+      icon: <FaHandHoldingMedical className="text-orange-600" />,
+      description: 'Ayushman Bharat - Pradhan Mantri Jan Arogya Yojana (PMJAY) is a flagship scheme of the Government of India, providing a health cover of Rs. 5 lakhs per family per year for secondary and tertiary care hospitalization. It offers cashless and paperless access to services for the beneficiary at the point of service.'
+    },
+    { 
+      name: 'ESIS', 
       icon: <FaShieldAlt className="text-blue-600" />,
-      description: 'Bajaj Allianz General Insurance Company Limited is a joint venture between Bajaj Finserv Limited and Allianz SE. Both enjoy a reputation of expertise, stability and strength. Bajaj Allianz General Insurance received the Insurance Regulatory and Development Authority (IRDA) certificate of registration on 2nd May, 2001 to conduct general insurance business (including health insurance business) in India.'
+      description: 'Employees\' State Insurance Scheme (ESIS) provides multidimensional socio-economic protection to workers in the organized sector. It ensures comprehensive medical care for the insured persons and their dependents, protecting them against the financial impact of sickness, maternity, and employment injury.'
     },
     { 
       name: 'MJPJAY (Mahatma Jyotiba Phule Scheme)', 
@@ -123,7 +129,7 @@ const GovtSchemes = () => {
                   openStates[scheme.name] ? 'max-h-96' : 'max-h-0'
                 }`}>
                   <div className="px-4 pb-4">
-                    <p className="text-gray-600 text-sm leading-relaxed">
+                    <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
                       {scheme.description}
                     </p>
                   </div>

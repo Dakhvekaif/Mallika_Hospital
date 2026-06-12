@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import {
   FaUserMd, FaUsers, FaStethoscope, FaCalendarAlt, FaPlus, FaList, 
   FaChevronDown, FaChevronRight, FaHospital, FaArrowLeft, FaUserCheck, 
-  FaCalendarCheck, FaUser, FaLock, FaTimes, FaEye, FaEyeSlash, FaSignOutAlt
+  FaCalendarCheck, FaUser, FaLock, FaTimes, FaEye, FaEyeSlash, FaSignOutAlt,
+  FaRegCommentDots // 👈 Added here to fix the ReferenceError crash
 } from 'react-icons/fa';
 import { apiLogin, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated, getAuthHeader } from "../../utils/auth";
 
@@ -11,6 +12,7 @@ import { apiLogin, getAuthToken, setAuthToken, clearAuthToken, isAuthenticated, 
 import ManageSpecialist from './managespecialist.jsx'; 
 import ManageDoctor from './managedoctor.jsx';
 import ManageAppointment from './manageappointment.jsx';
+import ManageTestimonials from './managetestimonials.jsx';
 
 // API Base URL - use environment variable or fallback to production
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://mallika-hospital.onrender.com";
@@ -35,7 +37,6 @@ const LoginModal = ({ onLogin, onClose }) => {
         setError("Login failed: invalid response");
       }
     } catch (err) {
-      // err might be { non_field_errors: [...] } or other object
       if (err && typeof err === "object") {
         const msg =
           (err.non_field_errors && err.non_field_errors.join(", ")) ||
@@ -121,13 +122,6 @@ const LoginModal = ({ onLogin, onClose }) => {
           </button>
         </form>
 
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-600 text-center">
-            <strong>Demo Credentials:</strong><br />
-            Username: <span className="font-mono">admin</span><br />
-            Password: <span className="font-mono">admin123</span>
-          </p>
-        </div>
       </div>
     </div>
   );
@@ -305,6 +299,18 @@ const Dashboard = () => {
                   </div>
                 </button>
               </div>
+              <li className="list-none mt-4">
+                <button 
+                  onClick={() => setActiveSection('manage-testimonial')}
+                  className="w-full p-4 border rounded-lg hover:bg-gray-50 transition-colors flex items-center bg-white"
+                >
+                  <FaRegCommentDots className="text-blue-600 mr-3 text-lg" />
+                  <div className="text-left">
+                    <p className="font-medium">Manage Testimonials</p>
+                    <p className="text-sm text-gray-500">Edit patient reviews and video clips</p>
+                  </div>
+                </button>
+              </li>
             </div>
           </div>
         );
@@ -314,6 +320,8 @@ const Dashboard = () => {
         return <ManageDoctor onBack={() => setActiveSection('dashboard')} />;
       case 'manage-appointment':
         return <ManageAppointment onBack={() => setActiveSection('dashboard')} />;
+      case 'manage-testimonial':
+        return <ManageTestimonials onBack={() => setActiveSection('dashboard')} />;
       default:
         return null;
     }
@@ -440,8 +448,21 @@ const Dashboard = () => {
                     </ul>
                   )}
                 </li>
+
+                <li>
+                  <button
+                    onClick={() => setActiveSection('manage-testimonial')}
+                    className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                      activeSection === 'manage-testimonial' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'
+                    }`}
+                  >
+                    <FaRegCommentDots className="text-blue-600" />
+                    <span className="font-medium">Testimonials</span>
+                  </button>
+                </li>
               </ul>
-              {/*Logout Button in Sidebar */}
+
+              {/* Logout Button in Sidebar */}
               <div className="mt-8 pt-4 border-t">
                 <button
                   onClick={handleLogout}
@@ -458,7 +479,7 @@ const Dashboard = () => {
           <div className="flex-1 flex flex-col">
             {/* Mobile Header */}
             <div className="bg-white shadow-sm p-4 border-b flex items-center justify-between">
-              <h1 className="text-xl font-bold text-gray-900">Mallika Hospital</h1>
+              <h1 className="text-xl font-bold text-gray-900">Mallika Hospital Dashboard</h1>
               <div className="flex items-center gap-4">
                 {activeSection !== 'dashboard' && (
                   <button
@@ -475,9 +496,7 @@ const Dashboard = () => {
                   className="flex items-center text-red-600 hover:text-red-800 gap-1 sm:hidden"
                 >
                   <FaSignOutAlt />
-                  {/* <span>Logout</span> */}
                 </button>
-
               </div>
             </div>            
             {/* Content Area */}
