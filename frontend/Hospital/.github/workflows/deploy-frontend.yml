@@ -1,0 +1,7 @@
+- name: Install Dependencies & Build
+        working-directory: frontend/Hospital
+        run: |
+          npm ci
+          npm run build
+        env:
+          VITE_BACKEND_URL: https://mallikahospital.co.in

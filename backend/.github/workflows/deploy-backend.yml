@@ -1,0 +1,39 @@
+name: Deploy Mallika Hospital Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**' # 💡 Only runs if files inside the backend folder actually change
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy Backend Files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.GODADDY_SERVER_IP }}
+          username: ${{ secrets.GODADDY_FTP_USERNAME }}
+          password: ${{ secrets.GODADDY_FTP_PASSWORD }}
+          local-dir: backend/  # 👈 Fixed: Only uploads the backend folder
+          server-dir: Mallika-Backend/backend/ # 👈 Matches your exact cPanel path
+          exclude: |
+            **/venv/**
+            **/.git/**
+            **/db.sqlite3
+            **/.env
+          state-name: .ftp-deploy-sync-state-backend.json
+
+      - name: Trigger Passenger Server Restart
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.GODADDY_SERVER_IP }}
+          username: ${{ secrets.GODADDY_FTP_USERNAME }}
+          password: ${{ secrets.GODADDY_FTP_PASSWORD }}
+          local-dir: backend/tmp/  # 👈 Fixed: Points to your local temp folder
+          server-dir: Mallika-Backend/backend/tmp/
