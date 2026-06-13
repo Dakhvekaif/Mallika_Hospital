@@ -23,6 +23,9 @@ jobs:
         run: |
           npm ci
           npm run build
+          # 📑 Arrange the assets into a 'static' folder so they match the production URL paths
+          mkdir -p dist/static
+          mv dist/assets dist/static/assets
         env:
           VITE_BACKEND_URL: https://mallikahospital.co.in
 
@@ -33,6 +36,5 @@ jobs:
           username: ${{ secrets.GODADDY_FTP_USERNAME }}
           password: ${{ secrets.GODADDY_FTP_PASSWORD }}
           local-dir: frontend/Hospital/dist/
-          server-dir: public_html/mallikahospital.co.in/static/
-          create-dir: true
+          server-dir: public_html/mallikahospital.co.in/ # 👈 Back to the absolute root directory
           state-name: .ftp-deploy-sync-state-frontend.json
