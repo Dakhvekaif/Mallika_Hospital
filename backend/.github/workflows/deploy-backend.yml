@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'backend/**' # 💡 Only runs if files inside the backend folder actually change
+      - 'backend/**'
 
 jobs:
   deploy:
@@ -20,8 +20,9 @@ jobs:
           server: ${{ secrets.GODADDY_SERVER_IP }}
           username: ${{ secrets.GODADDY_FTP_USERNAME }}
           password: ${{ secrets.GODADDY_FTP_PASSWORD }}
-          local-dir: backend/  # 👈 Fixed: Only uploads the backend folder
-          server-dir: Mallika-Backend/backend/ # 👈 Matches your exact cPanel path
+          local-dir: backend/
+          server-dir: Mallika-Backend/backend/
+          create-dir: true # 👈 ADD THIS LINE
           exclude: |
             **/venv/**
             **/.git/**
@@ -35,5 +36,6 @@ jobs:
           server: ${{ secrets.GODADDY_SERVER_IP }}
           username: ${{ secrets.GODADDY_FTP_USERNAME }}
           password: ${{ secrets.GODADDY_FTP_PASSWORD }}
-          local-dir: backend/tmp/  # 👈 Fixed: Points to your local temp folder
+          local-dir: backend/tmp/
           server-dir: Mallika-Backend/backend/tmp/
+          create-dir: true # 👈 ADD THIS LINE ALSO
