@@ -15,7 +15,6 @@ const DoctorsList = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Extract unique departments from the doctors list for the filter dropdown
   const uniqueDepartments = useMemo(() => {
     const depts = new Map();
     doctors.forEach(doc => {
