@@ -1,7 +1,38 @@
-- name: Install Dependencies & Build
+name: Deploy Mallika Hospital Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies & Build
         working-directory: frontend/Hospital
         run: |
           npm ci
           npm run build
         env:
           VITE_BACKEND_URL: https://mallikahospital.co.in
+
+      - name: Deploy to GoDaddy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.GODADDY_SERVER_IP }}
+          username: ${{ secrets.GODADDY_FTP_USERNAME }}
+          password: ${{ secrets.GODADDY_FTP_PASSWORD }}
+          local-dir: frontend/Hospital/dist/
+          server-dir: public_html/mallikahospital.co.in/
+          create-dir: true
+          state-name: .ftp-deploy-sync-state-frontend.json
