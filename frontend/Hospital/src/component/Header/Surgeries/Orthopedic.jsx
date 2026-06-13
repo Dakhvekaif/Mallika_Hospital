@@ -3,7 +3,7 @@ import img1 from '../../../assets/Surgery/Ortho/orthoimg1.png';
 import img2 from '../../../assets/Surgery/Ortho/orthoimg2.png';
 import img3 from '../../../assets/Surgery/Ortho/orthoimg3.png';
 import img4 from '../../../assets/Surgery/Ortho/orthoimg4.png';
-import img5 from '../../../assets/Surgery/Ortho/orthoimg5.png';
+import img5 from '../../../assets/Surgery/Ortho/orthoimg5.avif';
 import img6 from '../../../assets/Surgery/Ortho/orthoimg6.png';
 import { FaBone, FaRunning, FaUserMd, FaHandHoldingMedical, FaWheelchair, FaCheckCircle} from 'react-icons/fa';
 import { useEffect, useState } from 'react';
@@ -110,7 +110,7 @@ const Orthopedic = () => {
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start"><FaHandHoldingMedical className="text-blue-500 mr-2 mt-1 flex-shrink-0" /> <span><strong>Non-Surgical Treatments:</strong> We offer physical therapy, medication management, and injections to effectively manage pain and improve function.</span></li>
               <li className="flex items-start"><FaUserMd className="text-blue-500 mr-2 mt-1 flex-shrink-0" /> <span><strong>Minimally Invasive Surgery:</strong> Whenever possible, we use arthroscopic and other advanced techniques to minimize pain and accelerate recovery.</span></li>
-              <li className="flex items-start"><FaBone className="text-blue-500 mr-2 mt-1 flex-shrink-0" /> <span><strong>Complex Reconstruction:</strong> Our surgeons are experts in joint replacement, spine surgery, and trauma care for the most challenging conditions.</span></li>
+              <li className="flex items-start"><FaBone className="text-blue-500 mr-2 mt-1 flex-shrink-0" /> <span><strong>Complex Reconstruction:</strong> Our surgeons are experts in joint replacement, sports injury reconstruction, and trauma care for the most challenging conditions.</span></li>
             </ul>
           </div>
           <div className="md:w-1/2">
@@ -142,9 +142,9 @@ const Orthopedic = () => {
           {/* Expertise 2 - Alternated */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
             <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Joint Dislocation slippe Disc</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Joint Dislocation</h3>
               <p className="text-gray-600">
-                Joint dislocation occurs when the ends of bones are forced out of their normal position, usually due to injury or trauma. Surgical treatment is required when the joint cannot be safely repositioned or when there is repeated dislocation. Surgery helps restore joint alignment, stability, and normal movement while reducing pain and the risk of future injuries.Slipped disc, also known as a herniated or prolapsed disc, happens when the soft inner portion of a spinal disc pushes out and presses on nearby nerves. Surgery is recommended when severe pain, weakness, or nerve damage does not improve with conservative treatment. The procedure relieves pressure on the nerves, reduces pain, and improves mobility and quality of life.
+                Joint dislocation occurs when the ends of bones are forced out of their normal position, usually due to injury or trauma. Surgical treatment is required when the joint cannot be safely repositioned or when there is repeated dislocation. Surgery helps restore joint alignment, stability, and normal movement while reducing pain and the risk of future injuries. Prompt orthopedic intervention ensures proper healing and minimizes long-term joint instability or stiffness.
               </p>
             </div>
             <div className="md:w-1/2">
@@ -164,28 +164,28 @@ const Orthopedic = () => {
             </div>
             <div className="md:w-1/2">
               <img src={img4} 
-              alt="Advanced surgical technology" 
+              alt="Advanced joint replacement implant" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
 
-          {/* Expertise 5 - Alternated */}
+          {/* Expertise 4 - Alternated */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
             <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Arthroscopic Rotatar Cuff repair</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Arthroscopic Rotator Cuff Repair</h3>
               <p className="text-gray-600">
                 Arthroscopic rotator cuff repair is a minimally invasive procedure used to treat tears in the rotator cuff tendons of the shoulder. Using a small camera and specialized instruments, the surgeon repairs the damaged tendons through tiny incisions, reducing pain and tissue damage. This surgery helps restore shoulder strength, stability, and range of motion. With proper physiotherapy and rehabilitation, most patients achieve good recovery and improved shoulder function.
               </p>
             </div>
             <div className="md:w-1/2">
               <img src={img5}
-              alt="Athlete training with physiotherapist" 
+              alt="Shoulder arthroscopy visualization" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
           
-          {/* Expertise 4 */}
+          {/* Expertise 5 */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">Arthroscopic Ligament Reconstruction</h3>
@@ -195,27 +195,11 @@ const Orthopedic = () => {
             </div>
             <div className="md:w-1/2">
               <img src={img6} 
-              alt="Doctor examining a spine model" 
+              alt="Doctor examining an orthopedic model" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
-
-        {/* Meet Our Lead Surgeons Section */}
-        {/* <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc3} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </section> */}
 
       </div>
     </div>
