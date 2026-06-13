@@ -13,7 +13,7 @@ const OncoSurgery = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ UPDATED: Based on your data, the ID should be 13
-  const ONCOLOGY_SURGERY_DEPARTMENT_ID = 25; 
+  const ONCOLOGY_SURGERY_DEPARTMENT_ID = 35; 
 
   useEffect(() => {
     const fetchDoctors = async () => {
