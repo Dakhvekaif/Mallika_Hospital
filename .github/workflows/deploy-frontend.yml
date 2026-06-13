@@ -33,6 +33,6 @@ jobs:
           username: ${{ secrets.GODADDY_FTP_USERNAME }}
           password: ${{ secrets.GODADDY_FTP_PASSWORD }}
           local-dir: frontend/Hospital/dist/
-          server-dir: public_html/mallikahospital.co.in/
+          server-dir: public_html/mallikahospital.co.in/static/
           create-dir: true
           state-name: .ftp-deploy-sync-state-frontend.json
