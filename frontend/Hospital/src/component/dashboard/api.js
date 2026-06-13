@@ -159,7 +159,7 @@ export const deleteAppointment = async (id) => {
 
 
 export const getTestimonials = async () => {
-  const response = await fetch('http://127.0.0.1:8000/api/testimonials/');
+  const response = await fetch(`${BASE_URL}/api/testimonials/`);
   if (!response.ok) {
     throw new Error('Failed to fetch testimonials');
   }
