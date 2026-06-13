@@ -32,4 +32,7 @@ urlpatterns = [
 
    # helps serve favicon and other root files if WhiteNoise misses them
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+
+    #Sends all non-API URL refreshes directly to the React index.html
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]

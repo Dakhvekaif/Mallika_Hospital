@@ -13,7 +13,7 @@ const Neurosurgery = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ UPDATED: Based on your data, the ID should be 13
-  const NEUROLOGY_DEPARTMENT_ID = 14; 
+  const NEUROLOGY_DEPARTMENT_ID = 38; 
 
   useEffect(() => {
     const fetchDoctors = async () => {
