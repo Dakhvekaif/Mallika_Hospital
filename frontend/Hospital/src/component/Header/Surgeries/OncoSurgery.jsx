@@ -5,6 +5,7 @@ import img4 from '../../../assets/Surgery/Onco/oncoimg3.png';
 import img5 from '../../../assets/Surgery/Onco/oncoimg4.png';
 import { FaUserMd, FaUsers, FaShieldAlt, FaHandHoldingMedical, FaHeartbeat, FaCheckCircle } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import DoctorCard from '../DoctorCard.jsx';
 import { getDoctors } from '../../dashboard/api.js';
 
@@ -46,6 +47,13 @@ const OncoSurgery = () => {
 
   return (
       <div className="w-full min-h-screen bg-white pt-20">
+
+        <Helmet>
+          <title>Best Oncosurgeons & Cancer Surgery in Jogeshwari West | Mallika Hospital</title>
+          <meta name="description" content="Consult top surgical oncologists at Mallika Hospital, Jogeshwari West, Mumbai. Expert surgical treatments for breast cancer, gastrointestinal tumors, and advanced cancer care." />
+          <link rel="canonical" href="https://mallikahospital.co.in/surgeries/onco-surgery" />
+        </Helmet>
+
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

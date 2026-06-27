@@ -6,6 +6,7 @@ import img5 from '../../../assets/Surgery/Ent/entimg4.png';
 import { FaEarListen, FaUserDoctor, FaWind, FaMicrophone, FaCircleCheck } from 'react-icons/fa6'; 
 import { FaStethoscope, FaComments } from 'react-icons/fa'; 
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET HERE
 import DoctorCard from '../DoctorCard.jsx';
 import { getDoctors } from '../../dashboard/api.js';
 
@@ -47,6 +48,14 @@ const Ent = () => {
 
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+      
+      {/* --- 2. INJECT LOCALIZED SURGERY METADATA HERE --- */}
+      <Helmet>
+        <title>Best ENT Specialists & Ear Nose Throat Care | Mallika Hospital</title>
+        <meta name="description" content="Consult expert ENT surgeons at Mallika Hospital, Jogeshwari West, Mumbai. Advanced diagnostics and surgical treatments for ear, nose, throat, and sinus disorders." />
+        <link rel="canonical" href="https://mallikahospital.co.in/surgeries/ent" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
@@ -66,30 +75,29 @@ const Ent = () => {
         </div>
       </div>
 
-        {/* ENT Doctors Section */}
-        <section className="max-w-7xl mx-auto px-4 py-16">
-          <h2 className="text-3xl font-bold text-center mb-10">
-            Our ENT Specialists
-          </h2>
+      {/* ENT Doctors Section */}
+      <section className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-10">
+          Our ENT Specialists
+        </h2>
 
-          {loading ? (
-            <p className="text-center text-gray-500">Loading specialists...</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {doctors.map((doctor) => (
-                <DoctorCard
-                  key={doctor.id}
-                  doctor={doctor}
-                  departmentName="ENT"
-                  formatTime={formatTime}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        {loading ? (
+          <p className="text-center text-gray-500">Loading specialists...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {doctors.map((doctor) => (
+              <DoctorCard
+                key={doctor.id}
+                doctor={doctor}
+                departmentName="ENT"
+                formatTime={formatTime}
+              />
+            ))}
+          </div>
+        )}
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-
         {/* Introduction Section */}
         <section className="text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Comprehensive Care for All Ages</h2>

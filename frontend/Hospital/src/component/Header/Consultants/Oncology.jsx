@@ -4,6 +4,7 @@ import img3 from '../../../assets/Consultant/Onco/oncoimg2.png';
 import img4 from '../../../assets/Consultant/Onco/oncoimg3.png';
 import img5 from '../../../assets/Consultant/Onco/oncoimg4.png';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaUserMd, FaRadiation, FaFlask, FaShieldAlt, FaUsers, FaHandHoldingMedical } from 'react-icons/fa';
@@ -47,6 +48,13 @@ const Oncology = () => {
 
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+
+      <Helmet>
+        <title>Top Oncologists & Expert Cancer Care in Jogeshwari West | Mallika Hospital</title>
+        <meta name="description" content="Specialized cancer care and medical oncology at Mallika Hospital, Jogeshwari West, Mumbai. Compassionate, advanced diagnostic and therapeutic oncology protocols." />
+        <link rel="canonical" href="https://mallikahospital.co.in/consultants/oncology" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

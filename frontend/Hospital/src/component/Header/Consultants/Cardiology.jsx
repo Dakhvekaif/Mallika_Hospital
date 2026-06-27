@@ -5,15 +5,16 @@ import img4 from '../../../assets/Consultant/Cardio/cardioimg3.png';
 import img5 from '../../../assets/Consultant/Cardio/cardioimg4.png';
 import { FaHeartbeat, FaUserMd, FaStethoscope, FaProcedures, FaLaptopMedical, FaClock } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 
 const Cardiology = () => {
-   const [doctors, setDoctors] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // ✅ ONLY THESE 6 DOCTORS
-  const CARDIOLOGY_DEPARTMENT_ID = 12
+  const CARDIOLOGY_DEPARTMENT_ID = 12;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -32,7 +33,7 @@ const Cardiology = () => {
       } catch (error) {
         console.error('Failed to fetch doctors:', error);
       } finally {
-        setLoading(false);
+        loading && setLoading(false);
       }
     };
 
@@ -46,21 +47,25 @@ const Cardiology = () => {
     const ampm = h >= 12 ? 'PM' : 'AM';
     return `${hour}:${m} ${ampm}`;
   };
+
   return (
     <div className="w-full min-h-screen bg-white pt-20">
-      {/* ✅ PASTE THIS NEW BLOCK */}
+      
+      {/* --- 2. CARDIOLOGY LEVEL LOCAL SEO --- */}
+      <Helmet>
+        <title>Best Cardiologists & Heart Care in Jogeshwari West | Mallika Hospital</title>
+        <meta name="description" content="Consult top heart specialists and cardiologists at Mallika Hospital, Jogeshwari West, Mumbai. 24/7 advanced cardiac care, Cath Lab facilities, and expert treatment for heart conditions." />
+        <link rel="canonical" href="https://mallikahospital.co.in/consultants/cardiology" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden w-full">
-        {/* Left-heavy gradient overlay keeps text crisp without hiding the stent on the right */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-950/85 via-blue-900/45 to-transparent z-10"></div>
-        
         <img 
           src={img1} 
-          alt="Cardiology" 
+          alt="Cardiology Department" 
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        
-        {/* Left-aligned content layout matching the professional look of Mallika Hospital */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 h-full flex items-center justify-start text-left text-white">
           <div className="max-w-xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Cardiology</h1>
@@ -72,7 +77,7 @@ const Cardiology = () => {
         </div>
       </div>
 
-            {/* DOCTORS */}
+      {/* DOCTORS */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-10">
           Our Cardiology Consultants
@@ -95,7 +100,6 @@ const Cardiology = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-
         {/* Introduction Section */}
         <section className="text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Excellence in Cardiovascular Care</h2>
@@ -105,7 +109,7 @@ const Cardiology = () => {
           </p>
         </section>
 
-        {/* Our Approach to Care - Side-by-Side */}
+        {/* Our Approach to Care */}
         <section className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
           <div className="md:w-1/2">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">A Partnership for Your Heart</h2>
@@ -120,16 +124,15 @@ const Cardiology = () => {
           </div>
           <div className="md:w-1/2">
             <img src={img2} 
-            alt="Cardiologist consulting with a patient" 
-            className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              alt="Cardiologist consulting with a patient" 
+              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
           </div>
         </section>
 
-        {/* Cardiology Subspecialties - Alternating Layout */}
+        {/* Cardiology Subspecialties */}
         <section className="space-y-16">
           <h2 className="text-3xl font-bold text-center text-gray-800">Our Areas of Expertise</h2>
           
-          {/* Expertise 1 */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
               <h3 className="text-2xl font-bold text-gray-800 mb-2 flex items-center"><FaProcedures className="text-red-500 mr-3" />Interventional Cardiology</h3>
@@ -138,13 +141,12 @@ const Cardiology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-            <img src={img3} 
-              alt="Cardiac catheterization procedure" 
-              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img3} 
+                alt="Cardiac catheterization procedure" 
+                className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
-          {/* Expertise 2 - Alternated */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row-reverse items-center gap-8">
             <div className="md:w-1/2">
               <h3 className="text-2xl font-bold text-gray-800 mb-2 flex items-center"><FaHeartbeat className="text-blue-500 mr-3" />Clinical Cardiology & Heart Failure</h3>
@@ -153,13 +155,12 @@ const Cardiology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-            <img src={img4} 
-              alt="Doctor listening to a patient's heart" 
-              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img4} 
+                alt="Doctor listening to a patient's heart" 
+                className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
 
-          {/* Expertise 3 */}
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
               <h3 className="text-2xl font-bold text-gray-800 mb-2 flex items-center"><FaLaptopMedical className="text-purple-500 mr-3" />Electrophysiology (EP)</h3>
@@ -168,13 +169,13 @@ const Cardiology = () => {
               </p>
             </div>
             <div className="md:w-1/2">
-            <img src={img5} 
-              alt="Electrophysiology lab" 
-              className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
+              <img src={img5} 
+                alt="Electrophysiology lab" 
+                className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>
         </section>
-    </div>
+      </div>
     </div>
   );
 };

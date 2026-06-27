@@ -9,6 +9,7 @@ import img7 from '../../../assets/Surgery/Gyeno/gyenoimg7.webp';
 import img8 from '../../../assets/Surgery/Gyeno/gyenoimg8.webp';
 import { FaBaby, FaHeartbeat, FaUserMd, FaFemale, FaShieldAlt, FaCheckCircle, FaComments } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET HERE
 import DoctorCard from '../DoctorCard.jsx';
 import { getDoctors } from '../../dashboard/api.js';
 
@@ -50,6 +51,14 @@ const ObstetricsGynecology = () => {
 
   return (
       <div className="w-full min-h-screen bg-white pt-20">
+        
+        {/* --- 2. OBSTETRICS & GYNECOLOGY LOCAL SEO INJECTION --- */}
+        <Helmet>
+          <title>Best Gynecologists & Maternity Surgery in Jogeshwari West | Mallika Hospital</title>
+          <meta name="description" content="Expert women's healthcare, painless deliveries, high-risk pregnancy management, and advanced gynecological surgeries (fibroids, ovarian cysts, endometriosis) at Mallika Hospital, Jogeshwari West, Mumbai." />
+          <link rel="canonical" href="https://mallikahospital.co.in/surgeries/obstetrics-and-gynecology" />
+        </Helmet>
+
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
@@ -267,29 +276,6 @@ const ObstetricsGynecology = () => {
             </div>
           </div>
         </section>
-
-        {/* Meet Our Lead Surgeons Section */}
-        {/* <section>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Lead Surgeons</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc1} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src={doc2} alt="Dr. image" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden text-center">
-              <img src="" alt="Dr. Name" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800">Dr. Sara Davis</h3>
-                <p className="text-blue-600 mb-3">Ttitle</p>
-                <p className="text-gray-600 text-sm">
-                  Descrioption.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section> */}
       </div>
     </div>
   );

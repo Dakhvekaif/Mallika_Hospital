@@ -5,6 +5,7 @@ import img4 from '../../../assets/Surgery/Neuro/neuroimg3.png';
 import img5 from '../../../assets/Surgery/Neuro/neuroimg4.png';
 import { FaBrain, FaMicroscope, FaUserMd, FaCogs, FaShieldAlt, FaCheckCircle, FaBone } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET HERE
 import DoctorCard from '../DoctorCard.jsx';
 import { getDoctors } from '../../dashboard/api.js';
 
@@ -46,12 +47,20 @@ const Neurosurgery = () => {
 
   return (
       <div className="w-full min-h-screen bg-white pt-20">
+        
+        {/* --- 2. NEUROSURGERY LEVEL LOCAL SEO --- */}
+        <Helmet>
+          <title>Expert Neurosurgeons & Brain/Spine Surgery in Jogeshwari | Mallika Hospital</title>
+          <meta name="description" content="Consult top neurosurgeons at Mallika Hospital, Jogeshwari West, Mumbai. Offering advanced brain tumor surgery, complex spine surgeries, decompression, Deep Brain Stimulation (DBS), and trauma care." />
+          <link rel="canonical" href="https://mallikahospital.co.in/surgeries/neuro-surgery" />
+        </Helmet>
+
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
           <img 
             src={img1} 
-            alt="Neurosurgery" 
+            alt="Neurosurgery Department" 
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
@@ -138,7 +147,7 @@ const Neurosurgery = () => {
             </div>
             <div className="md:w-1/2">
               <img src={img3} 
-              alt="Advanced surgical technology" 
+              alt="Advanced brain surgical technology" 
               className="rounded-lg shadow-md w-full object-cover h-64 md:h-full" />
             </div>
           </div>

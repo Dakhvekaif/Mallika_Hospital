@@ -4,6 +4,7 @@ import img3 from '../../../assets/Consultant/Hemato/hematoimg2.avif';
 import img4 from '../../../assets/Consultant/Hemato/hematoimg3.avif';
 import img5 from '../../../assets/Consultant/Hemato/hematoimg4.avif';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaUserMd, FaStethoscope, FaShieldAlt, FaTint, FaMicroscope, FaHeartbeat } from 'react-icons/fa';
@@ -49,6 +50,13 @@ const Hematology = () => {
 
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+
+      <Helmet>
+        <title>Top Hematologists & Blood Disorder Specialists in Jogeshwari | Mallika Hospital</title>
+        <meta name="description" content="Professional hematology care at Mallika Hospital, Jogeshwari West. Expert diagnosis and treatment for anemia, blood clotting disorders, leukemia, and lymphoma." />
+        <link rel="canonical" href="https://mallikahospital.co.in/consultants/hematology" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden w-full">
         {/* Optimized gradient overlay for crisp text readability */}

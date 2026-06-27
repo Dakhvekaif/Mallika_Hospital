@@ -4,6 +4,7 @@ import img3 from '../../../assets/Consultant/Derma/dermaimg2.png';
 import img4 from '../../../assets/Consultant/Derma/dermaimg3.png';
 import img5 from '../../../assets/Consultant/Derma/dermaimg4.png';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaUserMd, FaHandHoldingMedical, FaSearch, FaHeart, FaShieldAlt, FaCheckCircle } from 'react-icons/fa';
@@ -46,6 +47,13 @@ const Dermatology = () => {
 
   return (
       <div className="w-full min-h-screen bg-white pt-20">
+
+        <Helmet>
+          <title>Best Dermatologists & Skin Care in Jogeshwari West | Mallika Hospital</title>
+          <meta name="description" content="Consult top dermatologists at Mallika Hospital, Jogeshwari West, Mumbai. Expert treatment for skin, hair, and nail conditions using advanced clinical dermatology treatments." />
+          <link rel="canonical" href="https://mallikahospital.co.in/consultants/dermatology" />
+        </Helmet>
+        
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

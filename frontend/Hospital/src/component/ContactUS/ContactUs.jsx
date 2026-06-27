@@ -1,5 +1,6 @@
 import React from 'react';
 import AppointmentForm from '../AppoinmentFrom/appointmentform';
+import { Helmet } from 'react-helmet-async'; // Added for SEO Injection
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -21,14 +22,14 @@ const ContactUs = () => {
     {
       icon: <FaPhoneAlt />,
       title: 'Phone',
-      details: ['+91 9082097421', '+91 22 8765 4321'],
+      details: ['+91 9082097421', '022 26798585'], // Ensured matching contact line
       color: 'text-blue-600',
       bgColor: 'bg-blue-100',
     },
     {
       icon: <FaEnvelope />,
       title: 'Email',
-      details: ['info@mallikahospital.com', 'emergency@mallikahospital.com'],
+      details: ['info@mallikahospital.com', 'hospital.m@gmail.com'],
       color: 'text-green-600',
       bgColor: 'bg-green-100',
     },
@@ -37,7 +38,7 @@ const ContactUs = () => {
       title: 'Address',
       details: [
         'Mallika Super-Speciality Hospital',
-        'Jogeshwari West, Mumbai, Maharashtra 400102',
+        'Sharma Estate, Next To Dewan Shopping Centre, S.V Road, Jogeshwari West, Mumbai, Maharashtra 400102',
       ],
       color: 'text-red-600',
       bgColor: 'bg-red-100',
@@ -45,14 +46,66 @@ const ContactUs = () => {
     {
       icon: <FaClock />,
       title: 'Working Hours',
-      details: ['Monday-Sunday: 12:00 AM - 12:00 PM'],
+      details: ['Monday-Sunday: Open 24 Hours'], // Formatted for clarity
       color: 'text-purple-600',
       bgColor: 'bg-purple-100',
     },
   ];
 
+  // --- LOCAL BUSINESS / HOSPITAL SCHEMA FOR RANKINGS ---
+  const hospitalSchema = {
+    "@context": "https://schema.org",
+    "@type": "Hospital",
+    "name": "Mallika Super-Speciality Hospital",
+    "image": "https://mallikahospital.co.in/default-hospital-og.png", 
+    "telePhone": "+91 9082097421",
+    "additionalProperty": {
+      "@type": "PropertyValue",
+      "name": "Landline",
+      "value": "022 26798585"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Sharma Estate, Next To Dewan Shopping Centre, S.V Road",
+      "addressLocality": "Jogeshwari West, Mumbai",
+      "postalCode": "400102",
+      "addressRegion": "MH",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "19.137442",
+      "longitude": "72.844137"
+    },
+    "url": "https://mallikahospital.co.in/contact",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
+      
+      {/* --- LOCAL SEO INJECTION --- */}
+      <Helmet>
+        <title>Contact Mallika Super-Speciality Hospital in Jogeshwari West, Mumbai</title>
+        <meta name="description" content="Get in touch with Mallika Super-Speciality Hospital in Jogeshwari West, Mumbai. Contact numbers, 24/7 emergency line, exact location map, and book OPD appointments." />
+        <script type="application/ld+json">
+          {JSON.stringify(hospitalSchema)}
+        </script>
+      </Helmet>
+
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -97,7 +150,7 @@ const ContactUs = () => {
           <div className="p-6 border-b">
             <h2 className="text-2xl font-bold text-gray-900">Find Us</h2>
             <p className="text-gray-600 mt-2">
-              Jogeshwari West, Mumbai, Maharashtra
+              Sharma Estate, Next To Dewan Shopping Centre, S.V Road, Jogeshwari West, Mumbai, Maharashtra
             </p>
           </div>
 
@@ -119,9 +172,9 @@ const ContactUs = () => {
               <p className="font-semibold text-gray-900">
                 Mallika Super-Speciality Hospital
               </p>
-              <p className="text-gray-600">Jogeshwari West</p>
+              <p className="text-gray-600">Sharma Estate, Next To Dewan Shopping Centre, S.V Road</p>
               <p className="text-gray-600">
-                Mumbai, Maharashtra - 400102
+                Jogeshwari West, Mumbai, Maharashtra - 400102
               </p>
             </div>
           </div>

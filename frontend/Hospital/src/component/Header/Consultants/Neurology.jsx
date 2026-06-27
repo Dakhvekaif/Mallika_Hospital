@@ -4,6 +4,7 @@ import img3 from '../../../assets/Surgery/Neuro/neuroimg2.png';
 import img4 from '../../../assets/Surgery/Neuro/neuroimg3.png';
 import img5 from '../../../assets/Surgery/Neuro/neuroimg4.png';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaBrain, FaUserMd, FaStethoscope, FaLaptopMedical, FaBolt, FaRunning, FaHeartbeat } from 'react-icons/fa';
@@ -47,6 +48,13 @@ const Neurology = () => {
 
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+
+      <Helmet>
+        <title>Top Neurologists & Nerve Care in Jogeshwari West | Mallika Hospital</title>
+        <meta name="description" content="Get expert neurological care at Mallika Hospital, Jogeshwari West, Mumbai. Specialized diagnosis and treatment for chronic headaches, strokes, seizures, and nerve disorders." />
+        <link rel="canonical" href="https://mallikahospital.co.in/consultants/neurology" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

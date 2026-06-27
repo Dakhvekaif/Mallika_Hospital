@@ -4,6 +4,7 @@ import img3 from '../../../assets/Consultant/Nepro/neproimg2.png';
 import img4 from '../../../assets/Consultant/Nepro/neproimg3.png';
 import img5 from '../../../assets/Consultant/Nepro/neproimg4.png';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaUserMd, FaStethoscope, FaShieldAlt, FaTint, FaCheckCircle, FaHeartbeat } from 'react-icons/fa';
@@ -48,6 +49,13 @@ const NEPHROLOGY_DEPARTMENT_ID = 10;
 
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+
+      <Helmet>
+        <title>Best Nephrologists & Kidney Care in Jogeshwari West | Mallika Hospital</title>
+        <meta name="description" content="Consult leading kidney specialists at Mallika Hospital, Jogeshwari West, Mumbai. Advanced treatment for chronic kidney disease, kidney stones, and professional dialysis management." />
+        <link rel="canonical" href="https://mallikahospital.co.in/consultants/nephrology" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

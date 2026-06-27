@@ -4,6 +4,7 @@ import img3 from '../../../assets/Consultant/Pediat/pediatimg2.png';
 import img4 from '../../../assets/Consultant/Pediat/pediatimg3.png';
 import img5 from '../../../assets/Consultant/Pediat/pediatimg4.png';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaBaby, FaStethoscope, FaShieldAlt, FaNotesMedical, FaChild, FaHeart } from 'react-icons/fa';
@@ -47,6 +48,13 @@ const Pediatrician = () => {
 
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+
+      <Helmet>
+        <title>Best Pediatricians & Child Care Specialists in Jogeshwari | Mallika Hospital</title>
+        <meta name="description" content="Expert newborn care, pediatric medical treatments, and child immunizations at Mallika Hospital, Jogeshwari West. Dedicated, compassionate care to keep your child healthy." />
+        <link rel="canonical" href="https://mallikahospital.co.in/consultants/pediatrician" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

@@ -11,6 +11,7 @@ import img9 from '../../../assets/Surgery/General/generalimg9.webp';
 import img10 from '../../../assets/Surgery/General/generalimg10.webp';
 import { FaUserMd, FaProcedures, FaHandHoldingMedical, FaShieldAlt, FaCheckCircle, FaUserFriends } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET HERE
 import DoctorCard from '../DoctorCard.jsx';
 import { getDoctors } from '../../dashboard/api.js';
 
@@ -52,47 +53,55 @@ const GeneralSurgery = () => {
   };
 
   return (
-      <div className="w-full min-h-screen bg-white pt-20">
-        {/* Hero Section */}
-        <div className="relative h-96 overflow-hidden">
+    <div className="w-full min-h-screen bg-white pt-20">
+      
+      {/* --- 2. GENERAL & LAPAROSCOPIC SEO INJECTION --- */}
+      <Helmet>
+        <title>Advanced General & Laparoscopic Surgery in Jogeshwari West | Mallika Hospital</title>
+        <meta name="description" content="Consult top general surgeons at Mallika Hospital, Jogeshwari West, Mumbai. Specialized in laparoscopic treatments, hernia repairs, appendix, gallbladder removals, and laser piles surgery." />
+        <link rel="canonical" href="https://mallikahospital.co.in/surgeries/general-surgery" />
+      </Helmet>
+
+      {/* Hero Section */}
+      <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
-          <img 
-            src={img} 
-            alt="General Surgery" 
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">General & Laproscopic Surgery</h1>
-              <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
-              <p className="text-xl max-w-3xl mx-auto">
-                Expert surgical care for a wide range of conditions, using advanced techniques for a faster recovery.              
-              </p>
-            </div>
+        <img 
+          src={img} 
+          alt="General Surgery" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">General & Laproscopic Surgery</h1>
+            <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-xl max-w-3xl mx-auto">
+              Expert surgical care for a wide range of conditions, using advanced techniques for a faster recovery.              
+            </p>
           </div>
         </div>
+      </div>
 
-         {/* General Surgery Doctors Section */}
-        <section className="max-w-7xl mx-auto px-4 py-16">
-          <h2 className="text-3xl font-bold text-center mb-10">
-            Our General & Laproscopic Specialists
-          </h2>
+      {/* General Surgery Doctors Section */}
+      <section className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-10">
+          Our General & Laproscopic Specialists
+        </h2>
 
-          {loading ? (
-            <p className="text-center text-gray-500">Loading specialists...</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {doctors.map((doctor) => (
-                <DoctorCard
-                  key={doctor.id}
-                  doctor={doctor}
-                  departmentName="General Surgery"
-                  formatTime={formatTime}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        {loading ? (
+          <p className="text-center text-gray-500">Loading specialists...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {doctors.map((doctor) => (
+              <DoctorCard
+                key={doctor.id}
+                doctor={doctor}
+                departmentName="General Surgery"
+                formatTime={formatTime}
+              />
+            ))}
+          </div>
+        )}
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 

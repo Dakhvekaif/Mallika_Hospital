@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, Routes, Route } from "react-router-dom";
+import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET FOR HOMEPAGE SEO
 
 // Components
 import Header from './Header/header';
@@ -76,6 +77,28 @@ function App() {
     });
   }, [pathname]);
 
+  // 2. HOMEPAGE BRAND DOMINANCE SCHEMA
+  const homepageSchema = {
+    "@context": "https://schema.org",
+    "@type": "Hospital",
+    "name": "Mallika Hospital",
+    "alternateName": "Mallika Multi-Speciality Hospital",
+    "url": "https://mallikahospital.co.in",
+    "logo": "https://mallikahospital.co.in/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-9082097421",
+      "contactType": "customer service",
+      "areaServed": "IN",
+      "availableLanguage": ["en", "hi"]
+    },
+    "sameAs": [
+      "https://www.facebook.com/people/Mallika-Multi-Specialty-Hospital/",
+      "https://www.instagram.com/mallika_hospital",
+      "https://www.linkedin.com/in/mallika-hospital-27b547115/"
+    ]
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar only shows if NOT on dashboard */}
@@ -83,9 +106,17 @@ function App() {
       
       <div className="flex-grow"> 
         <Routes>
-          {/* Homepage */}
+          {/* Homepage - Refactored to include Meta & Entity Schema */}
           <Route path="/" element={
             <>
+              <Helmet>
+                <title>Mallika Hospital - Multi Speciality Hospital in Jogeshwari West</title>
+                <meta name="description" content="Mallika Super-Speciality Hospital in Jogeshwari West, Mumbai offers 24/7 emergency care, advanced ICU, Cath Lab, modular OT, and expert multi-specialty treatments." />
+                <link rel="canonical" href="https://mallikahospital.co.in" />
+                <script type="application/ld+json">
+                  {JSON.stringify(homepageSchema)}
+                </script>
+              </Helmet>
               <Header/>
               <Main/>
             </>

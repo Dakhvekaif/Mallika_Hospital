@@ -4,6 +4,7 @@ import img3 from '../../../assets/Consultant/Physic/physicimg2.png';
 import img4 from '../../../assets/Consultant/Physic/physicimg3.png';
 import img5 from '../../../assets/Consultant/Physic/physicimg4.png';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaUserMd, FaStethoscope, FaShieldAlt, FaNotesMedical, FaCheckCircle, FaHeartbeat } from 'react-icons/fa';
@@ -47,6 +48,13 @@ const InternalMedicine = () => {
 
   return (
       <div className="w-full min-h-screen bg-white pt-20">
+
+        <Helmet>
+          <title>Expert General Physicians & Diabetologists in Jogeshwari | Mallika Hospital</title>
+          <meta name="description" content="Comprehensive medical care, professional diabetes management, and chronic illness treatments by expert general physicians at Mallika Hospital, Jogeshwari West." />
+          <link rel="canonical" href="https://mallikahospital.co.in/consultants/physician-and-diabetology" />
+        </Helmet>
+
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

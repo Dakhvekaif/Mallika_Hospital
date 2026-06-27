@@ -5,6 +5,7 @@ import img3 from '../../../assets/Surgery/Urology/urologyimg3.png';
 import img4 from '../../../assets/Surgery/Urology/urologyimg4.png';
 import { FaUserMd, FaUsers, FaShieldAlt, FaHandHoldingMedical, FaHeartbeat, FaCheckCircle, FaStethoscope, FaWater, FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import DoctorCard from '../DoctorCard.jsx';
 import { getDoctors } from '../../dashboard/api.js';
 
@@ -46,6 +47,13 @@ const Urology = () => {
 
   return (
       <div className="w-full min-h-screen bg-white pt-20">
+
+        <Helmet>
+          <title>Advanced Eye Specialists & Cataract Surgery in Jogeshwari | Mallika Hospital</title>
+          <meta name="description" content="Consult top ophthalmologists at Mallika Hospital, Jogeshwari West, Mumbai. Offering state-of-the-art micro-incision cataract surgery, vision correction, and complete eye treatments." />
+          <link rel="canonical" href="https://mallikahospital.co.in/surgeries/Opthalmology" />
+        </Helmet>
+
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>

@@ -4,6 +4,7 @@ import img3 from '../../../assets/Consultant/Gastro/gastroimg2.png';
 import img4 from '../../../assets/Consultant/Gastro/gastroimg3.png';
 import img5 from '../../../assets/Consultant/Gastro/gastroimg4.png';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getDoctors } from '../../dashboard/api';
 import DoctorCard from '../DoctorCard';
 import { FaUserMd, FaStethoscope, FaShieldAlt, FaNotesMedical, FaCheckCircle, FaHeartbeat } from 'react-icons/fa';
@@ -47,6 +48,13 @@ const Gastroenterology = () => {
 
   return (
     <div className="w-full min-h-screen bg-white pt-20">
+
+      <Helmet>
+        <title>Best Gastroenterologists in Jogeshwari West | Mallika Hospital</title>
+        <meta name="description" content="Consult top stomach, liver, and digestive care specialists at Mallika Hospital, Jogeshwari West, Mumbai. Expert treatment for acid reflux, ulcers, gastritis, and GI disorders." />
+        <link rel="canonical" href="https://mallikahospital.co.in/consultants/gastroenterology" />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 z-10"></div>
