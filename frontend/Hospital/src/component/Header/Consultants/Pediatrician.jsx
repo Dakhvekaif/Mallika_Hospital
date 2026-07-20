@@ -14,7 +14,7 @@ const Pediatrician = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ ONLY THESE 3 DOCTORS
-  const PEDIATRICIAN_DEPARTMENT_ID = 18;
+  const PEDIATRICIAN_DEPARTMENT_ID = 27;
 
   useEffect(() => {
     const fetchDoctors = async () => {
