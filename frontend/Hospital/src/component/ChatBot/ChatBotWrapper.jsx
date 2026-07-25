@@ -11,7 +11,7 @@ export default function ChatbotWrapper() {
         type="button"
         onClick={() => setOpen(true)}
         className="
-          fixed z-40 bottom-4 right-4
+          fixed z-40 bottom-20 right-4
           md:bottom-6 md:right-6
           bg-blue-600 text-white
           px-2 py-2 md:px-4 md:py-2

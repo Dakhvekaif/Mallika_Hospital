@@ -32,8 +32,8 @@ function Hero() {
 
       {/* Hero Content */}
      <div className="
-        relative flex items-end h-full pb-4 md:pb-20
-        justify-start md:justify-center
+        relative flex items-end h-full pb-8 md:pb-20
+        justify-center w-full
         px-4 md:px-0
       ">
         <Link
@@ -45,7 +45,7 @@ function Hero() {
                      transition-all duration-200 transform hover:scale-105
                      flex justify-center items-center"
         >
-          Find Doctor
+          Book an Appointment
         </Link>
       </div>
     </div>

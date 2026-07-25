@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, Routes, Route } from "react-router-dom";
 import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET FOR HOMEPAGE SEO
+import { FaWhatsapp } from 'react-icons/fa'; // <--- ADDED WHATSAPP ICON IMPORT
 
 // Components
 import Header from './Header/header';
@@ -171,9 +172,26 @@ function App() {
         </Routes>
       </div>
 
-      {/* Footer and Chatbot hide on dashboard */}
+      {/* Footer, Chatbot, and WhatsApp button hide on dashboard */}
       {!isDashboard && <Footer />}
       {!isDashboard && <ChatbotWrapper />}
+      
+      {/* <--- ADDED GLOBAL FLOATING WHATSAPP BUTTON ---> */}
+      {!isDashboard && (
+        <a
+          href="https://wa.me/919082097421" 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 md:p-4 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center group"
+          aria-label="Contact us on WhatsApp"
+        >
+          <FaWhatsapp className="text-3xl" />
+          
+          <span className="absolute left-16 bg-white text-gray-800 text-sm font-semibold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-md pointer-events-none whitespace-nowrap hidden sm:block border border-gray-100">
+            Chat on WhatsApp
+          </span>
+        </a>
+      )}
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   FaUserMd, FaSearch, FaPhone, FaClock, 
-  FaFilter, FaCalendarAlt, FaPlus 
-} from 'react-icons/fa';
+  FaFilter, FaCalendarAlt
+} from 'react-icons/fa'; // Removed FaPlus
 import { useNavigate } from 'react-router-dom'; 
 
-import { getDoctors } from '../dashboard/api.js'; // Removed getDepartments, no longer needed!
+import { getDoctors } from '../dashboard/api.js';
 
 const DoctorsList = () => {
   const navigate = useNavigate(); 
@@ -33,7 +33,6 @@ const DoctorsList = () => {
       try {
         const doctorsData = await getDoctors();
         setDoctors(doctorsData);
-        console.log("Doctors Data:", doctorsData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -75,9 +74,7 @@ const DoctorsList = () => {
     setVisibleCount(prev => prev + 8);
   };
 
-  // --- HANDLER FOR PROFILE CLICK ---
   const handleProfileClick = (doctor) => {
-    // ✅ FIXED: Now uses doctor.slug instead of doctor.id!
     navigate(`/doctor-profile/${doctor.slug}`, { state: { doctor } });
     window.scrollTo(0, 0);
   };
@@ -143,7 +140,11 @@ const DoctorsList = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           
           {filteredDoctors.slice(0, visibleCount).map((doctor) => (
-            <div key={doctor.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full relative group">
+            <div 
+              key={doctor.id} 
+              onClick={() => handleProfileClick(doctor)}
+              className="bg-white rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full relative group cursor-pointer"
+            >
               
               {/* Doctor Image */}
               <div className="relative h-64 bg-gray-200 rounded-t-lg overflow-hidden">
@@ -160,14 +161,7 @@ const DoctorsList = () => {
                   </div>
                 )}
                 
-                {/* --- THE "+" BUTTON --- */}
-                <button
-                  onClick={() => handleProfileClick(doctor)}
-                  title="View Full Profile"
-                  className="absolute top-2 right-2 w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center shadow-lg transform transition-transform hover:scale-110 z-10"
-                >
-                  <FaPlus size={16} />
-                </button>
+                {/* Removed the ambiguous '+' Button from here entirely */}
 
                 {/* Status Badge */}
                 <div className={`absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-medium border ${
@@ -181,7 +175,8 @@ const DoctorsList = () => {
 
               {/* Info Section */}
               <div className="p-4 flex-1 flex flex-col">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">{doctor.name}</h3>
+                {/* Added group-hover:text-blue-600 so the name turns blue on hover */}
+                <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-1">{doctor.name}</h3>
                 
                 <p className="text-blue-600 font-medium mb-2 text-sm uppercase tracking-wide">
                   {doctor.department_name || "Specialist"}
@@ -203,21 +198,37 @@ const DoctorsList = () => {
                   )}
                 </div>
 
-                <div className="flex items-center text-gray-600 text-sm mb-4 mt-auto">
+                <div className="flex items-center text-gray-600 text-sm mb-4">
                   <FaPhone className="mr-2 text-gray-400" />
                   {doctor.phone ? doctor.phone : "+91 9082097421 / 022 26798585"} 
                 </div>
 
-                {/* Action Button */}
-                <button 
-                onClick={() => {
-                  navigate('/contact', { state: { selectedDoctor: doctor } });
-                  window.scrollTo(0, 0); 
-                }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm mt-2"
-              >
-                Book Appointment
-              </button>
+                {/* 4. Secondary Button Layout */}
+                <div className="mt-auto flex flex-col gap-2 pt-2">
+                  {/* Primary Action */}
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevents clicking the card background
+                      navigate('/contact', { state: { selectedDoctor: doctor } });
+                      window.scrollTo(0, 0); 
+                    }}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm"
+                  >
+                    Book Appointment
+                  </button>
+                  
+                  {/* Secondary Action */}
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation(); 
+                      handleProfileClick(doctor);
+                    }}
+                    className="w-full bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2 px-4 rounded-lg transition-colors text-sm"
+                  >
+                    View Full Profile
+                  </button>
+                </div>
+
               </div>
             </div>
           ))}
@@ -249,4 +260,4 @@ const DoctorsList = () => {
   );
 };
 
-export default DoctorsList
+export default DoctorsList;

@@ -10,8 +10,8 @@ const Navbar = () => {
   const navItems = [
     { title: 'About Us', dropdownItems: [] },
     { title: 'Our Services', dropdownItems: ['CATHLAB', 'ICU', 'OT', 'WARD', 'DIALYSIS CENTER', 'PHARMACY', 'PATHOLOGY LAB'] },
-    { title: 'Surgeries', dropdownItems: ['General Surgery', 'Onco Surgery', 'Obstetrics & Gynecology', 'Orthopedic', 'Neuro Surgery', 'Urology', 'ENT', 'Proctology', 'Plastic Surgery', 'Pediatric Surgery',] }, //Other options that can be added "Vascular Surgery", "Plastic Surgery"
-    { title: 'Consultants', dropdownItems: ['Physician & Diabetology', 'Nephrology', 'Cardiology', 'Neurology', 'Oncology', 'Gastroenterology', 'Hematology', 'Dermatology', 'Pediatrician'] }, //other option that can be added "Radiology", "Urology"
+    { title: 'Surgeries', dropdownItems: ['General Surgery', 'Onco Surgery', 'Obstetrics & Gynecology', 'Orthopedic', 'Neuro Surgery', 'Urology', 'ENT', 'Proctology', 'Plastic Surgery', 'Pediatric Surgery',] },
+    { title: 'Consultants', dropdownItems: ['Physician & Diabetology', 'Nephrology', 'Cardiology', 'Neurology', 'Oncology', 'Gastroenterology', 'Hematology', 'Dermatology', 'Pediatrician'] }, 
     { title: 'Cashless & TPA', dropdownItems: [] },
     { title: 'Govt.Sch', dropdownItems: [] },
     { title: 'Testimonial', dropdownItems: [] },
@@ -19,16 +19,15 @@ const Navbar = () => {
 
   // Helper to generate URL paths based on Category and Item
   const getPath = (category, item) => {
-    // 1. Clean the category (e.g., "Our Services" -> "services")
     let catSlug = category.toLowerCase().replace("our ", "").replace(/\s+/g, '-');
-    
-    // 2. Clean the item (e.g., "CATHLAB" -> "cathlab", "General Surgery" -> "general-surgery")
     let itemSlug = item.toLowerCase().replace(/\s+/g, '-').replace("&", "and");
-
     return `/${catSlug}/${itemSlug}`;
   };
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setActiveDropdown(null); // Reset dropdowns when closing main menu
+  };
   
   const toggleDropdown = (title) => {
     setActiveDropdown(activeDropdown === title ? null : title);
@@ -49,8 +48,20 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Lock body scroll when mobile menu is open so the background page doesn't scroll
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
-    <nav className="bg-white/90 md:backdrop-blur-lg backdrop-saturate-150 shadow-xl fixed top-0 left-0 w-full z-50">
+    <nav ref={dropdownRef} className="bg-white/90 md:backdrop-blur-lg backdrop-saturate-150 shadow-xl fixed top-0 left-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           
@@ -67,7 +78,6 @@ const Navbar = () => {
               {navItems.map((item) => (
                 <div key={item.title} className="relative">
                   {item.dropdownItems.length > 0 ? (
-                    // Dropdown Button
                     <button
                       onClick={() => toggleDropdown(item.title)}
                       className="text-gray-600 hover:text-blue-600 px-2 py-0.5 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
@@ -78,7 +88,6 @@ const Navbar = () => {
                       </svg>
                     </button>
                   ) : (
-                    // Regular Link if no dropdown
                     <Link
                       to={`/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
                       className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
@@ -126,69 +135,78 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Panel */}
+      {/* Mobile Menu Panel - Pulldown Overlay */}
       <div
-  className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white ${
-    isMobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
-  }`}
->
-  <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 h-screen overflow-y-auto">
-    {navItems.map((item) => (
-      <div key={item.title} className="px-2">
-        {item.dropdownItems.length > 0 ? (
-          <>
-            <div className="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-slate-100 text-gray-700 font-medium">
-              <span>{item.title}</span>
+        className={`md:hidden absolute top-20 left-0 w-full bg-white shadow-2xl rounded-b-2xl border-b border-gray-200 transition-all duration-300 ease-in-out z-40 overflow-hidden ${
+          isMobileMenuOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-4 pt-4 pb-12 space-y-2 overflow-y-auto max-h-[75vh]">
+          {navItems.map((item) => (
+            <div key={item.title} className="border-b border-gray-100 last:border-none">
+              {item.dropdownItems.length > 0 ? (
+                <>
+                  {/* Entire row is now a clickable button */}
+                  <button 
+                    onClick={() => toggleDropdown(item.title)}
+                    className="flex items-center justify-between w-full py-4 rounded-md text-gray-800 font-semibold text-lg focus:outline-none"
+                  >
+                    <span>{item.title}</span>
+                    <svg
+                      className={`h-5 w-5 text-gray-500 transform transition-transform duration-200 ${
+                        activeDropdown === item.title ? 'rotate-180' : ''
+                      }`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
 
-              {/* Toggle Icon */}
-              <svg
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleDropdown(item.title);
-                }}
-                className={`h-4 w-4 cursor-pointer transform transition-transform duration-200 ${
-                  activeDropdown === item.title ? 'rotate-180' : ''
-                }`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-
-            {/* Mobile Dropdown Items */}
-            <div
-              className={`pl-4 space-y-1 overflow-hidden transition-all duration-300 ${
-                activeDropdown === item.title ? 'max-h-96' : 'max-h-0'
-              }`}
-            >
-              {item.dropdownItems.map((dropdownItem) => (
-                <Link
-                  key={dropdownItem}
-                  to={getPath(item.title, dropdownItem)}
-                  onClick={closeMenu}
-                  className="block px-3 py-2 rounded-md text-sm text-gray-600 hover:text-blue-600 hover:bg-slate-50"
-                >
-                  {dropdownItem}
-                </Link>
-              ))}
-            </div>
-          </>
+                  {/* Mobile Dropdown Items */}
+                  <div
+                    className={`pl-4 space-y-2 overflow-hidden transition-all duration-300 ${
+                      activeDropdown === item.title ? 'max-h-[1000px] mb-4' : 'max-h-0'
+                    }`}
+                  >
+                    {item.dropdownItems.map((dropdownItem) => (
+                      <Link
+                        key={dropdownItem}
+                        to={getPath(item.title, dropdownItem)}
+                        onClick={closeMenu}
+                        className="block px-3 py-3 rounded-md text-base text-gray-600 hover:text-blue-600 hover:bg-slate-50"
+                      >
+                        {dropdownItem}
+                      </Link>
+                    ))}
+                  </div>
+                </>
               ) : (
                 <Link 
                   to={`/${item.title.toLowerCase().replace(/\s+/g, '-')}`} 
                   onClick={closeMenu}
-                  className="block px-3 py-2 rounded-md text-gray-700 font-medium hover:bg-slate-100"
+                  className="block w-full py-4 rounded-md text-gray-800 font-semibold text-lg"
                 >
                   {item.title}
                 </Link>
               )}
             </div>
           ))}
+          
+          {/* Mobile "Book Appointment" Button inside the menu */}
+          <div className="pt-6 pb-8">
+            <Link 
+              to="/contact" 
+              onClick={closeMenu}
+              className="flex justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200"
+            >
+              Book an Appointment
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
