@@ -31,6 +31,7 @@ class ChatbotIntent(BaseModel):
         default="", 
         description="Extract the matching department name. Common department roles: PAEDIATRICIAN, DERMATOLOGIST, GASTROENTEROLOGIST, CHEST PHYSICIAN, ONCOLOGY, ENT, PLASTIC SURGEON, VASCULAR SURGEON, CARDIOLOGY, NEPHROLOGY, NEUROLOGY, ORTHOPEDIC, GENERAL SURGERY, OBSTETRICS & GYNECOLOGY, LAP. GYNAECOLOGY, PROCTOLOGY, INTENSIVIST. If no match, leave empty."
     )
+    doctor_name: Optional[str] = Field(default="", description="Extract the name of the doctor if the user mentions one (e.g., 'Anam Ansari', 'Dr. Rajeev').")
     extracted_symptoms: Optional[str] = Field(default="", description="Brief summary of symptoms mentioned.")
 
 # ---------------------------------------------------------
@@ -144,20 +145,33 @@ class HospitalChatbotView(APIView):
                 })
 
             # 4. Doctor Search (With Flexible Search & Reassuring Copy)
-            elif result.intent == "find_doctor" and result.department:
-                dept_search = result.department.strip()
+            elif result.intent == "find_doctor":
+                # Safely get the values from the Pydantic object
+                doc_name = result.doctor_name.strip() if getattr(result, 'doctor_name', None) else ""
+                dept_name = result.department.strip() if getattr(result, 'department', None) else ""
                 
-                # Suffix fallback: if 'pediatr' is in query, match 'PAEDIATRICIAN'
-                root_search = dept_search[:6] if len(dept_search) >= 6 else dept_search
+                # If they just said "find a doctor" with no name or department, ask for more details
+                if not doc_name and not dept_name:
+                    return Response({
+                        "type": "text",
+                        "text": "Could you please provide a few more details about the doctor or medical service you need?",
+                        "actions": default_actions()
+                    })
 
-                doctors = Doctor.objects.filter(
-                    Q(active=True) & (
-                        Q(department__name__icontains=dept_search) |
-                        Q(department__name__icontains=root_search) |
-                        Q(name__icontains=dept_search) |
-                        Q(degrees__icontains=dept_search)
-                    )
-                ).select_related('department').order_by('display_order')
+                # Base query: must be active
+                query = Q(active=True)
+
+                # Match by Name (Splits "anam ansari" -> matches "anam" AND "ansari")
+                if doc_name:
+                    for word in doc_name.split():
+                        query &= Q(name__icontains=word)
+
+                # Match by Department (Uses first 4 letters so "dietitian" matches "DIETITIAN")
+                if dept_name:
+                    short_dept = dept_name[:4] if len(dept_name) > 4 else dept_name
+                    query &= Q(department__name__icontains=short_dept)
+
+                doctors = Doctor.objects.filter(query).select_related('department').order_by('display_order')
 
                 if doctors.exists():
                     serializer = DoctorSerializer(doctors, many=True, context={'request': request})
@@ -165,9 +179,9 @@ class HospitalChatbotView(APIView):
 
                     # Dynamic messaging based on doctor count
                     if doc_count == 1:
-                        heading = f"Here is our top specialist for this department. We also have additional experienced consultants on-call at Mallika Hospital."
+                        heading = "Here is our top specialist for this department. We also have additional experienced consultants on-call at Mallika Hospital."
                     else:
-                        heading = f"Here are our leading specialists for this department. You can explore our full medical team below."
+                        heading = "Here are our leading specialists for this department. You can explore our full medical team below."
 
                     full_text = f"{heading}\n\n*Please note: Consultations require booking at least 2 days in advance.*"
 
@@ -183,7 +197,7 @@ class HospitalChatbotView(APIView):
                 else:
                     return Response({
                         "type": "text",
-                        "text": f"We have specialists available for this department at Mallika Hospital! Please call our reception or browse our full directory to schedule your visit.",
+                        "text": "We have specialists available at Mallika Hospital! Please call our reception or browse our full directory to schedule your visit.",
                         "actions": default_actions()
                     })
 
