@@ -1,1 +1,23 @@
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+
+# Environment Variables
+.env
 *.env
+
+# Database (Never push local SQLite DBs to production)
+db.sqlite3
+db.sqlite3-journal
+
+# Media / User Uploads (Crucial to ignore!)
+media/
+appointments/media/
+
+# Temporary Files
+tmp/
