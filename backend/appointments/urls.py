@@ -5,7 +5,8 @@ from .views import (
     DoctorListCreateView,
     DoctorDetailView,
     AppointmentListCreateView,
-    AppointmentDetailView
+    AppointmentDetailView,
+    HospitalChatbotView
 )
 from . import views
 from rest_framework.authtoken.views import obtain_auth_token  # <-- Add this
@@ -30,4 +31,7 @@ urlpatterns = [
 
     # ✅ Token Login
     path('login/', obtain_auth_token, name='api_token_auth'),  # <-- Add this line
+
+    # --- Chatbot URL ---
+    path('chat/', HospitalChatbotView.as_view(), name='hospital-chatbot'),
 ]

@@ -18,47 +18,60 @@ const DoctorProfile = () => {
   
   const [activeSection, setActiveSection] = useState('profile');
 
-  // Fetch Data
+// Fetch Data
   useEffect(() => {
     const loadData = async () => {
+      // 1. If the current doctor in state already matches the URL, do nothing!
+      if (doctor && doctor.slug === slug) {
+        setLoading(false);
+        return;
+      }
+
+      // 2. If passing data via React Router Link (fast nav), use it!
+      if (location.state?.doctor && location.state.doctor.slug === slug) {
+        setDoctor(location.state.doctor);
+        if (location.state.doctor.department_name) {
+          setDepartmentName(location.state.doctor.department_name);
+        }
+        setLoading(false);
+        return;
+      }
+
+      // 3. Otherwise, we MUST fetch the new doctor from the API
+      setLoading(true); // Turn the loader back on
+      setFetchError(null);
+
       try {
-        let currentDoc = doctor; // use location.state if available (fast nav)
+        const res = await fetch(`https://mallikahospital.co.in/api/doctors/${slug}/`);
 
-        if (!currentDoc) {
-          // Hit the single-doctor endpoint directly — much faster for Googlebot
-          const res = await fetch(`https://mallikahospital.co.in/api/doctors/${slug}/`);
-
-          if (res.status === 404) {
-            setFetchError('not_found');
-            setLoading(false);
-            return;
-          }
-
-          if (!res.ok) {
-            setFetchError('network');
-            setLoading(false);
-            return;
-          }
-
-          currentDoc = await res.json();
-          setDoctor(currentDoc);
+        if (res.status === 404) {
+          setFetchError('not_found');
+          setLoading(false);
+          return;
         }
 
+        if (!res.ok) {
+          setFetchError('network');
+          setLoading(false);
+          return;
+        }
+
+        const currentDoc = await res.json();
+        setDoctor(currentDoc); // Update state with the new doctor!
+        
         if (currentDoc?.department_name) {
           setDepartmentName(currentDoc.department_name);
         }
-
-        setLoading(false);
-
       } catch (error) {
         console.error("Error loading profile:", error);
         setFetchError('network');
-        setLoading(false);
+      } finally {
+        setLoading(false); // Turn off the loader
       }
     };
 
     loadData();
-  }, [slug, doctor]); // Fixed!
+  }, [slug, location.state]); // Depend on slug and location state
 
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section);

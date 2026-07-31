@@ -25,7 +25,7 @@ class Doctor(models.Model):
     available_days = models.CharField(max_length=100)
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True, db_index=True)
     
     # ✅ NEW FIELD: Lower numbers appear first (1, 2, 3). Default is 100 so unprioritized doctors sit at the bottom.
     display_order = models.IntegerField(default=100, help_text="Priority sorting: lower numbers come first.")

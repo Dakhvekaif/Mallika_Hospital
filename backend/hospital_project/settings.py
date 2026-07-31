@@ -119,6 +119,7 @@ DATABASES = {
         "PASSWORD": os.getenv('DB_PASSWORD'),
         "HOST": "sg2plzcpnl509069.prod.sin2.secureserver.net",
         "PORT": "3306",
+        'CONN_MAX_AGE': 300, # Keeps connections open for 5 minutes
     }
 }
 

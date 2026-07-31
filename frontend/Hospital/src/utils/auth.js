@@ -4,29 +4,21 @@ const TOKEN_KEY = 'authToken';
 
 // Get the API base URL
 const getBaseUrl = () => {
-  // Check if we're in a browser environment with Vite
-  if (typeof window !== 'undefined') {
-    // Try to get from Vite env
-    try {
-      const envUrl = import.meta.env?.VITE_BACKEND_URL;
-      if (envUrl) {
-        console.log('Using env URL:', envUrl);
-        return `${envUrl}/api`;
-      }
-    } catch (e) {
-      // Ignore errors
-    }
+  // 1. Check Vite env (Removed optional chaining so Vite can statically replace it during build)
+  if (typeof window !== 'undefined' && import.meta.env.VITE_BACKEND_URL) {
+    console.log('Using env URL:', import.meta.env.VITE_BACKEND_URL);
+    return `${import.meta.env.VITE_BACKEND_URL}/api`;
   }
   
-  // Fallback: Check if running on localhost
+  // 2. Fallback: Check if running on localhost
   if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
     console.log('Using localhost URL');
     return 'http://127.0.0.1:8000/api';
   }
   
-  // Production fallback
+  // 3. Production fallback
   console.log('Using production URL');
-return 'https://mallikahospital.co.in/api';
+  return 'https://mallikahospital.co.in/api';
 };
 
 const BASE_URL = getBaseUrl();
@@ -66,17 +58,21 @@ export const apiLogin = async (username, password) => {
 
   console.log('Login response status:', response.status);
 
+  // Handle errors gracefully (prevents HTML crash if Django throws a 500 error)
   if (!response.ok) {
-    const errorData = await response.json();
+    let errorData;
+    try {
+      errorData = await response.json();
+    } catch (e) {
+      errorData = { detail: 'Server error occurred. Please try again later.' };
+    }
     console.log('Login error:', errorData);
     throw errorData;
   }
 
   const data = await response.json();
   
-  // --- CRITICAL FIX START ---
-  // Extract only the string. Check your console to see if your backend 
-  // returns 'token', 'access', or 'key'.
+  // Extract only the string based on backend auth package
   const tokenString = data.token || data.access || data.key;
 
   if (tokenString) {
@@ -84,10 +80,7 @@ export const apiLogin = async (username, password) => {
     setAuthToken(tokenString); 
   } else {
     console.error('Data received but no token string found. Check backend response keys.');
-    // If your backend returns something like { "token": "xyz" }, 
-    // and we save the whole thing, the Authorization header will fail.
   }
-  // --- CRITICAL FIX END ---
 
   return data;
 };
@@ -96,6 +89,8 @@ export const apiLogin = async (username, password) => {
 export const getAuthHeader = () => {
   const token = getAuthToken();
   if (token) {
+    // Note: If you are using standard Django REST Framework Token Auth, 'Token' is correct. 
+    // If you ever switch to SimpleJWT, you will change this to 'Bearer ${token}'.
     return {
       'Authorization': `Token ${token}`,
     };
