@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ChatHome from "./ChatHome";
 
 export default function HospitalChatbot({ open, setOpen }) {
+    const [isTyping, setIsTyping] = useState(false);
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [showHome, setShowHome] = useState(true);
@@ -211,10 +212,12 @@ export default function HospitalChatbot({ open, setOpen }) {
 
                                     {/* Typing Indicator */}
                                     {isLoading && (
-                                        <div className="flex items-center gap-1.5 bg-white border border-gray-200 px-4 py-3 rounded-2xl rounded-bl-xs w-20 shadow-xs">
-                                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" />
-                                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:0.2s]" />
-                                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:0.4s]" />
+                                        <div className="flex w-full justify-start mb-4">
+                                            <div className="flex flex-col items-start max-w-[85%]">
+                                                <div className="px-4 py-3 text-sm shadow-sm bg-gray-100 text-gray-500 font-medium rounded-2xl rounded-tl-sm border border-gray-200 w-fit animate-pulse">
+                                                    Typing...
+                                                </div>
+                                            </div>
                                         </div>
                                     )}
 

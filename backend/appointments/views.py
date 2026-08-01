@@ -29,9 +29,9 @@ class ChatbotIntent(BaseModel):
     intent: str = Field(description="Must be exactly one of: 'find_doctor', 'list_specialities', 'contact_info', or 'invalid'")
     department: Optional[str] = Field(
         default="", 
-        description="Extract the matching department name. Common department roles: PAEDIATRICIAN, DERMATOLOGIST, GASTROENTEROLOGIST, CHEST PHYSICIAN, ONCOLOGY, ENT, PLASTIC SURGEON, VASCULAR SURGEON, CARDIOLOGY, NEPHROLOGY, NEUROLOGY, ORTHOPEDIC, GENERAL SURGERY, OBSTETRICS & GYNECOLOGY, LAP. GYNAECOLOGY, PROCTOLOGY, INTENSIVIST. If no match, leave empty."
+        description="Extract the medical specialty, department, or type of doctor requested (e.g., 'dietitian', 'pediatrician', 'cardiologist'). If they mention a body part or symptom, infer the department (e.g., 'skin' -> 'dermatologist')."
     )
-    doctor_name: Optional[str] = Field(default="", description="Extract the name of the doctor if the user mentions one (e.g., 'Anam Ansari', 'Dr. Rajeev').")
+    doctor_name: Optional[str] = Field(default="", description="Extract the name of the doctor if the user mentions one.")
     extracted_symptoms: Optional[str] = Field(default="", description="Brief summary of symptoms mentioned.")
 
 # ---------------------------------------------------------
@@ -65,7 +65,7 @@ class HospitalChatbotView(APIView):
 
         history_text = "\n".join([f"{m.get('from', 'user')}: {m.get('text', '')}" for m in history if m.get('text')])
 
-        llm = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite", temperature=0, api_key=api_key)
+        llm = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite", temperature=0, api_key=api_key, max_retries=3)
         structured_llm = llm.with_structured_output(ChatbotIntent)
 
         prompt = PromptTemplate.from_template("""
@@ -78,8 +78,9 @@ class HospitalChatbotView(APIView):
         Latest User Message: {message}
 
         EXAMPLES:
-        - "I need a pediatrician for my child" -> intent: "find_doctor", department: "PAEDIATRICIAN"
-        - "My skin has a rash" -> intent: "find_doctor", department: "DERMATOLOGIST"
+        - "I need a pediatrician for my child" -> intent: "find_doctor", department: "pediatrician"
+        - "I want to consult with a dietitian" -> intent: "find_doctor", department: "dietitian"
+        - "My skin has a rash" -> intent: "find_doctor", department: "dermatologist", extracted_symptoms: "skin rash"
         - "What specialities do you have?" -> intent: "list_specialities", department: ""
 
         Do not provide medical advice. Do not converse.
