@@ -1,68 +1,57 @@
-import { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { useLocation, Routes, Route } from "react-router-dom";
-import { Helmet } from 'react-helmet-async'; // 1. IMPORT HELMET FOR HOMEPAGE SEO
-import { FaWhatsapp } from 'react-icons/fa'; // <--- ADDED WHATSAPP ICON IMPORT
+import { Helmet } from 'react-helmet-async';
+import { FaWhatsapp } from 'react-icons/fa';
 
-// Components
+// Primary Components (Loaded upfront for immediate homepage render)
 import Header from './Header/header';
 import Navbar from './Header/Navbar/navbar'; 
 import Main from './Main/main';
 import Footer from './Footer/footer';
 
-// Services component
-import CathLab from './Header/Services/cathlab'; 
-import ICU from './Header/Services/icu';
-import OperatingTheatre from './Header/Services/ot';
-import Ward from './Header/Services/ward';
-import DialysisCenter from './Header/Services/dialysiscenter';
-import Pharmacy from './Header/Services/pharmacy';
-import Laboratory from './Header/Services/lab';
+// Lazy-loaded Service Pages
+const CathLab = lazy(() => import('./Header/Services/cathlab')); 
+const ICU = lazy(() => import('./Header/Services/icu'));
+const OperatingTheatre = lazy(() => import('./Header/Services/ot'));
+const Ward = lazy(() => import('./Header/Services/ward'));
+const DialysisCenter = lazy(() => import('./Header/Services/dialysiscenter'));
+const Pharmacy = lazy(() => import('./Header/Services/pharmacy'));
+const Laboratory = lazy(() => import('./Header/Services/lab'));
 
-// AboutUs 
-import AboutUs from "./AboutUs/About";
+// Lazy-loaded Surgeries
+const GeneralSurgery = lazy(() => import('./Header/Surgeries/GeneralSurgery'));
+const OncoSurgery = lazy(() => import('./Header/Surgeries/OncoSurgery'));
+const ObstetricsGynecology = lazy(() => import('./Header/Surgeries/ObstetricsGynecology'));
+const Orthopedic = lazy(() => import('./Header/Surgeries/Orthopedic'));
+const NeuroSurgery = lazy(() => import('./Header/Surgeries/NeuroSurgery'));
+const Ent = lazy(() => import('./Header/Surgeries/Ent'));
+const Opthalmology = lazy(() => import('./Header/Surgeries/Opthalmology'));
+const Proctology = lazy(() => import('./Header/Surgeries/Proctology'));
+const PediatricSurgery = lazy(() => import("./Header/Surgeries/PediatricSurgery.jsx"));
+const PlasticSurgery = lazy(() => import('./Header/Surgeries/PlasticSurgery.jsx'));
+const Urology = lazy(() => import("./Header/Surgeries/Urology.jsx"));
 
-//Surgeries
-import GeneralSurgery from './Header/Surgeries/GeneralSurgery';
-import OncoSurgery from './Header/Surgeries/OncoSurgery';
-import ObstetricsGynecology from './Header/Surgeries/ObstetricsGynecology';
-import Orthopedic from './Header/Surgeries/Orthopedic';
-import NeuroSurgery from './Header/Surgeries/NeuroSurgery';
-import Ent from './Header/Surgeries/Ent';
-import Opthalmology from './Header/Surgeries/Opthalmology';
-import Proctology from './Header/Surgeries/Proctology';
-import PediatricSurgery from "./Header/Surgeries/PediatricSurgery.jsx";
-import PlasticSurgery from './Header/Surgeries/PlasticSurgery.jsx';
-import Urology from "./Header/Surgeries/Urology.jsx";
+// Lazy-loaded Consultants
+const InternalMedicine = lazy(() => import("./Header/Consultants/PhysicianDiabetology"));
+const Nephrology = lazy(() => import("./Header/Consultants/Neprology"));
+const Cardiology = lazy(() => import("./Header/Consultants/Cardiology"));
+const Neurology = lazy(() => import("./Header/Consultants/Neurology"));
+const Oncology = lazy(() => import("./Header/Consultants/Oncology"));
+const Gastroenterology = lazy(() => import("./Header/Consultants/Gastroenterology"));
+const Pediatrician = lazy(() => import("./Header/Consultants/Pediatrician"));
+const Dermatology = lazy(() => import("./Header/Consultants/Dermatology"));
+const Hematology = lazy(() => import("./Header/Consultants/Hematology"));
 
-//Consultants
-import InternalMedicine from "./Header/Consultants/PhysicianDiabetology";
-import Nephrology from "./Header/Consultants/Neprology";
-import Cardiology from "./Header/Consultants/Cardiology";
-import Neurology from "./Header/Consultants/Neurology";
-import Oncology from "./Header/Consultants/Oncology";
-import Gastroenterology from "./Header/Consultants/Gastroenterology";
-import Pediatrician from "./Header/Consultants/Pediatrician";
-import Dermatology from "./Header/Consultants/Dermatology";
-import Hematology from "./Header/Consultants/Hematology";
-
-// Cashless & TPA
-import CashlessTpa from "./Cashless&TPA/CashlessTPA";
-
-// GovtSchemes
-import GovtSchemes from "./GovtSch/GovtSchemes";
-
-// ContactUs
-import ContactUs from "./ContactUS/ContactUs";
-
-// Dashboard
-import Dashboard from "./dashboard/Dashboard.jsx"
-
-// Find Doctor
-import DoctorsList from "./Doctor/doctor";
-import DoctorProfile from "./Doctor/doctorprofle";
-import ChatbotWrapper from "./ChatBot/ChatBotWrapper";
-
-import Testimonial from "./Testimonial/Testimonial";
+// Lazy-loaded Additional Pages
+const AboutUs = lazy(() => import("./AboutUs/About"));
+const CashlessTpa = lazy(() => import("./Cashless&TPA/CashlessTPA"));
+const GovtSchemes = lazy(() => import("./GovtSch/GovtSchemes"));
+const ContactUs = lazy(() => import("./ContactUS/ContactUs"));
+const Dashboard = lazy(() => import("./dashboard/Dashboard.jsx"));
+const DoctorsList = lazy(() => import("./Doctor/doctor"));
+const DoctorProfile = lazy(() => import("./Doctor/doctorprofle"));
+const ChatbotWrapper = lazy(() => import("./ChatBot/ChatBotWrapper"));
+const Testimonial = lazy(() => import("./Testimonial/Testimonial"));
 
 function App() {
   const { pathname } = useLocation();
@@ -106,6 +95,11 @@ function App() {
       {!isDashboard && <Navbar />} 
       
       <div className="flex-grow"> 
+        <Suspense fallback={
+          <div className="min-h-[60vh] flex items-center justify-center text-gray-500 font-medium">
+            Loading...
+          </div>
+        }>
         <Routes>
           {/* Homepage - Refactored to include Meta & Entity Schema */}
           <Route path="/" element={
@@ -170,6 +164,7 @@ function App() {
           <Route path="/find-doctor" element={<DoctorsList />} />
           <Route path="/doctor-profile/:slug" element={<DoctorProfile />} />
         </Routes>
+        </Suspense>
       </div>
 
       {/* Footer, Chatbot, and WhatsApp button hide on dashboard */}

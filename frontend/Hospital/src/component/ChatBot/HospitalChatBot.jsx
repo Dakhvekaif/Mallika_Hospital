@@ -64,8 +64,8 @@ export default function HospitalChatbot({ open, setOpen }) {
                 ...prev,
                 {
                     from: "bot",
-                    text: "I'm having trouble connecting right now. Please call us directly for immediate assistance.",
-                    actions: [{ label: "📞 Call Reception", type: "call", value: "02226798585" }]
+                    text: "Please try asking that again, or contact our reception for immediate assistance.",
+                    actions: [{ label: "📞 Call Reception", type: "call", value: "9082097421" }]
                 }
             ]);
         } finally {
