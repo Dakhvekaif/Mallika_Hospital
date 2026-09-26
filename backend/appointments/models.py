@@ -59,6 +59,7 @@ class Appointment(models.Model):
         choices=STATUS_CHOICES, 
         default='Pending'
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.patient_name} - {self.status}"

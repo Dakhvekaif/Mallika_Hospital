@@ -80,7 +80,8 @@ class HospitalChatbotView(APIView):
         EXAMPLES:
         - "I need a pediatrician for my child" -> intent: "find_doctor", department: "pediatrician"
         - "I want to consult with a dietitian" -> intent: "find_doctor", department: "dietitian"
-        - "My skin has a rash" -> intent: "find_doctor", department: "dermatologist", extracted_symptoms: "skin rash"
+        - "Can I book an appointment with her?" -> intent: "contact_info", department: ""
+        - "How do I schedule a visit?" -> intent: "contact_info", department: ""
         - "What specialities do you have?" -> intent: "list_specialities", department: ""
 
         Do not provide medical advice. Do not converse.
@@ -214,8 +215,8 @@ class HospitalChatbotView(APIView):
             print(f"LLM Error: {e}")
             return Response({
                 "type": "text",
-                "text": "I'm having trouble connecting right now. Please call us for immediate assistance.",
-                "actions": [{"label": "📞 Call Reception", "type": "call", "value": "+91 9082097421"}]
+                "text": "Please try asking that again, or contact our reception for immediate assistance.",
+                "actions": [{"label": "📞 Call Reception", "type": "call", "value": "9082097421"}]
             })
 
 # --- Stats Views (PUBLIC) ---

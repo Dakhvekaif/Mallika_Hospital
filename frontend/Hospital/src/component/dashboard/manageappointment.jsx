@@ -367,11 +367,12 @@ const ManageAppointment = ({ onBack }) => {
   return (
     <div className="p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
-
+        
+        {/* Alerts */}
         {(error || actionError) && (
           <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center">
-            <FaExclamationTriangle className="mr-2" />
-            {error || actionError}
+            <FaExclamationTriangle className="mr-2 flex-shrink-0" />
+            <span>{error || actionError}</span>
           </div>
         )}
 
@@ -380,125 +381,106 @@ const ManageAppointment = ({ onBack }) => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Manage Appointments</h1>
-              <p className="text-gray-600 mt-1">View and manage patient appointments</p>
+              <p className="text-gray-600 mt-1">View, filter, and manage patient appointments</p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-500">
-                Total: <span className="font-semibold text-gray-800">{appointments.length}</span>
-              </span>
-              {/* Print All Button */}
-              <button
-                onClick={printAll}
-                disabled={filteredAppointments.length === 0}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <FaPrint /> Print {filterStatus !== 'all' ? filterStatus : 'All'} ({filteredAppointments.length})
-              </button>
-            </div>
+            <button 
+              onClick={printAll}
+              disabled={filteredAppointments.length === 0}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <FaPrint /> Print Filtered Report
+            </button>
           </div>
         </div>
 
-        {/* Status Filter Tabs */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-4 overflow-x-auto">
-          <div className="flex gap-2 min-w-max">
-            {[
-              { label: 'All', value: 'all', color: 'bg-gray-100 text-gray-700 border-gray-300' },
-              { label: 'Pending', value: 'Pending', color: 'bg-yellow-50 text-yellow-700 border-yellow-300' },
-              { label: 'Confirmed', value: 'Confirmed', color: 'bg-blue-50 text-blue-700 border-blue-300' },
-              { label: 'Completed', value: 'Completed', color: 'bg-green-50 text-green-700 border-green-300' },
-              { label: 'Cancelled', value: 'Cancelled', color: 'bg-red-50 text-red-700 border-red-300' },
-            ].map(tab => (
-              <button
-                key={tab.value}
-                onClick={() => setFilterStatus(tab.value)}
-                className={`px-4 py-2 rounded-full border text-sm font-medium transition-all flex items-center gap-2 ${
-                  filterStatus === tab.value 
-                    ? `${tab.color} border-2 shadow-sm` 
-                    : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'
-                }`}
-              >
-                {tab.label}
-                <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${
-                  filterStatus === tab.value ? 'bg-white bg-opacity-60' : 'bg-gray-100'
-                }`}>
-                  {getStatusCount(tab.value)}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Search */}
+        {/* Filters & Search */}
         <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 mb-6">
-          <div className="relative">
-            <FaSearch className="absolute left-3 top-3 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search by patient name, phone, doctor, or department..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            {searchTerm && (
-              <button onClick={() => setSearchTerm('')} className="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
-                <FaTimes />
-              </button>
-            )}
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex-1 relative">
+              <FaSearch className="absolute left-3 top-3 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by patient, phone, doctor, or department..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div className="flex items-center space-x-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
+              <FaFilter className="text-gray-400 mr-2 flex-shrink-0" />
+              {['all', 'Pending', 'Confirmed', 'Completed', 'Cancelled'].map(status => (
+                <button
+                  key={status}
+                  onClick={() => setFilterStatus(status)}
+                  className={`px-4 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors flex-shrink-0 ${
+                    filterStatus === status 
+                      ? 'bg-purple-600 text-white shadow-sm' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {status === 'all' ? 'All' : status} ({getStatusCount(status)})
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-
-        {/* Results count */}
-        <p className="text-sm text-gray-500 mb-4">
-          Showing <span className="font-semibold text-gray-800">{filteredAppointments.length}</span>
-          {filterStatus !== 'all' ? ` ${filterStatus}` : ''} appointment{filteredAppointments.length !== 1 ? 's' : ''}
-          {searchTerm ? ` matching "${searchTerm}"` : ''}
-        </p>
 
         {/* Appointments Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
-          {filteredAppointments.map((appointment) => (
-            <div key={appointment.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="font-semibold text-gray-900">{appointment.patient_name}</h3>
-                  <p className="text-sm text-gray-600">{appointment.reason}</p>
+          {filteredAppointments.map((apt) => (
+            <div key={apt.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4 lg:p-6 flex flex-col justify-between border border-transparent hover:border-gray-100">
+              <div>
+                <div className="flex justify-between items-start mb-4">
+                  <div className="pr-2">
+                    <h3 className="font-bold text-gray-900 text-lg break-words">{apt.patient_name}</h3>
+                    <div className="flex items-center text-gray-500 text-sm mt-1">
+                      <FaPhone className="mr-2 text-gray-400" /> {apt.phone}
+                    </div>
+                  </div>
+                  <span className={`px-2.5 py-1 text-xs rounded-full font-semibold border ${getStatusColor(apt.status)} whitespace-nowrap`}>
+                    {apt.status}
+                  </span>
                 </div>
-                <span className={`px-2 py-1 text-xs rounded-full whitespace-nowrap ${getStatusColor(appointment.status)}`}>
-                  {appointment.status}
-                </span>
+                
+                <div className="space-y-2 text-sm bg-gray-50 p-3 rounded-lg border border-gray-100 mb-5">
+                  <div className="flex items-center text-gray-700">
+                    <FaUserMd className="mr-2 text-purple-500 flex-shrink-0" />
+                    <span className="font-medium mr-1 text-gray-500">Doctor:</span> 
+                    <span className="truncate">{getDoctorName(apt.doctor)}</span>
+                  </div>
+                  <div className="flex items-center text-gray-700">
+                    <FaHospital className="mr-2 text-purple-500 flex-shrink-0" />
+                    <span className="font-medium mr-1 text-gray-500">Dept:</span> 
+                    <span className="truncate">{getDepartmentName(apt.department)}</span>
+                  </div>
+                  <div className="flex items-center text-gray-700">
+                    <FaCalendarAlt className="mr-2 text-purple-500 flex-shrink-0" />
+                    <span className="font-medium mr-1 text-gray-500">Date:</span> 
+                    {apt.date} 
+                    {apt.time && <span className="ml-1 text-gray-500">at {apt.time.slice(0,5)}</span>}
+                  </div>
+                </div>
               </div>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center text-gray-600">
-                  <FaUserMd className="mr-2 text-gray-400 flex-shrink-0" />
-                  {getDoctorName(appointment.doctor)}
-                </div>
-                <div className="flex items-center text-gray-600">
-                  <FaCalendarAlt className="mr-2 text-gray-400 flex-shrink-0" />
-                  {appointment.date} at {appointment.time ? appointment.time.slice(0, 5) : 'N/A'}
-                </div>
-                <div className="flex items-center text-gray-600">
-                  <FaPhone className="mr-2 text-gray-400 flex-shrink-0" />
-                  {appointment.phone}
-                </div>
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-2">
+
+              <div className="flex gap-2 pt-2 border-t border-gray-100">
                 <button 
-                  onClick={() => handleView(appointment)}
-                  className="bg-gray-50 text-gray-600 py-2 px-3 rounded hover:bg-gray-100 transition-colors text-sm"
+                  onClick={() => handleView(apt)}
+                  className="flex-1 bg-gray-50 text-gray-700 py-2 px-2 rounded hover:bg-gray-100 border border-gray-200 transition-colors text-sm flex items-center justify-center font-medium"
+                  title="View Details"
                 >
-                  <FaEye className="inline mr-1" /> View
+                  <FaEye className="mr-1.5" /> View
                 </button>
                 <button 
-                  onClick={() => handleEdit(appointment)}
-                  className="bg-blue-50 text-blue-600 py-2 px-3 rounded hover:bg-blue-100 transition-colors text-sm"
+                  onClick={() => handleEdit(apt)}
+                  className="flex-1 bg-blue-50 text-blue-700 py-2 px-2 rounded hover:bg-blue-100 border border-blue-100 transition-colors text-sm flex items-center justify-center font-medium"
                 >
-                  <FaEdit className="inline mr-1" /> Edit
+                  <FaEdit className="mr-1.5" /> Edit
                 </button>
                 <button 
-                  onClick={() => handleDelete(appointment)}
-                  className="bg-red-50 text-red-600 py-2 px-3 rounded hover:bg-red-100 transition-colors text-sm"
+                  onClick={() => handleDelete(apt)}
+                  className="flex-1 bg-red-50 text-red-700 py-2 px-2 rounded hover:bg-red-100 border border-red-100 transition-colors text-sm flex items-center justify-center font-medium"
                 >
-                  <FaTrash className="inline mr-1" /> Delete
+                  <FaTrash className="mr-1.5" /> Delete
                 </button>
               </div>
             </div>
@@ -507,120 +489,261 @@ const ManageAppointment = ({ onBack }) => {
 
         {/* Empty State */}
         {filteredAppointments.length === 0 && (
-          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-            <FaCalendarAlt className="mx-auto text-4xl text-gray-300 mb-4" />
-            {filterStatus !== 'all' ? (
-              <>
-                <p className="font-medium">No {filterStatus} appointments</p>
-                <p className="text-sm mt-1">There are currently no appointments with "{filterStatus}" status.</p>
-                <button onClick={() => setFilterStatus('all')} className="mt-3 text-purple-600 hover:underline text-sm">
-                  View all appointments
+          <div className="bg-white rounded-lg shadow p-12 text-center text-gray-500 border border-gray-100 mt-4">
+            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FaFileMedical className="text-3xl text-gray-300" />
+            </div>
+            <p className="text-lg font-medium text-gray-600">No appointments found</p>
+            <p className="text-sm mt-1">Try adjusting your search or filters.</p>
+          </div>
+        )}
+
+        {/* View Modal */}
+        {showViewModal && selectedAppointment && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm transition-opacity">
+            <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">Appointment Details</h2>
+                  <p className="text-sm text-gray-500 mt-1">Detailed overview for {selectedAppointment.patient_name}</p>
+                </div>
+                <button 
+                  onClick={() => setShowViewModal(false)} 
+                  className="text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors"
+                >
+                  <FaTimes />
                 </button>
-              </>
-            ) : (
-              <p>No appointments found{searchTerm ? ` matching "${searchTerm}"` : ''}</p>
-            )}
+              </div>
+              
+              <div className="space-y-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider">Status</span>
+                    <span className={`inline-block mt-1.5 px-2.5 py-1 text-xs rounded-full font-bold border ${getStatusColor(selectedAppointment.status)}`}>
+                      {selectedAppointment.status}
+                    </span>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider">Date & Time</span>
+                    <span className="block mt-1.5 text-sm font-semibold text-gray-900 flex items-center">
+                      <FaCalendarAlt className="text-gray-400 mr-1.5" />
+                      {selectedAppointment.date} {selectedAppointment.time ? selectedAppointment.time.slice(0,5) : ''}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+                  <div className="px-4 py-3 bg-white flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-500">Patient Name</span>
+                    <span className="text-sm font-bold text-gray-900">{selectedAppointment.patient_name}</span>
+                  </div>
+                  <div className="px-4 py-3 bg-gray-50 flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-500">Phone</span>
+                    <span className="text-sm font-semibold text-gray-900 flex items-center">
+                      <FaPhone className="text-gray-400 mr-1.5 text-xs" /> {selectedAppointment.phone}
+                    </span>
+                  </div>
+                  <div className="px-4 py-3 bg-white flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-500">Doctor</span>
+                    <span className="text-sm font-semibold text-gray-900">{getDoctorName(selectedAppointment.doctor)}</span>
+                  </div>
+                  <div className="px-4 py-3 bg-gray-50 flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-500">Department</span>
+                    <span className="text-sm font-semibold text-gray-900">{getDepartmentName(selectedAppointment.department)}</span>
+                  </div>
+                  {selectedAppointment.created_at && (
+                    <div className="px-4 py-3 bg-white flex justify-between items-center border-t border-gray-100">
+                      <span className="text-sm font-medium text-gray-500">Booked On</span>
+                      <span className="text-sm font-semibold text-gray-900">
+                        {new Date(selectedAppointment.created_at).toLocaleString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
+                    </div>
+                  )}
+                  {/* --- END OF NEW BLOCK --- */}
+                  <div className="px-4 py-4 bg-white flex flex-col">
+                    <span className="text-sm font-medium text-gray-500 mb-2">Reason for Visit</span>
+                    <span className="text-sm text-gray-800 bg-gray-50 p-3 rounded border border-gray-100">
+                      {selectedAppointment.reason || 'No specific reason provided at booking.'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-3 pt-4 border-t border-gray-100">
+                <button 
+                  onClick={() => printSingle(selectedAppointment)}
+                  className="flex-1 bg-purple-600 text-white py-2.5 px-4 rounded-lg hover:bg-purple-700 transition-colors flex justify-center items-center font-medium shadow-sm"
+                >
+                  <FaPrint className="mr-2" /> Print Slip
+                </button>
+                <button 
+                  onClick={() => setShowViewModal(false)}
+                  className="flex-1 bg-gray-100 text-gray-700 py-2.5 px-4 rounded-lg hover:bg-gray-200 transition-colors font-medium border border-gray-200"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
         {/* Edit Modal */}
         {showEditModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+            <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+              <div className="p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold text-gray-900">Edit Appointment</h2>
-                  <button onClick={() => { setShowEditModal(false); setActionError(''); }} className="text-gray-400 hover:text-gray-600">
+                  <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                    <FaEdit className="mr-2 text-purple-600" /> Edit Appointment
+                  </h2>
+                  <button 
+                    onClick={() => setShowEditModal(false)} 
+                    className="text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors"
+                  >
                     <FaTimes />
                   </button>
                 </div>
               </div>
               <div className="p-6">
                 {actionError && (
-                  <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                    {actionError}
+                  <div className="mb-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm flex items-start">
+                    <FaExclamationTriangle className="mt-0.5 mr-2 flex-shrink-0" />
+                    <span>{actionError}</span>
                   </div>
                 )}
-                <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="space-y-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Patient Name</label>
-                      <input type="text" value={formData.patient_name}
-                        onChange={(e) => setFormData({...formData, patient_name: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required />
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Patient Name</label>
+                      <input 
+                        type="text" 
+                        value={formData.patient_name} 
+                        onChange={(e) => setFormData({...formData, patient_name: e.target.value})} 
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50 focus:bg-white transition-colors" 
+                        required 
+                      />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                      <input type="tel" value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required />
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone Number</label>
+                      <input 
+                        type="text" 
+                        value={formData.phone} 
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})} 
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50 focus:bg-white transition-colors" 
+                        required 
+                      />
                     </div>
+                    
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Doctor</label>
-                      <select value={formData.doctor}
-                        onChange={(e) => setFormData({...formData, doctor: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
-                        <option value="">Select Doctor</option>
-                        {doctors.map(doc => <option key={doc.id} value={doc.id}>{doc.name}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
-                      <select value={formData.department}
-                        onChange={(e) => setFormData({...formData, department: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Department</label>
+                      <select 
+                        value={formData.department} 
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData, 
+                            department: e.target.value,
+                            doctor: '' // Reset doctor selection when department changes
+                          })
+                        }} 
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50 focus:bg-white transition-colors" 
+                        required
+                      >
                         <option value="">Select Department</option>
-                        {departments.map(dept => <option key={dept.id} value={dept.id}>{dept.name}</option>)}
+                        {departments.map(dept => (
+                          <option key={dept.id} value={dept.id}>{dept.name}</option>
+                        ))}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                      <input type="date" value={formData.date}
-                        onChange={(e) => setFormData({...formData, date: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required />
-                      {getSelectedDoctor()?.available_days && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          Available: {getSelectedDoctor().available_days.split(',').map(d => d.trim()).join(', ')}
-                        </p>
-                      )}
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Doctor</label>
+                      <select 
+                        value={formData.doctor} 
+                        onChange={(e) => setFormData({...formData, doctor: e.target.value})} 
+                        className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors ${!formData.department ? 'bg-gray-100 cursor-not-allowed text-gray-400' : 'bg-gray-50 focus:bg-white'}`} 
+                        required
+                        disabled={!formData.department}
+                      >
+                        <option value="">{formData.department ? 'Select Doctor' : 'Select Dept First'}</option>
+                        {doctors
+                          .filter(doc => !formData.department || doc.department === Number(formData.department))
+                          .map(doc => (
+                            <option key={doc.id} value={doc.id}>{doc.name}</option>
+                          ))
+                        }
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Date</label>
+                      <input 
+                        type="date" 
+                        value={formData.date} 
+                        onChange={(e) => setFormData({...formData, date: e.target.value})} 
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50 focus:bg-white transition-colors" 
+                        required 
+                      />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Time</label>
-                      <input type="time" value={formData.time}
-                        onChange={(e) => setFormData({...formData, time: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required />
-                      {getSelectedDoctor()?.start_time && getSelectedDoctor()?.end_time && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          Hours: {getSelectedDoctor().start_time.slice(0,5)} – {getSelectedDoctor().end_time.slice(0,5)}
-                        </p>
-                      )}
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Time</label>
+                      <input 
+                        type="time" 
+                        value={formData.time} 
+                        onChange={(e) => setFormData({...formData, time: e.target.value})} 
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50 focus:bg-white transition-colors" 
+                        required 
+                      />
                     </div>
+
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Reason for Visit</label>
-                      <textarea rows="2" value={formData.reason}
-                        onChange={(e) => setFormData({...formData, reason: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        placeholder="e.g., Fever, Checkup" />
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Status</label>
+                      <div className="relative">
+                        <select 
+                          value={formData.status} 
+                          onChange={(e) => setFormData({...formData, status: e.target.value})} 
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium bg-gray-50 focus:bg-white transition-colors appearance-none"
+                        >
+                          <option value="Pending">Pending (Awaiting Confirmation)</option>
+                          <option value="Confirmed">Confirmed (Scheduled)</option>
+                          <option value="Completed">Completed (Visit Finished)</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                           ▼
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                      <select value={formData.status}
-                        onChange={(e) => setFormData({...formData, status: e.target.value})}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                        <option value="Pending">Pending</option>
-                        <option value="Confirmed">Confirmed</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                      </select>
+                    
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Reason for Visit</label>
+                      <textarea 
+                        rows="3"
+                        value={formData.reason} 
+                        onChange={(e) => setFormData({...formData, reason: e.target.value})} 
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50 focus:bg-white transition-colors resize-none" 
+                        placeholder="Brief description of symptoms or reason for appointment..."
+                      />
                     </div>
                   </div>
-                  <div className="flex justify-end space-x-3 pt-4">
-                    <button type="button" onClick={() => { setShowEditModal(false); setActionError(''); }}
-                      className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                  
+                  <div className="flex justify-end space-x-3 pt-6 border-t border-gray-100 mt-6">
+                    <button 
+                      type="button" 
+                      onClick={() => setShowEditModal(false)} 
+                      className="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-medium bg-white"
+                    >
                       Cancel
                     </button>
-                    <button type="submit" className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
-                      Update Appointment
+                    <button 
+                      type="submit" 
+                      className="px-5 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium shadow-sm flex items-center"
+                    >
+                      Save Changes
                     </button>
                   </div>
                 </form>
@@ -629,105 +752,45 @@ const ManageAppointment = ({ onBack }) => {
           </div>
         )}
 
-        {/* View Modal */}
-        {showViewModal && selectedAppointment && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold text-gray-900">Appointment Details</h2>
-                  <button onClick={() => setShowViewModal(false)} className="text-gray-400 hover:text-gray-600">
-                    <FaTimes />
-                  </button>
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-900">{selectedAppointment.patient_name}</h3>
-                    <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(selectedAppointment.status)}`}>
-                      {selectedAppointment.status}
-                    </span>
-                  </div>
-                  <hr />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <h4 className="font-semibold text-gray-700 flex items-center"><FaPhone className="mr-2 text-gray-400" /> Phone Number</h4>
-                      <p className="text-gray-600 mt-1">{selectedAppointment.phone}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-700 flex items-center"><FaFileMedical className="mr-2 text-gray-400" /> Reason</h4>
-                      <p className="text-gray-600 mt-1">{selectedAppointment.reason}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-700 flex items-center"><FaUserMd className="mr-2 text-gray-400" /> Doctor</h4>
-                      <p className="text-gray-600 mt-1">{getDoctorName(selectedAppointment.doctor)}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-700 flex items-center"><FaHospital className="mr-2 text-gray-400" /> Department</h4>
-                      <p className="text-gray-600 mt-1">{getDepartmentName(selectedAppointment.department)}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-700 flex items-center"><FaCalendarAlt className="mr-2 text-gray-400" /> Date & Time</h4>
-                    <p className="text-gray-600 mt-1">
-                      {selectedAppointment.date} at {selectedAppointment.time ? selectedAppointment.time.slice(0, 5) : 'N/A'}
-                    </p>
-                  </div>
-                </div>
-                {/* View modal footer with Print + Close */}
-                <div className="mt-6 flex justify-end gap-3">
-                  <button
-                    onClick={() => printSingle(selectedAppointment)}
-                    className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                  >
-                    <FaPrint /> Print
-                  </button>
-                  <button onClick={() => setShowViewModal(false)}
-                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Delete Modal */}
+        {/* Delete Confirmation Modal */}
         {showDeleteModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg max-w-md w-full p-6">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+            <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl">
+              <div className="flex items-start mb-5">
+                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
                   <FaTrash className="text-red-600 text-xl" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900">Delete Appointment</h3>
-                  <p className="text-gray-600">Are you sure you want to delete this appointment?</p>
+                  <h3 className="text-xl font-bold text-gray-900">Delete Appointment</h3>
+                  <p className="text-gray-500 text-sm mt-1.5 leading-relaxed">
+                    Are you sure you want to delete this appointment? This action is permanent and cannot be undone.
+                  </p>
                 </div>
               </div>
-              {actionError && (
-                <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                  {actionError}
+              <div className="bg-red-50 rounded-lg p-4 mb-6 border border-red-100">
+                <p className="font-bold text-gray-900">{selectedAppointment?.patient_name}</p>
+                <div className="flex items-center mt-1.5 text-sm text-gray-600">
+                  <FaCalendarAlt className="mr-1.5 text-gray-400" />
+                  <span>Date: {selectedAppointment?.date}</span>
                 </div>
-              )}
-              <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                <p className="font-medium text-gray-900">{selectedAppointment?.patient_name}</p>
-                <p className="text-sm text-gray-600">Date: {selectedAppointment?.date}</p>
               </div>
               <div className="flex justify-end space-x-3">
-                <button onClick={() => { setShowDeleteModal(false); setActionError(''); }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                <button 
+                  onClick={() => setShowDeleteModal(false)} 
+                  className="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors"
+                >
                   Cancel
                 </button>
-                <button onClick={confirmDelete} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                  Delete
+                <button 
+                  onClick={confirmDelete} 
+                  className="px-5 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium shadow-sm transition-colors"
+                >
+                  Delete Appointment
                 </button>
               </div>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
