@@ -52,6 +52,8 @@ const DoctorsList = lazy(() => import("./Doctor/doctor"));
 const DoctorProfile = lazy(() => import("./Doctor/doctorprofle"));
 const ChatbotWrapper = lazy(() => import("./ChatBot/ChatBotWrapper"));
 const Testimonial = lazy(() => import("./Testimonial/Testimonial"));
+// 1. IMPORT THANK YOU PAGE HERE
+const Thankyou = lazy(() => import("./ContactUS/Thankyou")); 
 
 function App() {
   const { pathname } = useLocation();
@@ -159,6 +161,9 @@ function App() {
           <Route path='/cashless-&-tpa' element={<CashlessTpa />} />
           <Route path='/govt.sch' element={<GovtSchemes />} />
           <Route path='/contact' element={<ContactUs />} />
+          
+          {/* 2. ADD THANK YOU ROUTE HERE */}
+          <Route path='/thank-you' element={<Thankyou />} />
 
           {/* Find Doctor */}
           <Route path="/find-doctor" element={<DoctorsList />} />

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+// 1. Import useNavigate alongside useLocation
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const API = import.meta.env.VITE_BACKEND_URL || "https://mallika-hospital.onrender.com";
 
 const AppointmentForm = () => {
   const location = useLocation();
+  // 2. Initialize navigate
+  const navigate = useNavigate();
   
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
@@ -30,53 +33,41 @@ const AppointmentForm = () => {
       .catch(err => setError('Failed to load departments'));
   }, []);
 
-  // --- NEW: Handler for when a doctor is selected ---
   const handleDoctorChange = (e) => {
     const selectedDoctorId = e.target.value;
     
-    // First, update the doctor field in the form
     setFormData(prevData => ({ ...prevData, doctor: selectedDoctorId }));
 
-    // Find the selected doctor object from our state
     const selectedDoctor = doctors.find(doc => doc.id === parseInt(selectedDoctorId, 10));
 
-    // If a doctor is found and they have a start_time, update the appointment time
     if (selectedDoctor && selectedDoctor.start_time) {
-      // Format time from "HH:mm:ss" to "HH:mm" for the input field
       const formattedTime = selectedDoctor.start_time.slice(0, 5);
       setFormData(prevData => ({ ...prevData, appointmentTime: formattedTime }));
     } else {
-      // If no doctor is selected or no time is available, clear the time field
       setFormData(prevData => ({ ...prevData, appointmentTime: '' }));
     }
   };
   
-  // --- REVISED: Auto-fill logic ---
   useEffect(() => {
     if (location.state && location.state.selectedDoctor) {
       const selectedDoc = location.state.selectedDoctor;
       
-      // Scroll form into view
       const formElement = document.getElementById('appointment-form');
       if (formElement) formElement.scrollIntoView({ behavior: 'smooth' });
 
-      // Fetch doctors for this department first
       setLoadingDoctors(true);
       fetch(`${API}/api/doctors/?department=${selectedDoc.department}`)
         .then(res => res.json())
         .then(data => {
           setDoctors(data);
           
-          // Now that we have the doctors, find the full object for our selected doctor
           const fullDoctorObject = data.find(doc => doc.id === selectedDoc.id);
           
-          // Format the time
           let defaultTime = '';
           if (fullDoctorObject && fullDoctorObject.start_time) {
             defaultTime = fullDoctorObject.start_time.slice(0, 5); 
           }
 
-          // Set all form data at once, including the auto-filled time
           setFormData(prev => ({
             ...prev,
             department: selectedDoc.department, 
@@ -91,7 +82,7 @@ const AppointmentForm = () => {
           setLoadingDoctors(false);
         });
     }
-  }, [location.state]); // Dependency array remains the same
+  }, [location.state]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -100,7 +91,7 @@ const AppointmentForm = () => {
 
   const handleDepartmentChange = (e) => {
     const deptId = e.target.value;
-    setFormData(prevData => ({ ...prevData, department: deptId, doctor: '', appointmentTime: '' })); // Also clear time
+    setFormData(prevData => ({ ...prevData, department: deptId, doctor: '', appointmentTime: '' })); 
     setDoctors([]);
     
     if(deptId) {
@@ -145,12 +136,15 @@ const AppointmentForm = () => {
       return res.json();
     })
     .then((data) => {
-      setStatusMessage("Appointment booked successfully!");
+      // 3. Clear the form data and navigate to the thank you page
       setFormData({
         fullName: '', phone: '', department: '', doctor: '', 
         appointmentDate: '', appointmentTime: '', reason: ''
       });
       setDoctors([]); 
+      
+      // Redirect user to the Thank You page
+      navigate('/thank-you');
     })
     .catch((err) => {
       try {
@@ -168,6 +162,7 @@ const AppointmentForm = () => {
       <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">Book an Appointment</h2>
       <p className="text-center text-gray-600 mb-8">Fill in the form below to schedule your visit.</p>
 
+      {/* Note: statusMessage will briefly flash before redirect, or you can remove it since the redirect handles the success state */}
       {statusMessage && <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-center">{statusMessage}</div>}
       {error && <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center">{error}</div>}
 
@@ -197,7 +192,6 @@ const AppointmentForm = () => {
             <select 
               name="doctor" 
               value={formData.doctor} 
-              // --- UPDATED: Use the new handler ---
               onChange={handleDoctorChange} 
               disabled={!formData.department || loadingDoctors} 
               required 
@@ -222,7 +216,6 @@ const AppointmentForm = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Time</label>
-            {/* The time value will now be populated automatically when a doctor is selected */}
             <input type="time" name="appointmentTime" value={formData.appointmentTime} onChange={handleChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" />
           </div>
         </div>

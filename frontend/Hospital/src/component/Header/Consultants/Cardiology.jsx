@@ -66,10 +66,10 @@ const Cardiology = () => {
           alt="Cardiology Department" 
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 h-full flex items-center justify-start text-left text-white">
-          <div className="max-w-xl">
+        <div className="relative z-20 h-full flex items-center justify-center text-center text-white px-4">
+          <div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Cardiology</h1>
-            <div className="w-32 h-1 bg-white mb-6"></div>
+            <div className="w-32 h-1 bg-white mx-auto mb-6"></div>
             <p className="text-xl leading-relaxed drop-shadow-md">
               Leaders in heart health, dedicated to providing you with expert, personalized, and compassionate cardiac care.
             </p>
